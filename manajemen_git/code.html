@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Git Management - Mobile</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#135bec",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#101622",
+                        "surface-dark": "#1c1f27",
+                        "text-secondary": "#9da6b9",
+                        "border-dark": "#282e39",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom Scrollbar for dark mode technical feel */
+        ::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #3b4354;
+            border-radius: 2px;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .icon-filled {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white font-display min-h-screen flex flex-col overflow-hidden">
+<!-- Top Navigation / Header -->
+<header class="flex items-center justify-between px-4 py-3 bg-white dark:bg-background-dark border-b border-slate-200 dark:border-border-dark shrink-0 z-20">
+<div class="flex items-center gap-3">
+<div class="flex items-center justify-center size-8 rounded text-slate-700 dark:text-white">
+<span class="material-symbols-outlined">source_environment</span>
+</div>
+<h1 class="text-lg font-bold leading-tight tracking-tight">Source Control</h1>
+</div>
+<div class="flex gap-1">
+<button class="size-10 flex items-center justify-center rounded-lg hover:bg-slate-100 dark:hover:bg-white/5 text-slate-600 dark:text-white transition-colors">
+<span class="material-symbols-outlined">sort</span>
+</button>
+<button class="size-10 flex items-center justify-center rounded-lg hover:bg-slate-100 dark:hover:bg-white/5 text-slate-600 dark:text-white transition-colors">
+<span class="material-symbols-outlined">more_horiz</span>
+</button>
+</div>
+</header>
+<!-- Main Scrollable Content -->
+<main class="flex-1 overflow-y-auto overflow-x-hidden flex flex-col">
+<!-- Repository Status Card -->
+<div class="p-4 pb-2">
+<div class="relative overflow-hidden rounded-xl bg-white dark:bg-surface-dark border border-slate-200 dark:border-border-dark p-4 shadow-sm group cursor-pointer transition-all hover:border-primary/50">
+<div class="absolute right-0 top-0 p-4">
+<span class="material-symbols-outlined text-text-secondary">expand_more</span>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center justify-center rounded-lg bg-primary/10 text-primary shrink-0 size-12">
+<span class="material-symbols-outlined icon-filled">call_split</span>
+</div>
+<div class="flex flex-col justify-center min-w-0 pr-6">
+<p class="text-base font-bold leading-normal truncate">my-awesome-project</p>
+<div class="flex items-center gap-1.5 mt-0.5">
+<span class="size-2 rounded-full bg-green-500 animate-pulse"></span>
+<p class="text-text-secondary text-sm font-medium leading-normal truncate">main</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Quick Actions Toolbar -->
+<div class="px-4 py-2">
+<div class="flex gap-2 overflow-x-auto no-scrollbar pb-2">
+<button class="flex flex-col items-center justify-center min-w-[72px] gap-1.5 py-2 px-1 rounded-lg bg-white dark:bg-surface-dark border border-slate-200 dark:border-border-dark hover:bg-slate-50 dark:hover:bg-white/5 transition-colors group">
+<span class="material-symbols-outlined text-slate-600 dark:text-white group-hover:text-primary transition-colors">sync</span>
+<span class="text-[10px] font-semibold text-text-secondary uppercase tracking-wide">Sync</span>
+</button>
+<button class="flex flex-col items-center justify-center min-w-[72px] gap-1.5 py-2 px-1 rounded-lg bg-white dark:bg-surface-dark border border-slate-200 dark:border-border-dark hover:bg-slate-50 dark:hover:bg-white/5 transition-colors group">
+<span class="material-symbols-outlined text-slate-600 dark:text-white group-hover:text-primary transition-colors">download</span>
+<span class="text-[10px] font-semibold text-text-secondary uppercase tracking-wide">Pull</span>
+</button>
+<button class="flex flex-col items-center justify-center min-w-[72px] gap-1.5 py-2 px-1 rounded-lg bg-white dark:bg-surface-dark border border-slate-200 dark:border-border-dark hover:bg-slate-50 dark:hover:bg-white/5 transition-colors group">
+<span class="material-symbols-outlined text-slate-600 dark:text-white group-hover:text-primary transition-colors">upload</span>
+<span class="text-[10px] font-semibold text-text-secondary uppercase tracking-wide">Push</span>
+</button>
+<div class="w-px bg-slate-200 dark:bg-border-dark mx-1 h-auto my-1"></div>
+<button class="flex flex-1 items-center justify-center min-w-[120px] gap-2 px-4 rounded-lg bg-white dark:bg-surface-dark border border-slate-200 dark:border-border-dark hover:border-primary/50 text-slate-900 dark:text-white transition-colors">
+<span class="material-symbols-outlined text-primary">history</span>
+<span class="text-xs font-bold">History</span>
+</button>
+</div>
+</div>
+<!-- Commit Input Section -->
+<div class="px-4 py-2 space-y-3">
+<div class="relative group">
+<textarea class="w-full min-h-[100px] resize-none rounded-xl bg-white dark:bg-surface-dark border border-slate-200 dark:border-border-dark p-4 text-sm text-slate-900 dark:text-white placeholder:text-text-secondary focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-all" placeholder="Message (Enter to commit)"></textarea>
+<div class="absolute bottom-3 right-3 flex gap-2">
+<!-- Contextual helper icons inside textarea -->
+<button class="p-1 rounded hover:bg-slate-100 dark:hover:bg-white/10 text-text-secondary transition-colors" title="Add Co-author">
+<span class="material-symbols-outlined text-[18px]">person_add</span>
+</button>
+<button class="p-1 rounded hover:bg-slate-100 dark:hover:bg-white/10 text-text-secondary transition-colors" title="Recent Messages">
+<span class="material-symbols-outlined text-[18px]">history</span>
+</button>
+</div>
+</div>
+<button class="w-full flex items-center justify-center gap-2 h-11 rounded-lg bg-primary hover:bg-blue-600 active:scale-[0.98] text-white font-bold text-sm tracking-wide transition-all shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-[20px]">check</span>
+<span>Commit to main</span>
+</button>
+</div>
+<!-- File Lists Container -->
+<div class="flex-1 flex flex-col gap-6 p-4 pb-20">
+<!-- Staged Changes -->
+<div class="flex flex-col gap-2">
+<div class="flex items-center justify-between px-1">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-text-secondary text-[18px]">expand_more</span>
+<h3 class="text-xs font-bold uppercase tracking-wider text-text-secondary">Staged Changes</h3>
+<span class="bg-primary/20 text-primary text-[10px] font-bold px-1.5 py-0.5 rounded-full">2</span>
+</div>
+<button class="text-[10px] font-bold text-text-secondary hover:text-white transition-colors uppercase tracking-wide">Unstage All</button>
+</div>
+<!-- List Item 1 -->
+<div class="flex items-center justify-between p-2.5 rounded-lg bg-white dark:bg-surface-dark border border-slate-200 dark:border-border-dark group active:border-primary/50 transition-colors">
+<div class="flex items-center gap-3 overflow-hidden">
+<span class="material-symbols-outlined text-yellow-500 text-[20px]">edit_document</span>
+<div class="flex flex-col min-w-0">
+<span class="text-sm font-medium truncate text-slate-700 dark:text-slate-200">App.js</span>
+<span class="text-xs text-text-secondary truncate">src/components</span>
+</div>
+<span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-yellow-500/10 text-yellow-600 dark:text-yellow-400 border border-yellow-500/20">M</span>
+</div>
+<button class="size-8 flex items-center justify-center rounded hover:bg-slate-100 dark:hover:bg-white/10 text-text-secondary hover:text-red-400 transition-colors">
+<span class="material-symbols-outlined text-[20px]">remove</span>
+</button>
+</div>
+<!-- List Item 2 -->
+<div class="flex items-center justify-between p-2.5 rounded-lg bg-white dark:bg-surface-dark border border-slate-200 dark:border-border-dark group active:border-primary/50 transition-colors">
+<div class="flex items-center gap-3 overflow-hidden">
+<span class="material-symbols-outlined text-green-500 text-[20px]">article</span>
+<div class="flex flex-col min-w-0">
+<span class="text-sm font-medium truncate text-slate-700 dark:text-slate-200">global.css</span>
+<span class="text-xs text-text-secondary truncate">src/styles</span>
+</div>
+<span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-green-500/10 text-green-600 dark:text-green-400 border border-green-500/20">A</span>
+</div>
+<button class="size-8 flex items-center justify-center rounded hover:bg-slate-100 dark:hover:bg-white/10 text-text-secondary hover:text-red-400 transition-colors">
+<span class="material-symbols-outlined text-[20px]">remove</span>
+</button>
+</div>
+</div>
+<!-- Changes (Unstaged) -->
+<div class="flex flex-col gap-2">
+<div class="flex items-center justify-between px-1">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-text-secondary text-[18px]">expand_more</span>
+<h3 class="text-xs font-bold uppercase tracking-wider text-text-secondary">Changes</h3>
+<span class="bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 text-[10px] font-bold px-1.5 py-0.5 rounded-full">3</span>
+</div>
+<div class="flex gap-3">
+<button class="text-[10px] font-bold text-text-secondary hover:text-white transition-colors uppercase tracking-wide">Discard All</button>
+<button class="text-[10px] font-bold text-primary hover:text-blue-400 transition-colors uppercase tracking-wide">Stage All</button>
+</div>
+</div>
+<!-- List Item 3 -->
+<div class="flex items-center justify-between p-2.5 rounded-lg bg-white dark:bg-surface-dark border border-slate-200 dark:border-border-dark group active:border-primary/50 transition-colors">
+<div class="flex items-center gap-3 overflow-hidden">
+<span class="material-symbols-outlined text-red-500 text-[20px]">delete</span>
+<div class="flex flex-col min-w-0">
+<span class="text-sm font-medium truncate text-slate-700 dark:text-slate-200 line-through decoration-slate-500/50">utils.ts</span>
+<span class="text-xs text-text-secondary truncate">src/lib</span>
+</div>
+<span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-red-500/10 text-red-600 dark:text-red-400 border border-red-500/20">D</span>
+</div>
+<div class="flex gap-1">
+<button class="size-8 flex items-center justify-center rounded hover:bg-slate-100 dark:hover:bg-white/10 text-text-secondary hover:text-slate-300 transition-colors">
+<span class="material-symbols-outlined text-[20px]">undo</span>
+</button>
+<button class="size-8 flex items-center justify-center rounded hover:bg-slate-100 dark:hover:bg-white/10 text-text-secondary hover:text-green-400 transition-colors">
+<span class="material-symbols-outlined text-[20px]">add</span>
+</button>
+</div>
+</div>
+<!-- List Item 4 -->
+<div class="flex items-center justify-between p-2.5 rounded-lg bg-white dark:bg-surface-dark border border-slate-200 dark:border-border-dark group active:border-primary/50 transition-colors">
+<div class="flex items-center gap-3 overflow-hidden">
+<span class="material-symbols-outlined text-green-500 text-[20px]">help</span>
+<div class="flex flex-col min-w-0">
+<span class="text-sm font-medium truncate text-slate-700 dark:text-slate-200">README.md</span>
+<span class="text-xs text-text-secondary truncate">/</span>
+</div>
+<span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-green-500/10 text-green-600 dark:text-green-400 border border-green-500/20">U</span>
+</div>
+<div class="flex gap-1">
+<button class="size-8 flex items-center justify-center rounded hover:bg-slate-100 dark:hover:bg-white/10 text-text-secondary hover:text-slate-300 transition-colors">
+<span class="material-symbols-outlined text-[20px]">undo</span>
+</button>
+<button class="size-8 flex items-center justify-center rounded hover:bg-slate-100 dark:hover:bg-white/10 text-text-secondary hover:text-green-400 transition-colors">
+<span class="material-symbols-outlined text-[20px]">add</span>
+</button>
+</div>
+</div>
+<!-- List Item 5 -->
+<div class="flex items-center justify-between p-2.5 rounded-lg bg-white dark:bg-surface-dark border border-slate-200 dark:border-border-dark group active:border-primary/50 transition-colors">
+<div class="flex items-center gap-3 overflow-hidden">
+<span class="material-symbols-outlined text-yellow-500 text-[20px]">edit_document</span>
+<div class="flex flex-col min-w-0">
+<span class="text-sm font-medium truncate text-slate-700 dark:text-slate-200">Header.tsx</span>
+<span class="text-xs text-text-secondary truncate">src/components/layout</span>
+</div>
+<span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-yellow-500/10 text-yellow-600 dark:text-yellow-400 border border-yellow-500/20">M</span>
+</div>
+<div class="flex gap-1">
+<button class="size-8 flex items-center justify-center rounded hover:bg-slate-100 dark:hover:bg-white/10 text-text-secondary hover:text-slate-300 transition-colors">
+<span class="material-symbols-outlined text-[20px]">undo</span>
+</button>
+<button class="size-8 flex items-center justify-center rounded hover:bg-slate-100 dark:hover:bg-white/10 text-text-secondary hover:text-green-400 transition-colors">
+<span class="material-symbols-outlined text-[20px]">add</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation Bar (Mock for context) -->
+<nav class="flex items-center justify-around bg-white dark:bg-background-dark border-t border-slate-200 dark:border-border-dark py-2 px-2 shrink-0">
+<button class="flex flex-col items-center gap-1 p-2 rounded-lg text-text-secondary">
+<span class="material-symbols-outlined text-[24px]">folder_open</span>
+<span class="text-[10px] font-medium">Files</span>
+</button>
+<button class="flex flex-col items-center gap-1 p-2 rounded-lg text-text-secondary">
+<span class="material-symbols-outlined text-[24px]">search</span>
+<span class="text-[10px] font-medium">Search</span>
+</button>
+<button class="flex flex-col items-center gap-1 p-2 rounded-lg text-primary bg-primary/10">
+<span class="material-symbols-outlined icon-filled text-[24px]">source_environment</span>
+<span class="text-[10px] font-medium">Git</span>
+</button>
+<button class="flex flex-col items-center gap-1 p-2 rounded-lg text-text-secondary">
+<span class="material-symbols-outlined text-[24px]">terminal</span>
+<span class="text-[10px] font-medium">Terminal</span>
+</button>
+<button class="flex flex-col items-center gap-1 p-2 rounded-lg text-text-secondary">
+<span class="material-symbols-outlined text-[24px]">settings</span>
+<span class="text-[10px] font-medium">Settings</span>
+</button>
+</nav>
+</body></html>

@@ -1,0 +1,200 @@
+<html class="dark" lang="en"><head><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-background-light dark:bg-background-dark font-display antialiased overflow-hidden h-screen flex flex-col transition-colors duration-200">```html
+
+
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Editor Kode</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#3b82f6",
+              "background-light": "#f6f6f8",
+              "background-dark": "#1e1e1e",
+              "surface-dark": "#252526",
+              "editor-bg": "#1e1e1e",
+              "editor-gutter": "#1e1e1e",
+              "border-dark": "#333333",
+              "syntax-keyword": "#569cd6", 
+              "syntax-func": "#dcdcaa",
+              "syntax-string": "#ce9178",
+              "syntax-var": "#4ec9b0",
+              "syntax-comment": "#6a9955",
+            },
+            fontFamily: {
+              "display": ["Space Grotesk", "sans-serif"],
+              "mono": ["JetBrains Mono", "monospace"],
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>.no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .code-line {
+            counter-increment: line;
+            display: flex;
+        }@keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        .cursor-caret {
+            animation: blink 1s step-end infinite;
+        }
+    </style>
+<style>
+        body {
+          min-height: max(884px, 100dvh);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+
+
+<header class="flex items-center justify-between px-4 py-3 bg-white dark:bg-surface-dark border-b border-gray-200 dark:border-border-dark shadow-sm z-10 transition-colors">
+<div class="flex items-center gap-3">
+<button class="flex items-center justify-center p-2 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+<span class="material-symbols-outlined text-[24px]">menu</span>
+</button>
+<div class="flex flex-col">
+<h1 class="text-gray-900 dark:text-[#cccccc] text-lg font-bold leading-tight tracking-tight">index.js</h1>
+<span class="text-xs text-gray-500 dark:text-[#999999]">Debugging...</span>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-orange-500 mr-2 animate-pulse"></div>
+<button class="flex items-center justify-center h-10 w-10 rounded-lg bg-red-500/10 text-red-500 hover:bg-red-500/20 transition-colors">
+<span class="material-symbols-outlined text-[24px] fill-1">stop</span>
+</button>
+</div>
+</header>
+<main class="flex-1 relative flex overflow-hidden bg-background-light dark:bg-editor-bg transition-colors">
+<div class="w-12 flex-shrink-0 bg-gray-100 dark:bg-editor-gutter border-r border-gray-200 dark:border-border-dark text-right py-4 pr-3 select-none z-0 transition-colors">
+<div class="font-mono text-sm leading-6 text-gray-400 dark:text-[#858585]">1</div>
+<div class="font-mono text-sm leading-6 text-gray-400 dark:text-[#858585]">2</div>
+<div class="font-mono text-sm leading-6 text-gray-400 dark:text-[#858585]">3</div>
+<div class="font-mono text-sm leading-6 text-gray-400 dark:text-[#858585]">4</div>
+<div class="font-mono text-sm leading-6 text-gray-400 dark:text-[#858585]">5</div>
+<div class="font-mono text-sm leading-6 text-gray-400 dark:text-[#858585]">6</div>
+<div class="relative font-mono text-sm leading-6 text-gray-800 dark:text-white font-bold">
+    7
+    <div class="absolute top-2 left-1 w-2 h-2 rounded-full bg-red-500 shadow-sm shadow-red-500/50"></div>
+</div>
+<div class="font-mono text-sm leading-6 text-gray-400 dark:text-[#858585]">8</div>
+<div class="font-mono text-sm leading-6 text-gray-400 dark:text-[#858585]">9</div>
+<div class="font-mono text-sm leading-6 text-gray-400 dark:text-[#858585]">10</div>
+<div class="font-mono text-sm leading-6 text-gray-400 dark:text-[#858585]">11</div>
+<div class="font-mono text-sm leading-6 text-gray-400 dark:text-[#858585]">12</div>
+<div class="font-mono text-sm leading-6 text-gray-400 dark:text-[#858585]">13</div>
+<div class="font-mono text-sm leading-6 text-gray-400 dark:text-[#858585]">14</div>
+<div class="font-mono text-sm leading-6 text-gray-400 dark:text-[#858585]">15</div>
+</div>
+<div class="flex-1 overflow-auto p-4 pt-4 pl-3 relative" id="editor-content">
+<div class="absolute top-[160px] left-0 w-full h-6 bg-yellow-500/20 border-l-2 border-yellow-500 pointer-events-none z-0"></div>
+<pre class="relative z-10 font-mono text-sm leading-6 text-gray-800 dark:text-[#d4d4d4] whitespace-pre"><span class="text-purple-600 dark:text-syntax-keyword">import</span> React, { useState, useEffect } <span class="text-purple-600 dark:text-syntax-keyword">from</span> <span class="text-green-600 dark:text-syntax-string">'react'</span>;
+<span class="text-purple-600 dark:text-syntax-keyword">import</span> { View, Text, Button } <span class="text-purple-600 dark:text-syntax-keyword">from</span> <span class="text-green-600 dark:text-syntax-string">'react-native'</span>;
+<span class="text-gray-500 dark:text-syntax-comment">// Main Counter Component</span>
+<span class="text-purple-600 dark:text-syntax-keyword">function</span> <span class="text-blue-600 dark:text-syntax-func">Counter</span>() {
+  <span class="text-purple-600 dark:text-syntax-keyword">const</span> [count, setCount] = <span class="text-blue-600 dark:text-syntax-func">useState</span>(<span class="text-orange-600 dark:text-[#b5cea8]">0</span>);
+  <span class="text-blue-600 dark:text-syntax-func">useEffect</span>(() =&gt; {
+    <span class="text-blue-600 dark:text-syntax-func">console</span>.<span class="text-blue-600 dark:text-syntax-func">log</span>(<span class="text-green-600 dark:text-syntax-string">`Current count: ${count}`</span>);
+  }, [count]);
+  <span class="text-purple-600 dark:text-syntax-keyword">return</span> (
+    &lt;<span class="text-red-500 dark:text-syntax-var">View</span> style={styles.container}&gt;
+      &lt;<span class="text-red-500 dark:text-syntax-var">Text</span> style={styles.title}&gt;
+        You clicked {count} times
+      &lt;/<span class="text-red-500 dark:text-syntax-var">Text</span>&gt;
+      &lt;<span class="text-red-500 dark:text-syntax-var">Button</span> 
+        onPress={() =&gt; <span class="text-blue-600 dark:text-syntax-func">setCount</span>(co
+      /&gt;
+    &lt;/<span class="text-red-500 dark:text-syntax-var">View</span>&gt;
+  );
+}
+<span class="text-purple-600 dark:text-syntax-keyword">export default</span> Counter;</pre>
+</div>
+</main>
+<div class="flex flex-col bg-white dark:bg-surface-dark border-t border-gray-200 dark:border-border-dark z-30 h-[320px] shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] transition-colors">
+<div class="flex items-center justify-between px-8 py-2 bg-gray-50 dark:bg-[#2d2d2d] border-b border-gray-200 dark:border-border-dark">
+<button class="flex flex-col items-center gap-1 group" title="Continue">
+<div class="p-1.5 rounded-md bg-gray-200 dark:bg-[#383838] hover:bg-gray-300 dark:hover:bg-[#484848] text-green-600 dark:text-green-400 transition-colors">
+<span class="material-symbols-outlined text-[24px]">play_arrow</span>
+</div>
+<span class="text-[10px] text-gray-500 dark:text-gray-400 font-medium">Continue</span>
+</button>
+<button class="flex flex-col items-center gap-1 group" title="Step Over">
+<div class="p-1.5 rounded-md hover:bg-gray-200 dark:hover:bg-[#383838] text-gray-600 dark:text-gray-300 transition-colors">
+<span class="material-symbols-outlined text-[24px]">step_over</span>
+</div>
+<span class="text-[10px] text-gray-500 dark:text-gray-400 font-medium">Over</span>
+</button>
+<button class="flex flex-col items-center gap-1 group" title="Step Into">
+<div class="p-1.5 rounded-md hover:bg-gray-200 dark:hover:bg-[#383838] text-gray-600 dark:text-gray-300 transition-colors">
+<span class="material-symbols-outlined text-[24px]">step_into</span>
+</div>
+<span class="text-[10px] text-gray-500 dark:text-gray-400 font-medium">Into</span>
+</button>
+<button class="flex flex-col items-center gap-1 group" title="Step Out">
+<div class="p-1.5 rounded-md hover:bg-gray-200 dark:hover:bg-[#383838] text-gray-600 dark:text-gray-300 transition-colors">
+<span class="material-symbols-outlined text-[24px]">step_out</span>
+</div>
+<span class="text-[10px] text-gray-500 dark:text-gray-400 font-medium">Out</span>
+</button>
+</div>
+<div class="flex-1 flex flex-col overflow-hidden">
+<div class="flex border-b border-gray-200 dark:border-border-dark bg-gray-50 dark:bg-[#252526]">
+<button class="px-4 py-2 text-xs font-bold text-primary border-b-2 border-primary bg-white dark:bg-[#1e1e1e]">VARIABLES</button>
+<button class="px-4 py-2 text-xs font-bold text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200">WATCH</button>
+<button class="px-4 py-2 text-xs font-bold text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200">STACK</button>
+</div>
+<div class="flex-1 overflow-auto p-3 font-mono text-sm bg-white dark:bg-[#1e1e1e]">
+<div class="mb-3">
+<div class="flex items-center text-gray-500 dark:text-gray-400 mb-1 cursor-pointer">
+<span class="material-symbols-outlined text-[16px] mr-1">expand_more</span>
+<span class="uppercase text-[10px] font-bold tracking-wider">Local</span>
+</div>
+<div class="pl-5 space-y-1.5">
+<div class="flex gap-2 border-b border-gray-100 dark:border-[#2d2d2d] pb-1">
+<span class="text-purple-600 dark:text-[#9cdcfe] min-w-[60px]">count</span>
+<span class="text-blue-600 dark:text-[#b5cea8]">0</span>
+</div>
+<div class="flex gap-2 border-b border-gray-100 dark:border-[#2d2d2d] pb-1">
+<span class="text-purple-600 dark:text-[#9cdcfe] min-w-[60px]">setCount</span>
+<span class="text-gray-500 dark:text-gray-400 italic">f ()</span>
+</div>
+<div class="flex gap-2 border-b border-gray-100 dark:border-[#2d2d2d] pb-1">
+<span class="text-purple-600 dark:text-[#9cdcfe] min-w-[60px]">this</span>
+<span class="text-gray-500 dark:text-[#569cd6]">undefined</span>
+</div>
+</div>
+</div>
+<div class="mb-2">
+<div class="flex items-center text-gray-500 dark:text-gray-400 mb-1 cursor-pointer">
+<span class="material-symbols-outlined text-[16px] mr-1">chevron_right</span>
+<span class="uppercase text-[10px] font-bold tracking-wider">Global</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+```</body></html>

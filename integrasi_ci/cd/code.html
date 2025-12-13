@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Integrasi CI/CD</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#135bec",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#101622",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"],
+                        "mono": ["ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", "monospace"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-white antialiased selection:bg-primary selection:text-white">
+<div class="relative flex h-full min-h-screen w-full flex-col overflow-x-hidden pb-20">
+<!-- Top App Bar -->
+<div class="sticky top-0 z-50 flex items-center bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-sm p-4 pb-2 justify-between border-b border-slate-200 dark:border-slate-800">
+<div class="text-slate-900 dark:text-white flex size-12 shrink-0 items-center justify-start cursor-pointer hover:opacity-70 transition-opacity">
+<span class="material-symbols-outlined text-2xl">arrow_back</span>
+</div>
+<h2 class="text-slate-900 dark:text-white text-lg font-bold leading-tight tracking-[-0.015em] flex-1 text-center">Integrasi CI/CD</h2>
+<div class="flex w-12 items-center justify-end">
+<button class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 bg-transparent text-slate-900 dark:text-white gap-2 min-w-0 p-0 hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors rounded-full size-10">
+<span class="material-symbols-outlined text-2xl">settings</span>
+</button>
+</div>
+</div>
+<!-- Project Selector -->
+<div class="px-4 py-6">
+<label class="flex flex-col w-full">
+<p class="text-slate-900 dark:text-white text-base font-medium leading-normal pb-2">Proyek Aktif</p>
+<div class="relative">
+<select class="form-select flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-slate-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary border border-slate-300 dark:border-[#3b4354] bg-white dark:bg-[#1c1f27] h-14 pl-4 pr-10 text-base font-normal leading-normal appearance-none cursor-pointer shadow-sm">
+<option value="ecommerce">E-Commerce Mobile V2</option>
+<option value="landing">Landing Page Portfolio</option>
+<option value="backend">NodeJS API Gateway</option>
+</select>
+<div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-slate-500">
+<span class="material-symbols-outlined">expand_more</span>
+</div>
+</div>
+</label>
+</div>
+<!-- Connected Services Header -->
+<div class="flex flex-col">
+<h3 class="text-slate-900 dark:text-white text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2">Layanan Terhubung</h3>
+</div>
+<!-- Services Carousel -->
+<div class="flex overflow-y-auto overflow-x-auto pb-4 [-ms-scrollbar-style:none] [scrollbar-width:none] [&amp;::-webkit-scrollbar]:hidden pl-4 pr-4">
+<div class="flex items-stretch gap-3">
+<!-- Service 1: GitHub -->
+<div class="group relative flex w-36 flex-col gap-3 rounded-xl bg-white dark:bg-[#1c1f27] p-3 border border-slate-200 dark:border-[#3b4354] shadow-sm hover:border-primary/50 transition-colors cursor-pointer">
+<div class="absolute top-3 right-3 size-2.5 rounded-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.6)]"></div>
+<div class="w-12 h-12 bg-center bg-no-repeat bg-contain rounded-lg flex items-center justify-center bg-white p-1" data-alt="GitHub logo icon">
+<img alt="GitHub Logo" class="w-full h-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAyvMzXrxXiK9n2o9y1HhqT2ABczOIkfJz2lLlq32g22-oN_EEMYzMwh1AlD9k3Kc1MnI4Ur6ECU8Uexrit2scIgJoZNHo-RLolMpll1Ksih1YGCGu0DU_b4vhA5Dy6LLjVuBBXPobms-8suXaLhocsuRDLKE7AJ27zwTfsOYPnLDsb9CyoKmcp32lM3D66xts15yjKFqIUUBvlCSDr5Ir9nWbSt3lvxia30jW701MBFzholPGAps7qSwTBPGXs6XW9ADjI9Kq4_SSj"/>
+</div>
+<div>
+<p class="text-slate-900 dark:text-white text-sm font-bold leading-normal">GitHub</p>
+<p class="text-slate-500 dark:text-[#9da6b9] text-xs font-normal leading-normal">Connected</p>
+</div>
+</div>
+<!-- Service 2: GitLab -->
+<div class="group relative flex w-36 flex-col gap-3 rounded-xl bg-white dark:bg-[#1c1f27] p-3 border border-slate-200 dark:border-[#3b4354] shadow-sm hover:border-primary/50 transition-colors cursor-pointer opacity-70 hover:opacity-100">
+<div class="w-12 h-12 bg-center bg-no-repeat bg-contain rounded-lg flex items-center justify-center bg-white p-1" data-alt="GitLab logo icon">
+<img alt="GitLab Logo" class="w-full h-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB-6j_t5hZW8QlQy7mkl3LIdLMfrT3hKYpM8FkS06zpKI8jW2e-8pKK9ZASsyyYnQVhJYDv7cBvyOZKVqmb_zAguBwVrfyZJXxb4pxnB5M-DUuDZH1nw5YU8Q2gBJmoftPr4qBGOS0aGMvZrZZfYr9bMm55R4LbzUFATgXnrnHDvj5jbqDqlKC8JDjmSW6LHgpcJ-saYsNupz6m_sMl0WUJFci0_kPgDZeXAjnlVrra-G-ynZNQdf9BSuGZKCEIevrn1DG-9A2Py9Wa"/>
+</div>
+<div>
+<p class="text-slate-900 dark:text-white text-sm font-bold leading-normal">GitLab</p>
+<p class="text-slate-500 dark:text-[#9da6b9] text-xs font-normal leading-normal">Link Account</p>
+</div>
+</div>
+<!-- Service 3: Jenkins -->
+<div class="group relative flex w-36 flex-col gap-3 rounded-xl bg-white dark:bg-[#1c1f27] p-3 border border-slate-200 dark:border-[#3b4354] shadow-sm hover:border-primary/50 transition-colors cursor-pointer opacity-70 hover:opacity-100">
+<div class="w-12 h-12 bg-center bg-no-repeat bg-contain rounded-lg flex items-center justify-center bg-white p-1" data-alt="Jenkins logo icon">
+<img alt="Jenkins Logo" class="w-full h-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB9h64u-iNPMuxOhTdg-KvIClQT676dUJkks2aidN7nL2SK8nFwy0tpwM_WJm1B1Kd2ZRKcQWzE1CAfSvMYHKJIdZllZzn5Jpj1sNixggGHN4r4GEAZgbpsbUzWj-fA9PYZWOZBW9nx5CDjW-LfBv7qfw93fjrRccrwj7rtc8YoLnEgJeSuAi8aJaZUXXmAyPgvgbvDqzHnCI2CSNlMxtHRBRBrQ3ksqsQt4nkSy8zkGcR-_qb3BLmBRdsEiKX7XCUAblRO6tS0P2lB"/>
+</div>
+<div>
+<p class="text-slate-900 dark:text-white text-sm font-bold leading-normal">Jenkins</p>
+<p class="text-slate-500 dark:text-[#9da6b9] text-xs font-normal leading-normal">Configure</p>
+</div>
+</div>
+</div>
+</div>
+<div class="h-4 w-full"></div>
+<!-- History Header -->
+<div class="flex flex-col">
+<div class="flex items-center justify-between px-4 pb-2 pt-2">
+<h3 class="text-slate-900 dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">Riwayat Build</h3>
+<button class="text-primary text-sm font-medium hover:underline">Lihat Semua</button>
+</div>
+</div>
+<!-- Build History List -->
+<div class="flex flex-col px-4 gap-4">
+<!-- Item 1: Running -->
+<div class="flex flex-col rounded-xl bg-white dark:bg-[#1c1f27] border border-slate-200 dark:border-[#3b4354] overflow-hidden shadow-sm ring-1 ring-primary/20">
+<div class="p-4 pb-3 flex items-start gap-4">
+<div class="mt-1 flex items-center justify-center rounded-full bg-primary/20 p-2 text-primary animate-pulse">
+<span class="material-symbols-outlined animate-spin" style="font-size: 20px;">sync</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start">
+<h4 class="text-slate-900 dark:text-white text-base font-bold truncate">feat: dark mode implementation</h4>
+<span class="text-xs font-medium text-primary bg-primary/10 px-2 py-1 rounded-md ml-2 whitespace-nowrap">Running</span>
+</div>
+<div class="flex items-center gap-2 mt-1 text-xs text-slate-500 dark:text-[#9da6b9]">
+<span class="flex items-center gap-1 font-mono"><span class="material-symbols-outlined text-[14px]">call_split</span> feature/ui-update</span>
+<span>•</span>
+<span>Build #482</span>
+<span>•</span>
+<span>00:42</span>
+</div>
+</div>
+</div>
+<!-- Terminal Preview -->
+<div class="bg-background-dark p-3 mx-4 mb-4 rounded-lg font-mono text-xs text-slate-300 overflow-x-auto border border-white/10">
+<div class="flex items-center gap-2 mb-2 border-b border-white/10 pb-2">
+<span class="material-symbols-outlined text-[14px]">terminal</span>
+<span class="text-[10px] uppercase tracking-wider text-slate-500">Live Logs</span>
+</div>
+<p class="opacity-50">&gt; compiling assets...</p>
+<p class="opacity-70">&gt; [webpack] 85% built</p>
+<p class="text-green-400">&gt; optimization in progress...</p>
+<span class="inline-block w-2 h-4 bg-primary animate-pulse align-middle ml-1"></span>
+</div>
+</div>
+<!-- Item 2: Failed -->
+<div class="flex flex-col rounded-xl bg-white dark:bg-[#1c1f27] border border-slate-200 dark:border-[#3b4354] shadow-sm">
+<div class="p-4 flex items-center gap-4">
+<div class="flex items-center justify-center rounded-full bg-red-500/10 p-2 text-red-500">
+<span class="material-symbols-outlined" style="font-size: 20px;">close</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start">
+<h4 class="text-slate-900 dark:text-white text-base font-medium truncate">fix: database connection timeout</h4>
+<span class="text-xs text-slate-400 mt-1">1h ago</span>
+</div>
+<div class="flex items-center gap-2 mt-1 text-xs text-slate-500 dark:text-[#9da6b9]">
+<span class="flex items-center gap-1 font-mono"><span class="material-symbols-outlined text-[14px]">call_split</span> fix/db-issue</span>
+<span>•</span>
+<span>Build #481</span>
+</div>
+</div>
+<button class="text-slate-400 hover:text-white p-2">
+<span class="material-symbols-outlined">refresh</span>
+</button>
+</div>
+</div>
+<!-- Item 3: Success -->
+<div class="flex flex-col rounded-xl bg-white dark:bg-[#1c1f27] border border-slate-200 dark:border-[#3b4354] shadow-sm">
+<div class="p-4 flex items-center gap-4">
+<div class="flex items-center justify-center rounded-full bg-green-500/10 p-2 text-green-500">
+<span class="material-symbols-outlined" style="font-size: 20px;">check</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start">
+<h4 class="text-slate-900 dark:text-white text-base font-medium truncate">chore: update dependencies</h4>
+<span class="text-xs text-slate-400 mt-1">5h ago</span>
+</div>
+<div class="flex items-center gap-2 mt-1 text-xs text-slate-500 dark:text-[#9da6b9]">
+<span class="flex items-center gap-1 font-mono"><span class="material-symbols-outlined text-[14px]">call_split</span> main</span>
+<span>•</span>
+<span>Build #480</span>
+</div>
+</div>
+<button class="text-slate-400 hover:text-white p-2">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+<!-- Item 4: Success -->
+<div class="flex flex-col rounded-xl bg-white dark:bg-[#1c1f27] border border-slate-200 dark:border-[#3b4354] shadow-sm">
+<div class="p-4 flex items-center gap-4">
+<div class="flex items-center justify-center rounded-full bg-green-500/10 p-2 text-green-500">
+<span class="material-symbols-outlined" style="font-size: 20px;">check</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start">
+<h4 class="text-slate-900 dark:text-white text-base font-medium truncate">feat: initial user profile screen</h4>
+<span class="text-xs text-slate-400 mt-1">1d ago</span>
+</div>
+<div class="flex items-center gap-2 mt-1 text-xs text-slate-500 dark:text-[#9da6b9]">
+<span class="flex items-center gap-1 font-mono"><span class="material-symbols-outlined text-[14px]">call_split</span> feature/profile</span>
+<span>•</span>
+<span>Build #479</span>
+</div>
+</div>
+<button class="text-slate-400 hover:text-white p-2">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Floating Action Button -->
+<div class="fixed bottom-6 right-6 z-40">
+<button class="flex items-center justify-center size-14 rounded-full bg-primary text-white shadow-[0_8px_16px_rgba(19,91,236,0.3)] hover:bg-blue-600 transition-transform active:scale-95">
+<span class="material-symbols-outlined text-3xl">play_arrow</span>
+</button>
+</div>
+</div>
+</body></html>

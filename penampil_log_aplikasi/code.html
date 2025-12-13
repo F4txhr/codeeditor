@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>System Logs</title>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#135bec",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#101622",
+                        "surface-dark": "#1A202C", 
+                        "surface-light": "#FFFFFF",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"],
+                        "mono": ["Space Mono", "monospace"] // Fallback if needed, but sticking to Space Grotesk as requested for UI
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        /* Custom scrollbar for log feel */
+        ::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #101622; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2d3748; 
+            border-radius: 2px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #4a5568; 
+        }
+        
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-white antialiased overflow-hidden flex flex-col h-screen">
+<!-- Top Bar -->
+<header class="shrink-0 bg-background-light dark:bg-background-dark border-b border-slate-200 dark:border-slate-800 z-20">
+<div class="flex items-center justify-between p-4 pb-2">
+<button class="flex size-10 items-center justify-center rounded-full hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors text-slate-700 dark:text-white">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<h1 class="text-lg font-bold leading-tight tracking-tight flex-1 text-center pr-2">System Logs</h1>
+<button class="flex items-center gap-1 rounded-lg px-3 py-1.5 text-sm font-medium text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800 hover:text-red-500 dark:hover:text-red-400 transition-colors">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+<span>Clear</span>
+</button>
+</div>
+<!-- Search Bar -->
+<div class="px-4 py-2">
+<div class="relative flex w-full items-center rounded-lg bg-white dark:bg-[#1A202C] border border-slate-200 dark:border-slate-700 shadow-sm focus-within:ring-1 focus-within:ring-primary focus-within:border-primary transition-all">
+<div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+<span class="material-symbols-outlined text-slate-400">search</span>
+</div>
+<input class="block w-full rounded-lg border-0 bg-transparent py-2.5 pl-10 pr-4 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 focus:ring-0" placeholder="Search logs (Regex supported)..." type="text"/>
+<div class="absolute inset-y-0 right-0 flex items-center pr-2">
+<button class="p-1 text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">tune</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Filters (Chips) -->
+<div class="w-full overflow-x-auto hide-scrollbar pb-3 pt-1">
+<div class="flex items-center gap-2 px-4">
+<!-- Chip: All (Active) -->
+<button class="flex h-8 shrink-0 items-center gap-1.5 rounded-lg bg-primary px-3 text-sm font-medium text-white shadow-md shadow-primary/20">
+<span>All</span>
+<span class="bg-white/20 px-1.5 py-0.5 rounded text-[10px] font-bold">428</span>
+</button>
+<!-- Chip: Info -->
+<button class="flex h-8 shrink-0 items-center gap-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-[#1A202C] px-3 text-sm font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+<div class="size-2 rounded-full bg-blue-500"></div>
+<span>Info</span>
+</button>
+<!-- Chip: Warning -->
+<button class="flex h-8 shrink-0 items-center gap-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-[#1A202C] px-3 text-sm font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+<div class="size-2 rounded-full bg-amber-500"></div>
+<span>Warning</span>
+</button>
+<!-- Chip: Error -->
+<button class="flex h-8 shrink-0 items-center gap-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-[#1A202C] px-3 text-sm font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+<div class="size-2 rounded-full bg-red-500"></div>
+<span>Error</span>
+<span class="bg-red-500/10 text-red-500 px-1.5 py-0.5 rounded text-[10px] font-bold">3</span>
+</button>
+<!-- Chip: Network -->
+<button class="flex h-8 shrink-0 items-center gap-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-[#1A202C] px-3 text-sm font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+<div class="size-2 rounded-full bg-purple-500"></div>
+<span>Network</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Main Log Content -->
+<main class="flex-1 overflow-y-auto relative w-full" id="log-container">
+<!-- Date Divider -->
+<div class="sticky top-0 z-10 flex w-full items-center justify-center py-2 bg-background-light/90 dark:bg-background-dark/90 backdrop-blur-sm">
+<span class="rounded-full bg-slate-200 dark:bg-slate-800 px-3 py-0.5 text-xs font-medium text-slate-600 dark:text-slate-400">Today, Oct 24</span>
+</div>
+<div class="flex flex-col pb-20">
+<!-- Log Entry: ERROR -->
+<div class="group flex gap-3 border-l-4 border-red-500 bg-red-500/5 px-4 py-3 hover:bg-red-500/10 transition-colors cursor-pointer">
+<div class="flex flex-col items-center gap-1 pt-1">
+<span class="material-symbols-outlined text-red-500 text-[20px]">error</span>
+<div class="w-px h-full bg-red-500/20"></div>
+</div>
+<div class="flex flex-1 flex-col overflow-hidden">
+<div class="flex items-center justify-between gap-2">
+<h3 class="font-bold text-red-500 text-sm truncate">[Error] Connection Timeout</h3>
+<span class="shrink-0 text-xs font-mono text-slate-500">14:03:10.550</span>
+</div>
+<p class="mt-1 text-sm font-normal text-slate-700 dark:text-slate-200 break-all font-mono leading-relaxed">
+                        java.net.SocketTimeoutException: failed to connect to /192.168.1.1 (port 80) from /10.0.2.16 (port 40440) after 10000ms
+                    </p>
+<div class="mt-2 flex items-center gap-2">
+<span class="inline-flex items-center rounded bg-red-500/10 px-1.5 py-0.5 text-[10px] font-medium text-red-400 ring-1 ring-inset ring-red-500/20">NetworkModule</span>
+<span class="h-1 w-1 rounded-full bg-slate-600"></span>
+<span class="text-[10px] text-slate-500">MainThread</span>
+</div>
+</div>
+<div class="flex flex-col items-end justify-start opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="text-slate-400 hover:text-white" title="Copy">
+<span class="material-symbols-outlined text-[18px]">content_copy</span>
+</button>
+</div>
+</div>
+<!-- Log Entry: WARNING -->
+<div class="group flex gap-3 border-l-4 border-amber-500 bg-background-light dark:bg-background-dark px-4 py-3 hover:bg-slate-100 dark:hover:bg-slate-800/50 transition-colors cursor-pointer border-b border-slate-100 dark:border-slate-800/50">
+<div class="flex flex-col items-center gap-1 pt-1">
+<span class="material-symbols-outlined text-amber-500 text-[20px]">warning</span>
+</div>
+<div class="flex flex-1 flex-col overflow-hidden">
+<div class="flex items-center justify-between gap-2">
+<h3 class="font-bold text-amber-500 text-sm truncate">[Warn] Deprecated API usage</h3>
+<span class="shrink-0 text-xs font-mono text-slate-500">14:02:36.005</span>
+</div>
+<p class="mt-1 text-sm font-normal text-slate-700 dark:text-slate-300 font-mono leading-relaxed">
+                        The method setBackgroundDrawable() is deprecated. Use setBackground() instead.
+                    </p>
+<div class="mt-2 flex items-center gap-2">
+<span class="inline-flex items-center rounded bg-amber-500/10 px-1.5 py-0.5 text-[10px] font-medium text-amber-400 ring-1 ring-inset ring-amber-500/20">UIThread</span>
+<span class="h-1 w-1 rounded-full bg-slate-600"></span>
+<span class="text-[10px] text-slate-500">ViewRootImpl</span>
+</div>
+</div>
+<div class="flex flex-col items-end justify-start opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="text-slate-400 hover:text-white" title="Copy">
+<span class="material-symbols-outlined text-[18px]">content_copy</span>
+</button>
+</div>
+</div>
+<!-- Log Entry: INFO -->
+<div class="group flex gap-3 border-l-4 border-transparent pl-4 pr-4 py-3 hover:bg-slate-100 dark:hover:bg-slate-800/50 transition-colors cursor-pointer border-b border-slate-100 dark:border-slate-800/50">
+<div class="flex flex-col items-center gap-1 pt-1">
+<span class="material-symbols-outlined text-blue-500 text-[20px]">info</span>
+</div>
+<div class="flex flex-1 flex-col overflow-hidden">
+<div class="flex items-center justify-between gap-2">
+<h3 class="font-bold text-blue-500 text-sm truncate">[Info] App initialized successfully</h3>
+<span class="shrink-0 text-xs font-mono text-slate-500">14:02:35.221</span>
+</div>
+<p class="mt-1 text-sm font-normal text-slate-700 dark:text-slate-400 font-mono leading-relaxed">
+                        Application setup took 450ms. Core services ready.
+                    </p>
+<div class="mt-2 flex items-center gap-2">
+<span class="inline-flex items-center rounded bg-blue-500/10 px-1.5 py-0.5 text-[10px] font-medium text-blue-400 ring-1 ring-inset ring-blue-500/20">AppLifecycle</span>
+</div>
+</div>
+<div class="flex flex-col items-end justify-start opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="text-slate-400 hover:text-white" title="Copy">
+<span class="material-symbols-outlined text-[18px]">content_copy</span>
+</button>
+</div>
+</div>
+<!-- Log Entry: NETWORK -->
+<div class="group flex gap-3 border-l-4 border-transparent px-4 py-3 hover:bg-slate-100 dark:hover:bg-slate-800/50 transition-colors cursor-pointer border-b border-slate-100 dark:border-slate-800/50">
+<div class="flex flex-col items-center gap-1 pt-1">
+<span class="material-symbols-outlined text-purple-500 text-[20px]">swap_horiz</span>
+</div>
+<div class="flex flex-1 flex-col overflow-hidden">
+<div class="flex items-center justify-between gap-2">
+<h3 class="font-bold text-purple-500 text-sm truncate">[Net] GET /api/v1/user/config</h3>
+<span class="shrink-0 text-xs font-mono text-slate-500">14:02:34.800</span>
+</div>
+<p class="mt-1 text-sm font-normal text-slate-700 dark:text-slate-400 font-mono leading-relaxed">
+                        Response: 200 OK | Size: 1.2KB | Latency: 120ms
+                    </p>
+<div class="mt-2 flex items-center gap-2">
+<span class="inline-flex items-center rounded bg-purple-500/10 px-1.5 py-0.5 text-[10px] font-medium text-purple-400 ring-1 ring-inset ring-purple-500/20">Network</span>
+</div>
+</div>
+<div class="flex flex-col items-end justify-start opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="text-slate-400 hover:text-white" title="Copy">
+<span class="material-symbols-outlined text-[18px]">content_copy</span>
+</button>
+</div>
+</div>
+<!-- Log Entry: DB (Standard) -->
+<div class="group flex gap-3 border-l-4 border-transparent px-4 py-3 hover:bg-slate-100 dark:hover:bg-slate-800/50 transition-colors cursor-pointer border-b border-slate-100 dark:border-slate-800/50">
+<div class="flex flex-col items-center gap-1 pt-1">
+<span class="material-symbols-outlined text-slate-500 text-[20px]">database</span>
+</div>
+<div class="flex flex-1 flex-col overflow-hidden">
+<div class="flex items-center justify-between gap-2">
+<h3 class="font-bold text-slate-500 text-sm truncate">[Debug] Query Executed</h3>
+<span class="shrink-0 text-xs font-mono text-slate-500">14:02:34.112</span>
+</div>
+<p class="mt-1 text-sm font-normal text-slate-700 dark:text-slate-400 font-mono leading-relaxed">
+                        SELECT * FROM preferences WHERE user_id = 'u_882910' LIMIT 1
+                    </p>
+<div class="mt-2 flex items-center gap-2">
+<span class="inline-flex items-center rounded bg-slate-500/10 px-1.5 py-0.5 text-[10px] font-medium text-slate-400 ring-1 ring-inset ring-slate-500/20">Database</span>
+</div>
+</div>
+<div class="flex flex-col items-end justify-start opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="text-slate-400 hover:text-white" title="Copy">
+<span class="material-symbols-outlined text-[18px]">content_copy</span>
+</button>
+</div>
+</div>
+<!-- Log Entry: DB (Standard) -->
+<div class="group flex gap-3 border-l-4 border-transparent px-4 py-3 hover:bg-slate-100 dark:hover:bg-slate-800/50 transition-colors cursor-pointer border-b border-slate-100 dark:border-slate-800/50">
+<div class="flex flex-col items-center gap-1 pt-1">
+<span class="material-symbols-outlined text-slate-500 text-[20px]">terminal</span>
+</div>
+<div class="flex flex-1 flex-col overflow-hidden">
+<div class="flex items-center justify-between gap-2">
+<h3 class="font-bold text-slate-500 text-sm truncate">[Verbose] Loading plugins...</h3>
+<span class="shrink-0 text-xs font-mono text-slate-500">14:02:33.900</span>
+</div>
+<p class="mt-1 text-sm font-normal text-slate-700 dark:text-slate-500 font-mono leading-relaxed">
+                        Plugin 'SyntaxHighlighter' loaded. Plugin 'GitLens' loaded.
+                    </p>
+<div class="mt-2 flex items-center gap-2">
+<span class="inline-flex items-center rounded bg-slate-500/10 px-1.5 py-0.5 text-[10px] font-medium text-slate-400 ring-1 ring-inset ring-slate-500/20">System</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Floating Action Button for Scroll to Bottom -->
+<div class="absolute bottom-6 right-6 z-30">
+<button class="flex h-12 w-12 items-center justify-center rounded-full bg-primary text-white shadow-lg shadow-primary/40 hover:bg-blue-600 transition-all active:scale-95">
+<span class="material-symbols-outlined">arrow_downward</span>
+</button>
+</div>
+<!-- Scroll status indicator overlay (Optional detail) -->
+<div class="absolute bottom-6 left-1/2 -translate-x-1/2 z-30 pointer-events-none">
+<div class="bg-slate-800/80 backdrop-blur px-3 py-1 rounded-full border border-slate-700/50">
+<p class="text-[10px] text-slate-300 font-mono">Tail: On (Live)</p>
+</div>
+</div>
+</body></html>

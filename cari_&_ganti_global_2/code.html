@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Cari &amp; Ganti Global</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#135bec",
+              "background-light": "#f6f6f8",
+              "background-dark": "#111318",
+              "surface-dark": "#282e39",
+              "surface-light": "#ffffff",
+              "text-secondary": "#9da6b9",
+            },
+            fontFamily: {
+              "display": ["Space Grotesk", "sans-serif"],
+              "mono": ["ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", "monospace"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        /* Custom scrollbar for code snippets to look cleaner */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-white antialiased overflow-hidden h-screen flex flex-col group/design-root">
+<!-- Top App Bar -->
+<header class="flex items-center justify-between px-4 pt-4 pb-2 bg-background-light dark:bg-background-dark shrink-0 z-10">
+<button class="flex size-10 shrink-0 items-center justify-center rounded-full hover:bg-gray-200 dark:hover:bg-surface-dark transition-colors">
+<span class="material-symbols-outlined text-gray-900 dark:text-white" style="font-size: 24px;">arrow_back</span>
+</button>
+<h2 class="text-gray-900 dark:text-white text-lg font-bold leading-tight tracking-[-0.015em] flex-1 text-center">Cari &amp; Ganti Global</h2>
+<div class="flex w-12 items-center justify-end">
+<button class="text-primary text-base font-bold leading-normal tracking-[0.015em] shrink-0 hover:opacity-80 transition-opacity">Selesai</button>
+</div>
+</header>
+<!-- Scrollable Content Area -->
+<main class="flex-1 overflow-y-auto no-scrollbar relative flex flex-col">
+<!-- Search & Replace Inputs Section -->
+<div class="px-4 py-3 bg-background-light dark:bg-background-dark sticky top-0 z-20 shadow-sm dark:shadow-none">
+<div class="flex flex-col gap-4 max-w-md mx-auto">
+<!-- Search Input -->
+<label class="flex flex-col flex-1">
+<p class="text-gray-700 dark:text-white text-base font-medium leading-normal pb-2">Cari</p>
+<div class="flex w-full flex-1 items-stretch rounded-lg shadow-sm">
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg rounded-r-none text-gray-900 dark:text-white focus:outline-0 focus:ring-1 focus:ring-primary border border-gray-300 dark:border-none bg-surface-light dark:bg-surface-dark h-12 placeholder:text-text-secondary px-4 text-base font-normal leading-normal transition-all" placeholder="Cari..." value="primaryColor"/>
+<div class="text-text-secondary flex border border-l-0 border-gray-300 dark:border-none bg-surface-light dark:bg-surface-dark items-center justify-center pr-4 rounded-r-lg cursor-pointer hover:text-gray-500 dark:hover:text-white transition-colors">
+<span class="material-symbols-outlined" style="font-size: 20px;">close</span>
+</div>
+</div>
+</label>
+<!-- Replace Input -->
+<label class="flex flex-col flex-1">
+<p class="text-gray-700 dark:text-white text-base font-medium leading-normal pb-2">Ganti</p>
+<div class="flex w-full flex-1 items-stretch rounded-lg shadow-sm">
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg rounded-r-none text-gray-900 dark:text-white focus:outline-0 focus:ring-1 focus:ring-primary border border-gray-300 dark:border-none bg-surface-light dark:bg-surface-dark h-12 placeholder:text-text-secondary px-4 text-base font-normal leading-normal transition-all" placeholder="Ganti dengan..." value="#3b82f6"/>
+<div class="text-text-secondary flex border border-l-0 border-gray-300 dark:border-none bg-surface-light dark:bg-surface-dark items-center justify-center pr-4 rounded-r-lg">
+<span class="material-symbols-outlined" style="font-size: 20px;">edit</span>
+</div>
+</div>
+</label>
+</div>
+<!-- Filters -->
+<div class="flex gap-3 py-4 overflow-x-auto no-scrollbar mask-linear-fade">
+<!-- Active Filter -->
+<button class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-primary/20 border border-primary/50 pl-4 pr-4 transition-all hover:bg-primary/30 active:scale-95">
+<span class="text-primary text-sm font-bold leading-normal">Aa</span>
+<span class="text-primary text-xs font-medium leading-normal hidden sm:inline">(Peka Huruf)</span>
+</button>
+<!-- Inactive Filters -->
+<button class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-surface-light dark:bg-surface-dark border border-gray-200 dark:border-gray-700 pl-4 pr-4 transition-all hover:bg-gray-100 dark:hover:bg-opacity-80 active:scale-95">
+<span class="text-gray-600 dark:text-white text-sm font-medium leading-normal">ab|</span>
+<span class="text-gray-500 dark:text-text-secondary text-xs font-normal leading-normal hidden sm:inline">(Kata Utuh)</span>
+</button>
+<button class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-surface-light dark:bg-surface-dark border border-gray-200 dark:border-gray-700 pl-4 pr-4 transition-all hover:bg-gray-100 dark:hover:bg-opacity-80 active:scale-95">
+<span class="text-gray-600 dark:text-white text-sm font-medium leading-normal">.*</span>
+</button>
+<button class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-surface-light dark:bg-surface-dark border border-gray-200 dark:border-gray-700 pl-4 pr-4 transition-all hover:bg-gray-100 dark:hover:bg-opacity-80 active:scale-95">
+<span class="material-symbols-outlined text-gray-600 dark:text-white" style="font-size: 18px;">filter_alt</span>
+<span class="text-gray-600 dark:text-white text-sm font-medium leading-normal">Filter File</span>
+</button>
+</div>
+</div>
+<!-- Section Header -->
+<div class="sticky top-[13rem] z-10 bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-sm px-4 py-2 border-y border-gray-200 dark:border-gray-800 flex justify-between items-end">
+<h3 class="text-gray-900 dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">3 Hasil ditemukan</h3>
+<span class="text-xs font-medium text-text-secondary mb-0.5">dalam 2 file</span>
+</div>
+<!-- Results List -->
+<div class="flex flex-col pb-32">
+<!-- Result File Group 1 -->
+<div class="flex flex-col border-b border-gray-200 dark:border-gray-800">
+<!-- File Header -->
+<div class="group flex items-center justify-between px-4 py-3 bg-gray-50 dark:bg-[#1c212b] cursor-pointer hover:bg-gray-100 dark:hover:bg-[#232a38] transition-colors">
+<div class="flex items-center gap-3 overflow-hidden">
+<span class="material-symbols-outlined text-text-secondary group-hover:text-white transition-colors" style="font-size: 20px;">expand_more</span>
+<div class="flex items-center justify-center size-6 rounded bg-blue-500/10">
+<span class="material-symbols-outlined text-blue-500" style="font-size: 16px;">javascript</span>
+</div>
+<p class="text-gray-700 dark:text-gray-300 text-sm font-mono truncate">src/components/ThemeToggle.js</p>
+</div>
+<span class="bg-gray-200 dark:bg-surface-dark text-gray-600 dark:text-gray-400 text-[10px] font-bold px-2 py-0.5 rounded-full">2</span>
+</div>
+<!-- Matches -->
+<div class="divide-y divide-gray-100 dark:divide-gray-800/50 bg-white dark:bg-transparent">
+<!-- Match Item 1 -->
+<div class="flex gap-0 hover:bg-primary/5 dark:hover:bg-white/5 transition-colors group/item relative">
+<!-- Line Number -->
+<div class="w-12 shrink-0 py-3 pr-3 text-right border-r border-gray-100 dark:border-gray-800/50">
+<span class="text-xs font-mono text-text-secondary">14</span>
+</div>
+<!-- Code -->
+<div class="flex-1 py-3 px-3 overflow-x-auto no-scrollbar">
+<code class="text-sm font-mono text-gray-800 dark:text-gray-400 whitespace-pre block">
+  const <span class="bg-primary/30 text-primary dark:text-blue-200 rounded-[2px] px-0.5 border border-primary/20">primaryColor</span> = '#135bec';
+                            </code>
+</div>
+<!-- Replace Action (Visible on Hover/Focus) -->
+<button aria-label="Replace single match" class="absolute right-2 top-1/2 -translate-y-1/2 opacity-0 group-hover/item:opacity-100 bg-surface-light dark:bg-surface-dark shadow-lg border border-gray-200 dark:border-gray-700 p-2 rounded-lg text-text-secondary hover:text-primary transition-all active:scale-95">
+<span class="material-symbols-outlined" style="font-size: 20px;">find_replace</span>
+</button>
+</div>
+<!-- Match Item 2 -->
+<div class="flex gap-0 hover:bg-primary/5 dark:hover:bg-white/5 transition-colors group/item relative">
+<div class="w-12 shrink-0 py-3 pr-3 text-right border-r border-gray-100 dark:border-gray-800/50">
+<span class="text-xs font-mono text-text-secondary">42</span>
+</div>
+<div class="flex-1 py-3 px-3 overflow-x-auto no-scrollbar">
+<code class="text-sm font-mono text-gray-800 dark:text-gray-400 whitespace-pre block">
+  return theme.<span class="bg-primary/30 text-primary dark:text-blue-200 rounded-[2px] px-0.5 border border-primary/20">primaryColor</span>;
+                            </code>
+</div>
+<button class="absolute right-2 top-1/2 -translate-y-1/2 opacity-0 group-hover/item:opacity-100 bg-surface-light dark:bg-surface-dark shadow-lg border border-gray-200 dark:border-gray-700 p-2 rounded-lg text-text-secondary hover:text-primary transition-all active:scale-95">
+<span class="material-symbols-outlined" style="font-size: 20px;">find_replace</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Result File Group 2 -->
+<div class="flex flex-col border-b border-gray-200 dark:border-gray-800">
+<div class="group flex items-center justify-between px-4 py-3 bg-gray-50 dark:bg-[#1c212b] cursor-pointer hover:bg-gray-100 dark:hover:bg-[#232a38] transition-colors">
+<div class="flex items-center gap-3 overflow-hidden">
+<span class="material-symbols-outlined text-text-secondary group-hover:text-white transition-colors" style="font-size: 20px;">expand_more</span>
+<div class="flex items-center justify-center size-6 rounded bg-yellow-500/10">
+<span class="material-symbols-outlined text-yellow-500" style="font-size: 16px;">css</span>
+</div>
+<p class="text-gray-700 dark:text-gray-300 text-sm font-mono truncate">src/styles/global.css</p>
+</div>
+<span class="bg-gray-200 dark:bg-surface-dark text-gray-600 dark:text-gray-400 text-[10px] font-bold px-2 py-0.5 rounded-full">1</span>
+</div>
+<div class="divide-y divide-gray-100 dark:divide-gray-800/50 bg-white dark:bg-transparent">
+<div class="flex gap-0 hover:bg-primary/5 dark:hover:bg-white/5 transition-colors group/item relative">
+<div class="w-12 shrink-0 py-3 pr-3 text-right border-r border-gray-100 dark:border-gray-800/50">
+<span class="text-xs font-mono text-text-secondary">88</span>
+</div>
+<div class="flex-1 py-3 px-3 overflow-x-auto no-scrollbar">
+<code class="text-sm font-mono text-gray-800 dark:text-gray-400 whitespace-pre block">
+--<span class="bg-primary/30 text-primary dark:text-blue-200 rounded-[2px] px-0.5 border border-primary/20">primaryColor</span>: #135bec;
+                            </code>
+</div>
+<button class="absolute right-2 top-1/2 -translate-y-1/2 opacity-0 group-hover/item:opacity-100 bg-surface-light dark:bg-surface-dark shadow-lg border border-gray-200 dark:border-gray-700 p-2 rounded-lg text-text-secondary hover:text-primary transition-all active:scale-95">
+<span class="material-symbols-outlined" style="font-size: 20px;">find_replace</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Actions Sticky Footer -->
+<div class="fixed bottom-0 left-0 right-0 p-4 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md border-t border-gray-200 dark:border-gray-800 flex gap-3 z-30">
+<button class="flex-1 bg-white dark:bg-surface-dark text-gray-900 dark:text-white font-bold py-4 px-4 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm active:scale-[0.98] transition-all hover:bg-gray-50 dark:hover:bg-gray-700">
+            Replace (1)
+        </button>
+<button class="flex-[1.5] bg-primary text-white font-bold py-4 px-4 rounded-xl shadow-lg shadow-primary/25 active:scale-[0.98] transition-all hover:brightness-110 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined" style="font-size: 20px;">done_all</span>
+            Replace All (3)
+        </button>
+</div>
+</body></html>

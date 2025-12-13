@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Pengaturan Sinkronisasi Cloud</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#135bec",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#101622",
+                        "surface-dark": "#161b26",
+                        "border-dark": "#2a3140",
+                        "text-secondary": "#9da6b9",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"],
+                        "body": ["Noto Sans", "sans-serif"],
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for coding environment feel */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #101622;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2a3140;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #3b4354;
+        }
+        
+        .toggle-checkbox:checked {
+            right: 0;
+            border-color: #135bec;
+        }
+        .toggle-checkbox:checked + .toggle-label {
+            background-color: #135bec;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white font-display antialiased selection:bg-primary/30">
+<div class="relative flex h-full min-h-screen w-full flex-col overflow-x-hidden max-w-md mx-auto border-x border-border-dark shadow-2xl">
+<!-- Top App Bar -->
+<div class="sticky top-0 z-50 bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-md border-b border-border-dark/50">
+<!-- iOS Status Bar Spacer -->
+<div class="h-10 w-full"></div>
+<div class="flex items-center p-4 pb-3 justify-between">
+<button class="text-white flex size-10 shrink-0 items-center justify-center rounded-full hover:bg-white/5 active:bg-white/10 transition-colors">
+<span class="material-symbols-outlined text-[24px]">arrow_back</span>
+</button>
+<h2 class="text-white text-lg font-bold leading-tight tracking-tight flex-1 text-center">Sinkronisasi Cloud</h2>
+<button class="flex w-10 items-center justify-center rounded-full hover:bg-white/5 active:bg-white/10 h-10">
+<span class="material-symbols-outlined text-[24px] text-primary">history</span>
+</button>
+</div>
+</div>
+<!-- Scrollable Content -->
+<div class="flex-1 flex flex-col pb-8">
+<!-- Status Panel -->
+<div class="p-4 w-full">
+<div class="flex flex-col items-start gap-4 rounded-xl border border-border-dark bg-surface-dark p-5 shadow-lg relative overflow-hidden group">
+<!-- Background decoration -->
+<div class="absolute top-0 right-0 -mt-4 -mr-4 w-24 h-24 bg-primary/10 rounded-full blur-2xl group-hover:bg-primary/20 transition-all duration-500"></div>
+<div class="flex flex-row items-center justify-between w-full z-10">
+<div class="flex items-center gap-3">
+<div class="flex items-center justify-center w-10 h-10 rounded-full bg-green-500/10 border border-green-500/20 text-green-500">
+<span class="material-symbols-outlined">cloud_done</span>
+</div>
+<div class="flex flex-col">
+<p class="text-white text-base font-bold leading-tight">Sinkronisasi Aktif</p>
+<p class="text-text-secondary text-sm font-normal">Terakhir: Baru saja</p>
+</div>
+</div>
+</div>
+<div class="w-full h-px bg-border-dark/50 my-1"></div>
+<div class="flex w-full items-center justify-between gap-4 z-10">
+<div class="flex items-center gap-2 text-xs text-text-secondary">
+<span class="material-symbols-outlined text-[16px]">lock</span>
+<span>End-to-end encrypted</span>
+</div>
+<button class="flex cursor-pointer items-center justify-center overflow-hidden rounded-lg h-9 px-4 bg-primary hover:bg-blue-600 active:bg-blue-700 transition-colors text-white text-sm font-bold leading-normal shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-[18px] mr-2 animate-spin-slow" style="display:none;">sync</span>
+<span>Sinkronkan</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Provider Selection -->
+<div>
+<h3 class="text-white text-sm uppercase tracking-wider font-bold px-6 py-2 text-text-secondary/80">Penyedia Layanan</h3>
+<div class="flex flex-col gap-3 px-4">
+<!-- Google Drive (Selected) -->
+<label class="group relative flex items-center gap-4 rounded-xl border border-primary bg-primary/5 p-4 cursor-pointer transition-all hover:bg-primary/10">
+<div class="absolute right-4 top-1/2 -translate-y-1/2">
+<span class="material-symbols-outlined text-primary">check_circle</span>
+</div>
+<input checked="" class="peer sr-only" name="provider" type="radio"/>
+<div class="flex items-center justify-center w-10 h-10 rounded-lg bg-surface-dark border border-border-dark">
+<span class="material-symbols-outlined text-white">add_to_drive</span>
+</div>
+<div class="flex grow flex-col">
+<p class="text-white text-sm font-bold leading-normal">Google Drive</p>
+<p class="text-primary text-xs font-medium leading-normal">user@gmail.com</p>
+</div>
+</label>
+<!-- OneDrive -->
+<label class="group flex items-center gap-4 rounded-xl border border-border-dark bg-surface-dark p-4 cursor-pointer transition-all hover:border-primary/50 hover:bg-surface-dark/80">
+<div class="absolute right-4 top-1/2 -translate-y-1/2 opacity-0 peer-checked:opacity-100">
+<!-- Hidden check for unselected items -->
+</div>
+<input class="peer sr-only" name="provider" type="radio"/>
+<div class="flex items-center justify-center w-10 h-10 rounded-lg bg-background-dark border border-border-dark">
+<span class="material-symbols-outlined text-text-secondary">cloud</span>
+</div>
+<div class="flex grow flex-col">
+<p class="text-text-secondary group-hover:text-white transition-colors text-sm font-medium leading-normal">OneDrive</p>
+<p class="text-text-secondary/60 text-xs font-normal leading-normal">Belum terhubung</p>
+</div>
+</label>
+<!-- Custom WebDAV -->
+<label class="group flex items-center gap-4 rounded-xl border border-border-dark bg-surface-dark p-4 cursor-pointer transition-all hover:border-primary/50 hover:bg-surface-dark/80">
+<input class="peer sr-only" name="provider" type="radio"/>
+<div class="flex items-center justify-center w-10 h-10 rounded-lg bg-background-dark border border-border-dark">
+<span class="material-symbols-outlined text-text-secondary">dns</span>
+</div>
+<div class="flex grow flex-col">
+<p class="text-text-secondary group-hover:text-white transition-colors text-sm font-medium leading-normal">Custom WebDAV</p>
+<p class="text-text-secondary/60 text-xs font-normal leading-normal">Self-hosted server</p>
+</div>
+</label>
+</div>
+</div>
+<div class="h-6"></div>
+<!-- Preferences -->
+<div>
+<h3 class="text-white text-sm uppercase tracking-wider font-bold px-6 py-2 text-text-secondary/80">Preferensi</h3>
+<div class="bg-surface-dark border-y border-border-dark divide-y divide-border-dark">
+<!-- Auto Sync Toggle -->
+<div class="flex items-center justify-between p-4 px-6 hover:bg-white/5 transition-colors">
+<div class="flex flex-col gap-0.5">
+<span class="text-white text-base font-medium">Sinkronisasi Otomatis</span>
+<span class="text-text-secondary text-xs">Sinkronkan perubahan di latar belakang</span>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-border-dark peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<!-- Wi-Fi Only Toggle -->
+<div class="flex items-center justify-between p-4 px-6 hover:bg-white/5 transition-colors">
+<div class="flex flex-col gap-0.5">
+<span class="text-white text-base font-medium">Hanya via Wi-Fi</span>
+<span class="text-text-secondary text-xs">Hemat penggunaan data seluler</span>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-border-dark peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+</div>
+<div class="h-6"></div>
+<!-- Sync Scope -->
+<div>
+<h3 class="text-white text-sm uppercase tracking-wider font-bold px-6 py-2 text-text-secondary/80">Item Sinkronisasi</h3>
+<div class="flex flex-col gap-2 px-4">
+<!-- Settings -->
+<label class="flex items-center gap-3 p-3 rounded-lg hover:bg-surface-dark transition-colors cursor-pointer">
+<div class="relative flex items-center">
+<input checked="" class="peer h-5 w-5 cursor-pointer appearance-none rounded-md border-2 border-border-dark bg-background-dark checked:border-primary checked:bg-primary transition-all focus:ring-0 focus:ring-offset-0" type="checkbox"/>
+<span class="material-symbols-outlined absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-[16px] text-white opacity-0 peer-checked:opacity-100 pointer-events-none">check</span>
+</div>
+<div class="flex flex-1 items-center gap-3">
+<span class="material-symbols-outlined text-text-secondary">settings</span>
+<span class="text-white text-sm font-medium">Pengaturan Editor</span>
+</div>
+</label>
+<!-- Keybindings -->
+<label class="flex items-center gap-3 p-3 rounded-lg hover:bg-surface-dark transition-colors cursor-pointer">
+<div class="relative flex items-center">
+<input checked="" class="peer h-5 w-5 cursor-pointer appearance-none rounded-md border-2 border-border-dark bg-background-dark checked:border-primary checked:bg-primary transition-all focus:ring-0 focus:ring-offset-0" type="checkbox"/>
+<span class="material-symbols-outlined absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-[16px] text-white opacity-0 peer-checked:opacity-100 pointer-events-none">check</span>
+</div>
+<div class="flex flex-1 items-center gap-3">
+<span class="material-symbols-outlined text-text-secondary">keyboard</span>
+<span class="text-white text-sm font-medium">Keybinding &amp; Pintasan</span>
+</div>
+</label>
+<!-- Snippets -->
+<label class="flex items-center gap-3 p-3 rounded-lg hover:bg-surface-dark transition-colors cursor-pointer">
+<div class="relative flex items-center">
+<input checked="" class="peer h-5 w-5 cursor-pointer appearance-none rounded-md border-2 border-border-dark bg-background-dark checked:border-primary checked:bg-primary transition-all focus:ring-0 focus:ring-offset-0" type="checkbox"/>
+<span class="material-symbols-outlined absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-[16px] text-white opacity-0 peer-checked:opacity-100 pointer-events-none">check</span>
+</div>
+<div class="flex flex-1 items-center gap-3">
+<span class="material-symbols-outlined text-text-secondary">code</span>
+<span class="text-white text-sm font-medium">Snippet Kode</span>
+</div>
+</label>
+<!-- Projects -->
+<label class="flex items-center gap-3 p-3 rounded-lg hover:bg-surface-dark transition-colors cursor-pointer opacity-80">
+<div class="relative flex items-center">
+<input class="peer h-5 w-5 cursor-pointer appearance-none rounded-md border-2 border-border-dark bg-background-dark checked:border-primary checked:bg-primary transition-all focus:ring-0 focus:ring-offset-0" type="checkbox"/>
+<span class="material-symbols-outlined absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-[16px] text-white opacity-0 peer-checked:opacity-100 pointer-events-none">check</span>
+</div>
+<div class="flex flex-1 items-center gap-3">
+<span class="material-symbols-outlined text-text-secondary">folder_open</span>
+<span class="text-white text-sm font-medium">Proyek Aktif</span>
+</div>
+<span class="text-[10px] font-bold bg-border-dark text-text-secondary px-1.5 py-0.5 rounded">LARGE</span>
+</label>
+</div>
+</div>
+<!-- Footer Actions -->
+<div class="mt-8 px-6 pb-6">
+<button class="w-full py-3 rounded-lg border border-red-900/30 text-red-400 hover:bg-red-950/20 text-sm font-medium transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[18px]">logout</span>
+                    Keluar dari Akun Cloud
+                </button>
+<p class="text-center text-xs text-text-secondary/40 mt-4 font-mono">v2.4.0 (Build 20231025)</p>
+</div>
+</div>
+</div>
+</body></html>

@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Editor Visual Plugin</title>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Noto+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Theme Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#135bec",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#101622",
+                        "surface-dark": "#1c1f27",
+                        "surface-border": "#2d3342",
+                        "text-secondary": "#9da6b9"
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"],
+                        "body": ["Noto Sans", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom Pattern for Canvas Background */
+        .bg-grid-pattern {
+            background-image: radial-gradient(#2d3342 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        
+        /* Hide scrollbar for clean look */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-white overflow-hidden h-screen flex flex-col">
+<!-- Top App Bar -->
+<header class="z-50 bg-background-dark border-b border-surface-border p-4 pb-2 flex items-center justify-between shrink-0">
+<div class="flex items-center gap-3">
+<button class="text-white flex size-10 shrink-0 items-center justify-center hover:bg-white/10 rounded-full transition-colors">
+<span class="material-symbols-outlined text-[24px]">arrow_back</span>
+</button>
+<div class="flex flex-col">
+<h2 class="text-white text-lg font-bold leading-tight tracking-[-0.015em]">PyFormatter</h2>
+<span class="text-text-secondary text-xs">v1.0.2 • Draft</span>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="flex items-center justify-center size-10 rounded-full hover:bg-white/10 text-text-secondary">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<div class="flex items-center justify-end">
+<button class="text-primary hover:text-blue-400 text-base font-bold leading-normal tracking-[0.015em] shrink-0 transition-colors">
+                    Save
+                </button>
+</div>
+</div>
+</header>
+<!-- Main Workspace (Canvas) -->
+<main class="relative flex-1 w-full overflow-hidden bg-background-dark cursor-grab active:cursor-grabbing group/canvas">
+<!-- Grid Background -->
+<div class="absolute inset-0 bg-grid-pattern opacity-20 pointer-events-none"></div>
+<!-- Connection Lines Layer (SVG) -->
+<svg class="absolute inset-0 w-full h-full pointer-events-none z-10 overflow-visible">
+<defs>
+<lineargradient id="gradient-line" x1="0%" x2="0%" y1="0%" y2="100%">
+<stop offset="0%" style="stop-color:#135bec;stop-opacity:1"></stop>
+<stop offset="100%" style="stop-color:#6366f1;stop-opacity:1"></stop>
+</lineargradient>
+</defs>
+<!-- Line 1: Trigger to Condition -->
+<path d="M 195 125 C 195 180, 195 180, 195 220" fill="none" stroke="url(#gradient-line)" stroke-linecap="round" stroke-width="3"></path>
+<!-- Line 2: Condition to Action -->
+<path d="M 195 365 C 195 400, 195 400, 195 440" fill="none" stroke="#6366f1" stroke-dasharray="6,4" stroke-linecap="round" stroke-width="3"></path>
+</svg>
+<!-- CANVAS CONTENT CONTAINER (Simulated Panning) -->
+<div class="absolute inset-0 w-full h-full">
+<!-- NODE 1: Trigger (Start) -->
+<div class="absolute left-1/2 top-[50px] -translate-x-1/2 z-20 w-[340px]">
+<div class="relative flex flex-col rounded-xl bg-surface-dark border-2 border-primary/50 shadow-[0_4px_20px_rgba(19,91,236,0.15)] group hover:border-primary transition-colors">
+<!-- Header -->
+<div class="flex items-center justify-between p-3 border-b border-surface-border bg-[#181b24] rounded-t-[10px]">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">bolt</span>
+<span class="text-white font-bold text-sm uppercase tracking-wider">Trigger</span>
+</div>
+<span class="material-symbols-outlined text-text-secondary text-sm cursor-pointer">more_horiz</span>
+</div>
+<!-- Body -->
+<div class="p-3 flex gap-3">
+<div class="flex flex-col gap-1 flex-1">
+<p class="text-white text-base font-bold leading-tight">On File Save</p>
+<p class="text-text-secondary text-xs font-normal leading-normal">Fires when user saves a file</p>
+<div class="mt-2 flex gap-2">
+<span class="px-2 py-0.5 rounded bg-blue-500/10 text-blue-400 text-[10px] font-medium border border-blue-500/20">Global</span>
+</div>
+</div>
+</div>
+<!-- Output Connector -->
+<div class="absolute -bottom-2 left-1/2 -translate-x-1/2 w-4 h-4 bg-background-dark border-2 border-primary rounded-full hover:scale-125 transition-transform cursor-pointer"></div>
+</div>
+</div>
+<!-- NODE 2: Condition -->
+<div class="absolute left-1/2 top-[220px] -translate-x-1/2 z-20 w-[340px]">
+<div class="relative flex flex-col rounded-xl bg-surface-dark border border-surface-border shadow-lg group hover:border-gray-500 transition-colors">
+<!-- Input Connector -->
+<div class="absolute -top-2 left-1/2 -translate-x-1/2 w-4 h-4 bg-background-dark border-2 border-primary rounded-full"></div>
+<!-- Header -->
+<div class="flex items-center justify-between p-3 border-b border-surface-border bg-[#181b24] rounded-t-xl">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-purple-400">call_split</span>
+<span class="text-white font-bold text-sm uppercase tracking-wider">Condition</span>
+</div>
+<span class="material-symbols-outlined text-text-secondary text-sm cursor-pointer">edit</span>
+</div>
+<!-- Body (Card Style) -->
+<div class="p-3 flex items-center gap-3">
+<div class="flex flex-col gap-1 flex-1">
+<p class="text-white text-base font-bold leading-tight">Is Python File?</p>
+<div class="flex items-center gap-2 bg-[#111318] p-2 rounded border border-surface-border mt-1">
+<span class="text-purple-400 text-xs font-mono">file.ext</span>
+<span class="text-text-secondary text-xs">==</span>
+<span class="text-green-400 text-xs font-mono">".py"</span>
+</div>
+</div>
+</div>
+<!-- Output Connector (True) -->
+<div class="absolute -bottom-2 left-1/2 -translate-x-1/2 w-4 h-4 bg-background-dark border-2 border-purple-500 rounded-full hover:scale-125 transition-transform cursor-pointer" title="True"></div>
+<!-- Output Connector (False) -->
+<div class="absolute top-1/2 -right-2 -translate-y-1/2 w-4 h-4 bg-background-dark border-2 border-red-500 rounded-full hover:scale-125 transition-transform cursor-pointer" title="False"></div>
+</div>
+</div>
+<!-- NODE 3: Action (Card Component Reuse) -->
+<div class="absolute left-1/2 top-[440px] -translate-x-1/2 z-20 w-[340px]">
+<div class="relative flex flex-col rounded-xl bg-surface-dark border border-surface-border shadow-lg group hover:border-gray-500 transition-colors">
+<!-- Input Connector -->
+<div class="absolute -top-2 left-1/2 -translate-x-1/2 w-4 h-4 bg-background-dark border-2 border-purple-500 rounded-full"></div>
+<div class="flex items-stretch justify-between gap-3 p-3">
+<div class="flex flex-col gap-1 flex-[2_2_0px]">
+<div class="flex items-center gap-2 mb-1">
+<span class="material-symbols-outlined text-green-400 text-sm">play_circle</span>
+<span class="text-text-secondary text-xs font-bold uppercase">Action</span>
+</div>
+<p class="text-white text-base font-bold leading-tight">Prettify Code</p>
+<p class="text-text-secondary text-xs font-normal leading-normal line-clamp-2">Formats the current document using standard PEP8 rules.</p>
+</div>
+<!-- Reusing the image concept from the Card component but smaller -->
+<div class="w-16 h-16 bg-center bg-no-repeat bg-cover rounded-lg flex-none border border-surface-border/50" data-alt="Abstract code syntax highlighting pattern preview" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAlwId5C93GzIR7ozR1kS_P-JaMu2tQvrnhHIU3wrJ1Hxbq_ru7xns-S5R6T07v8QqdAkwFpea_YlFP40FDKV8SahXnZN62rzxWKoygoKQV8RUvuV6IliVNN1tdATII5OHLkU8A3D1DQEbXxer0XvLdRT14fAPmyrY0hhG5uxp9pL0a4CHJGVjzgce4dG_KP1YyauNeDEXIgvOWCPa30U6jhSZtDLBXMjbiVyKPFayTnyEoxC45_TkG41lfGtT91eotcFDcM2LRET4B");'></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Mini-Map Overlay -->
+<div class="absolute top-4 right-4 w-24 h-32 bg-[#181b24]/90 border border-surface-border rounded-lg shadow-xl backdrop-blur-sm p-2 z-30 hidden sm:block">
+<div class="w-full h-full relative opacity-50">
+<div class="absolute top-2 left-1/2 -translate-x-1/2 w-8 h-4 bg-primary/40 rounded-sm"></div>
+<div class="absolute top-10 left-1/2 -translate-x-1/2 w-8 h-6 bg-white/20 rounded-sm"></div>
+<div class="absolute top-20 left-1/2 -translate-x-1/2 w-8 h-6 bg-white/20 rounded-sm border border-green-500/50"></div>
+<!-- Viewport Indicator -->
+<div class="absolute inset-0 border-2 border-primary rounded-sm"></div>
+</div>
+</div>
+<!-- Floating Controls (Bottom Left) -->
+<div class="absolute bottom-6 left-6 flex flex-col gap-2 z-30">
+<button class="size-10 flex items-center justify-center rounded-full bg-surface-dark border border-surface-border text-text-secondary shadow-lg hover:text-white hover:bg-surface-border transition-colors">
+<span class="material-symbols-outlined">add</span>
+</button>
+<button class="size-10 flex items-center justify-center rounded-full bg-surface-dark border border-surface-border text-text-secondary shadow-lg hover:text-white hover:bg-surface-border transition-colors">
+<span class="material-symbols-outlined">remove</span>
+</button>
+<button class="size-10 flex items-center justify-center rounded-full bg-surface-dark border border-surface-border text-text-secondary shadow-lg hover:text-white hover:bg-surface-border transition-colors">
+<span class="material-symbols-outlined">center_focus_strong</span>
+</button>
+</div>
+</main>
+<!-- Bottom Action Bar / FAB Container -->
+<div class="fixed bottom-0 left-0 w-full z-40 pointer-events-none">
+<!-- Gradient fade for better visibility -->
+<div class="absolute bottom-0 inset-x-0 h-32 bg-gradient-to-t from-background-dark to-transparent"></div>
+<div class="relative flex justify-between items-end px-5 pb-5 pointer-events-auto max-w-4xl mx-auto w-full">
+<!-- Quick Actions (Left - for larger screens or alternative layout) -->
+<div class="hidden md:flex gap-3">
+<!-- Hidden on mobile to keep clean -->
+</div>
+<!-- Bottom Sheet Toggle / Variables -->
+<button class="flex items-center gap-2 px-4 h-12 rounded-full bg-surface-dark border border-surface-border text-white shadow-lg backdrop-blur-md hover:bg-[#232732] transition-colors mr-auto">
+<span class="material-symbols-outlined text-purple-400">data_object</span>
+<span class="text-sm font-medium">Variables (3)</span>
+<span class="material-symbols-outlined text-text-secondary text-sm">expand_less</span>
+</button>
+<!-- Main Action: Add Node -->
+<button class="flex items-center justify-center h-14 pl-5 pr-7 rounded-2xl bg-primary text-white text-base font-bold tracking-[0.015em] shadow-[0_8px_30px_rgba(19,91,236,0.4)] hover:bg-blue-600 active:scale-95 transition-all gap-3">
+<div class="text-white" data-icon="Plus" data-size="24px" data-weight="regular">
+<span class="material-symbols-outlined">add_circle</span>
+</div>
+<span>Add Node</span>
+</button>
+<!-- Play / Test Button -->
+<button aria-label="Run Preview" class="flex items-center justify-center size-14 ml-4 rounded-full bg-[#1c1f27] border border-surface-border text-green-400 shadow-lg hover:bg-[#232732] active:scale-95 transition-all">
+<span class="material-symbols-outlined text-[28px]">play_arrow</span>
+</button>
+</div>
+</div>
+<!-- Context Menu (Hidden by default, shown for visualization of interaction) -->
+<!-- Ideally controlled by JS, here just statically positioned off-screen or not included to keep code clean as requested -->
+</body></html>

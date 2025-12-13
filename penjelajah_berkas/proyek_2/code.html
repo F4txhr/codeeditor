@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Project Explorer</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Noto+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#3b82f6",
+              "background-light": "#f6f6f8",
+              "background-dark": "#09090b", 
+              "surface-dark": "#18181b", 
+              "surface-hover": "#27272a",
+              "border-dark": "#27272a",
+              "text-secondary": "#a1a1aa",
+            },
+            fontFamily: {
+              "display": ["Space Grotesk", "sans-serif"],
+              "body": ["Noto Sans", "sans-serif"],
+            },
+            borderRadius: {
+              "DEFAULT": "0.25rem", 
+              "lg": "0.5rem", 
+              "xl": "0.75rem", 
+              "2xl": "1rem",
+              "full": "9999px"
+            },
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .icon-fill {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        body {
+            min-height: max(884px, 100dvh);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark min-h-screen text-slate-900 dark:text-gray-100 font-display overflow-hidden flex flex-col transition-colors duration-200">
+<header class="flex items-center justify-between px-4 pt-5 pb-3 bg-background-light dark:bg-background-dark/80 backdrop-blur-md sticky top-0 z-20 border-b border-gray-200 dark:border-border-dark transition-colors">
+<button class="flex items-center justify-center w-10 h-10 rounded-full hover:bg-gray-200 dark:hover:bg-surface-hover text-slate-700 dark:text-gray-400 transition-colors">
+<span class="material-symbols-outlined">arrow_back_ios_new</span>
+</button>
+<div class="flex flex-col items-center">
+<h1 class="text-base font-bold tracking-tight text-slate-900 dark:text-white">MyAwesomeApp</h1>
+<div class="flex items-center gap-1.5 mt-0.5">
+<span class="text-[10px] text-gray-500 dark:text-gray-400 font-medium tracking-wide uppercase">Workspace</span>
+<span class="w-0.5 h-0.5 rounded-full bg-gray-400"></span>
+<span class="flex items-center gap-0.5 text-[10px] text-primary font-medium tracking-wide">
+<span class="material-symbols-outlined text-[12px] -mt-px">call_split</span>
+<span class="uppercase">main*</span>
+</span>
+</div>
+</div>
+<div class="flex items-center gap-1">
+<button class="flex items-center justify-center w-10 h-10 rounded-full hover:bg-gray-200 dark:hover:bg-surface-hover text-slate-700 dark:text-gray-400 transition-colors">
+<span class="material-symbols-outlined">more_horiz</span>
+</button>
+</div>
+</header>
+<main class="flex-1 overflow-y-auto relative flex flex-col w-full max-w-md mx-auto h-full">
+<div class="px-4 py-3 sticky top-0 z-10 bg-background-light dark:bg-background-dark/95 backdrop-blur-sm transition-colors">
+<div class="relative group">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-gray-400 dark:text-gray-500 group-focus-within:text-primary transition-colors text-[20px]">search</span>
+</div>
+<input class="block w-full pl-10 pr-12 py-2.5 border-none rounded-xl text-sm bg-white dark:bg-surface-dark text-slate-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-primary/50 shadow-sm dark:shadow-none transition-colors" placeholder="Search files (Cmd+P)..." type="text"/>
+<div class="absolute inset-y-0 right-0 pr-2 flex items-center">
+<button class="px-1.5 py-0.5 rounded bg-gray-100 dark:bg-surface-hover text-[10px] text-gray-500 dark:text-gray-400 font-mono border border-gray-200 dark:border-border-dark">⌘ P</button>
+</div>
+</div>
+</div>
+<div class="px-4 pb-1">
+<div class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-2 mask-linear">
+<div class="flex items-center gap-1 shrink-0 px-2 py-1.5 rounded-lg bg-white dark:bg-surface-dark border border-gray-200 dark:border-border-dark transition-colors">
+<span class="material-symbols-outlined text-[16px] text-primary">dns</span>
+<span class="text-xs font-medium text-slate-700 dark:text-gray-300">root</span>
+</div>
+<span class="material-symbols-outlined text-gray-400 dark:text-gray-600 text-[12px]">chevron_right</span>
+<div class="flex items-center gap-1 shrink-0 px-2 py-1.5 rounded-lg bg-white dark:bg-surface-dark border border-gray-200 dark:border-border-dark transition-colors">
+<span class="material-symbols-outlined text-[16px] text-amber-500 dark:text-amber-400 icon-fill">folder</span>
+<span class="text-xs font-medium text-amber-600 dark:text-amber-400">src</span>
+</div>
+<span class="material-symbols-outlined text-gray-400 dark:text-gray-600 text-[12px]">chevron_right</span>
+<div class="flex items-center gap-1 shrink-0 px-2 py-1.5 rounded-lg bg-primary/10 border border-primary/20 transition-colors">
+<span class="material-symbols-outlined text-[16px] text-blue-400 icon-fill">folder_open</span>
+<span class="text-xs font-medium text-primary">components</span>
+</div>
+</div>
+</div>
+<div class="px-4 py-2 flex items-center justify-between gap-3 relative z-30">
+<div class="flex bg-gray-200 dark:bg-surface-hover p-0.5 rounded-lg">
+<button class="p-1.5 rounded-md text-gray-500 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[20px]">grid_view</span>
+</button>
+<button class="p-1.5 rounded-md text-gray-500 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[20px]">view_list</span>
+</button>
+<button class="p-1.5 rounded-md bg-white dark:bg-surface-dark shadow-sm text-primary dark:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">view_stream</span>
+</button>
+</div>
+<div class="h-4 w-px bg-gray-200 dark:bg-border-dark"></div>
+<div class="flex items-center gap-2 ml-auto relative">
+<button class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-surface-hover text-gray-600 dark:text-gray-400 transition-colors">
+<span class="material-symbols-outlined text-[18px]">sort</span>
+<span class="text-xs font-medium">Date</span>
+</button>
+<button class="flex items-center justify-center w-8 h-8 rounded-lg bg-primary text-white shadow-sm shadow-primary/30 transition-colors relative z-40">
+<span class="material-symbols-outlined text-[18px]">filter_list</span>
+</button>
+<div class="absolute top-full right-0 mt-2 w-64 bg-white/95 dark:bg-surface-dark/95 backdrop-blur-xl border border-gray-200 dark:border-border-dark rounded-xl shadow-2xl z-50 overflow-hidden ring-1 ring-black/5 animate-in fade-in zoom-in-95 duration-200 origin-top-right">
+<div class="py-1">
+<div class="px-3 py-2 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Sort by</div>
+<button class="w-full flex items-center justify-between px-3 py-2 text-sm text-slate-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-surface-hover transition-colors">
+<div class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-[18px] text-gray-400">sort_by_alpha</span>
+<span>Name</span>
+</div>
+</button>
+<button class="w-full flex items-center justify-between px-3 py-2 text-sm text-primary bg-primary/5 dark:bg-primary/10 font-medium transition-colors">
+<div class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-[18px]">calendar_today</span>
+<span>Date Modified</span>
+</div>
+<span class="material-symbols-outlined text-[18px]">check</span>
+</button>
+<button class="w-full flex items-center justify-between px-3 py-2 text-sm text-slate-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-surface-hover transition-colors">
+<div class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-[18px] text-gray-400">data_usage</span>
+<span>Size</span>
+</div>
+</button>
+<button class="w-full flex items-center justify-between px-3 py-2 text-sm text-slate-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-surface-hover transition-colors">
+<div class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-[18px] text-gray-400">category</span>
+<span>Type</span>
+</div>
+</button>
+</div>
+<div class="h-px bg-gray-200 dark:bg-border-dark my-1 mx-3"></div>
+<div class="py-1">
+<div class="px-3 py-2 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Filter</div>
+<div class="flex items-center justify-between px-3 py-2 cursor-pointer hover:bg-gray-50 dark:hover:bg-surface-hover transition-colors">
+<div class="flex flex-col">
+<span class="text-sm font-medium text-slate-900 dark:text-gray-200">Hide Ignored</span>
+<span class="text-[10px] text-gray-500">.gitignore files</span>
+</div>
+<span class="material-symbols-outlined text-[24px] text-primary">toggle_on</span>
+</div>
+<div class="flex items-center justify-between px-3 py-2 cursor-pointer hover:bg-gray-50 dark:hover:bg-surface-hover transition-colors">
+<div class="flex flex-col">
+<span class="text-sm font-medium text-slate-900 dark:text-gray-200">Hide Binary</span>
+<span class="text-[10px] text-gray-500">Images, executables</span>
+</div>
+<span class="material-symbols-outlined text-[24px] text-gray-300 dark:text-gray-600">toggle_off</span>
+</div>
+<div class="flex items-center justify-between px-3 py-2 cursor-pointer hover:bg-gray-50 dark:hover:bg-surface-hover transition-colors">
+<div class="flex flex-col">
+<span class="text-sm font-medium text-slate-900 dark:text-gray-200">Show Source Only</span>
+<span class="text-[10px] text-gray-500">Code files only</span>
+</div>
+<span class="material-symbols-outlined text-[24px] text-gray-300 dark:text-gray-600">toggle_off</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="px-4 py-2 flex gap-3">
+<button class="flex-1 flex items-center justify-center gap-2 py-2 bg-primary hover:bg-blue-600 text-white rounded-lg shadow-lg shadow-primary/20 dark:shadow-none active:scale-95 transition-all">
+<span class="material-symbols-outlined text-[18px]">note_add</span>
+<span class="text-xs font-bold">New File</span>
+</button>
+<button class="flex-1 flex items-center justify-center gap-2 py-2 bg-white dark:bg-surface-dark text-slate-700 dark:text-gray-300 border border-gray-200 dark:border-border-dark rounded-lg shadow-sm dark:shadow-none active:bg-gray-50 dark:active:bg-surface-hover transition-colors">
+<span class="material-symbols-outlined text-[18px]">create_new_folder</span>
+<span class="text-xs font-bold">New Folder</span>
+</button>
+</div>
+<div class="flex-1 px-2 pt-1 pb-24">
+<div class="flex flex-col gap-1">
+<div class="group flex items-center h-14 px-2 rounded-lg hover:bg-gray-100 dark:hover:bg-surface-hover cursor-pointer transition-colors">
+<span class="material-symbols-outlined text-gray-400 dark:text-gray-500 text-[20px] mr-1 transition-colors">chevron_right</span>
+<span class="material-symbols-outlined text-gray-500 dark:text-gray-500 text-[24px] mr-3 icon-fill">folder</span>
+<div class="flex-1 flex flex-col justify-center">
+<span class="text-sm text-gray-600 dark:text-text-secondary font-medium leading-tight">.vscode</span>
+<span class="text-[10px] text-gray-400 dark:text-gray-600 mt-0.5 font-mono">Oct 24 • Folder</span>
+</div>
+</div>
+<div class="group flex items-center h-14 px-2 rounded-lg hover:bg-gray-100 dark:hover:bg-surface-hover cursor-pointer transition-colors opacity-70">
+<span class="material-symbols-outlined text-gray-400 dark:text-gray-500 text-[20px] mr-1">chevron_right</span>
+<span class="material-symbols-outlined text-emerald-600 dark:text-emerald-700 text-[24px] mr-3 icon-fill">folder</span>
+<div class="flex-1 flex flex-col justify-center">
+<span class="text-sm text-gray-600 dark:text-text-secondary font-medium leading-tight">node_modules</span>
+<span class="text-[10px] text-gray-400 dark:text-gray-600 mt-0.5 font-mono">Ignored</span>
+</div>
+</div>
+<div class="group flex items-center h-14 px-2 rounded-lg bg-gray-100 dark:bg-surface-hover cursor-pointer transition-colors">
+<span class="material-symbols-outlined text-slate-700 dark:text-gray-300 text-[20px] mr-1 rotate-90">chevron_right</span>
+<span class="material-symbols-outlined text-amber-500 dark:text-amber-400 text-[24px] mr-3 icon-fill">folder_open</span>
+<div class="flex-1 flex flex-col justify-center">
+<span class="text-sm text-slate-900 dark:text-white font-bold leading-tight">src</span>
+<span class="text-[10px] text-gray-500 dark:text-gray-400 mt-0.5 font-mono">Just now • Folder</span>
+</div>
+<span class="w-1.5 h-1.5 rounded-full bg-amber-400 mr-1 shadow-[0_0_6px_rgba(251,191,36,0.4)]"></span>
+</div>
+<div class="group flex items-center h-14 px-2 pl-8 rounded-lg hover:bg-gray-100 dark:hover:bg-surface-hover cursor-pointer transition-colors relative">
+<div class="absolute left-[19px] top-0 bottom-0 w-px bg-gray-200 dark:bg-border-dark"></div>
+<span class="material-symbols-outlined text-gray-400 dark:text-gray-500 text-[20px] mr-1">chevron_right</span>
+<span class="material-symbols-outlined text-purple-400 dark:text-purple-400 text-[24px] mr-3 icon-fill">folder</span>
+<div class="flex-1 flex flex-col justify-center">
+<span class="text-sm text-slate-700 dark:text-gray-300 font-medium leading-tight">assets</span>
+<span class="text-[10px] text-gray-400 dark:text-gray-500 mt-0.5 font-mono">Yesterday • Folder</span>
+</div>
+</div>
+<div class="group flex items-center h-14 px-2 pl-8 rounded-lg hover:bg-gray-100 dark:hover:bg-surface-hover cursor-pointer transition-colors relative">
+<div class="absolute left-[19px] top-0 bottom-0 w-px bg-gray-200 dark:bg-border-dark"></div>
+<span class="material-symbols-outlined text-slate-700 dark:text-gray-300 text-[20px] mr-1 rotate-90">chevron_right</span>
+<span class="material-symbols-outlined text-blue-400 text-[24px] mr-3 icon-fill">folder_open</span>
+<div class="flex-1 flex flex-col justify-center">
+<span class="text-sm text-slate-700 dark:text-gray-300 font-medium leading-tight">components</span>
+<span class="text-[10px] text-gray-400 dark:text-gray-500 mt-0.5 font-mono">2 mins ago • Folder</span>
+</div>
+</div>
+<div class="group flex items-center h-14 px-2 pl-14 rounded-lg hover:bg-gray-100 dark:hover:bg-surface-hover cursor-pointer transition-colors relative">
+<div class="absolute left-[19px] top-0 bottom-0 w-px bg-gray-200 dark:bg-border-dark"></div>
+<div class="absolute left-[43px] top-0 bottom-1/2 w-px bg-gray-200 dark:bg-border-dark"></div>
+<div class="absolute left-[43px] top-1/2 w-3 h-px bg-gray-200 dark:bg-border-dark"></div>
+<span class="material-symbols-outlined text-cyan-500 dark:text-cyan-400 text-[24px] mr-3">code</span>
+<div class="flex-1 flex flex-col justify-center">
+<span class="text-sm text-amber-600 dark:text-amber-400 font-medium leading-tight">Header.tsx</span>
+<span class="text-[10px] text-gray-400 dark:text-gray-500 mt-0.5 font-mono">2 mins ago • 2.4 KB</span>
+</div>
+<span class="ml-auto text-[10px] font-bold px-1.5 py-0.5 rounded bg-amber-100 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-200 dark:border-amber-500/20">M</span>
+</div>
+<div class="group flex items-center h-14 px-2 pl-14 rounded-lg hover:bg-gray-100 dark:hover:bg-surface-hover cursor-pointer transition-colors relative">
+<div class="absolute left-[19px] top-0 bottom-0 w-px bg-gray-200 dark:bg-border-dark"></div>
+<span class="material-symbols-outlined text-cyan-500 dark:text-cyan-400 text-[24px] mr-3">code</span>
+<div class="flex-1 flex flex-col justify-center">
+<span class="text-sm text-emerald-600 dark:text-emerald-400 font-medium leading-tight">Button.tsx</span>
+<span class="text-[10px] text-gray-400 dark:text-gray-500 mt-0.5 font-mono">Just now • 1.1 KB</span>
+</div>
+<span class="ml-auto text-[10px] font-bold px-1.5 py-0.5 rounded bg-emerald-100 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/20">U</span>
+</div>
+<div class="group flex items-center h-14 px-2 pl-8 rounded-lg bg-primary/5 dark:bg-primary/5 border border-primary/20 dark:border-primary/20 cursor-pointer transition-colors relative">
+<div class="absolute left-[19px] top-0 bottom-0 w-px bg-gray-200 dark:bg-border-dark"></div>
+<span class="material-symbols-outlined text-cyan-500 dark:text-cyan-400 text-[24px] mr-3">code</span>
+<div class="flex-1 flex flex-col justify-center">
+<span class="text-sm text-primary font-bold leading-tight">App.tsx</span>
+<span class="text-[10px] text-primary/70 mt-0.5 font-mono">1 hour ago • 4.2 KB</span>
+</div>
+<span class="ml-auto text-[10px] font-bold px-1.5 py-0.5 rounded bg-primary text-white shadow-sm">A</span>
+</div>
+<div class="group flex items-center h-14 px-2 pl-8 rounded-lg hover:bg-gray-100 dark:hover:bg-surface-hover cursor-pointer transition-colors relative">
+<div class="absolute left-[19px] top-0 h-6 w-px bg-gray-200 dark:bg-border-dark"></div>
+<div class="absolute left-[19px] top-6 w-3 h-px bg-gray-200 dark:bg-border-dark"></div>
+<span class="material-symbols-outlined text-blue-500 dark:text-blue-400 text-[24px] mr-3">css</span>
+<div class="flex-1 flex flex-col justify-center">
+<span class="text-sm text-slate-700 dark:text-gray-300 font-medium leading-tight">index.css</span>
+<span class="text-[10px] text-gray-400 dark:text-gray-500 mt-0.5 font-mono">3 days ago • 840 B</span>
+</div>
+</div>
+<div class="mt-1"></div>
+<div class="group flex items-center h-14 px-2 rounded-lg hover:bg-gray-100 dark:hover:bg-surface-hover cursor-pointer transition-colors">
+<span class="w-5 mr-1"></span>
+<span class="material-symbols-outlined text-orange-600 dark:text-orange-500 text-[24px] mr-3">gavel</span>
+<div class="flex-1 flex flex-col justify-center">
+<span class="text-sm text-slate-700 dark:text-gray-300 font-medium leading-tight">.gitignore</span>
+<span class="text-[10px] text-gray-400 dark:text-gray-500 mt-0.5 font-mono">Nov 10 • 128 B</span>
+</div>
+</div>
+<div class="group flex items-center h-14 px-2 rounded-lg hover:bg-gray-100 dark:hover:bg-surface-hover cursor-pointer transition-colors">
+<span class="w-5 mr-1"></span>
+<span class="material-symbols-outlined text-rose-500 dark:text-rose-400 text-[24px] mr-3">data_object</span>
+<div class="flex-1 flex flex-col justify-center">
+<span class="text-sm text-rose-600 dark:text-rose-400 font-medium leading-tight">package.json</span>
+<span class="text-[10px] text-rose-400/70 mt-0.5 font-mono">Conflict • 1.2 KB</span>
+</div>
+<span class="ml-auto flex items-center gap-2">
+<span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-rose-100 dark:bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-200 dark:border-rose-500/20">!</span>
+</span>
+</div>
+<div class="group flex items-center h-14 px-2 rounded-lg hover:bg-gray-100 dark:hover:bg-surface-hover cursor-pointer transition-colors">
+<span class="w-5 mr-1"></span>
+<span class="material-symbols-outlined text-blue-400 dark:text-blue-300 text-[24px] mr-3">info</span>
+<div class="flex-1 flex flex-col justify-center">
+<span class="text-sm text-slate-700 dark:text-gray-300 font-medium leading-tight">README.md</span>
+<span class="text-[10px] text-gray-400 dark:text-gray-500 mt-0.5 font-mono">Last month • 3.5 KB</span>
+</div>
+</div>
+</div>
+<div class="mt-8 flex flex-col items-center justify-center opacity-30 pointer-events-none">
+<span class="material-symbols-outlined text-[48px] text-gray-500 dark:text-gray-700 mb-2">deployed_code</span>
+<p class="text-xs font-display text-gray-500 dark:text-gray-600">End of project files</p>
+</div>
+</div>
+</main>
+<nav class="fixed bottom-0 w-full bg-white dark:bg-background-dark/95 backdrop-blur-md border-t border-gray-200 dark:border-border-dark pb-safe pt-2 px-6 z-30 transition-colors">
+<div class="flex justify-between items-center max-w-md mx-auto">
+<button class="flex flex-col items-center gap-1 p-2 text-primary">
+<span class="material-symbols-outlined icon-fill">folder_copy</span>
+<span class="text-[10px] font-medium">Explorer</span>
+</button>
+<button class="flex flex-col items-center gap-1 p-2 text-gray-400 dark:text-gray-500 hover:text-primary dark:hover:text-primary transition-colors">
+<span class="material-symbols-outlined">search</span>
+<span class="text-[10px] font-medium">Search</span>
+</button>
+<button class="flex flex-col items-center gap-1 p-2 text-gray-400 dark:text-gray-500 hover:text-primary dark:hover:text-primary transition-colors">
+<span class="material-symbols-outlined">terminal</span>
+<span class="text-[10px] font-medium">Terminal</span>
+</button>
+<button class="flex flex-col items-center gap-1 p-2 text-gray-400 dark:text-gray-500 hover:text-primary dark:hover:text-primary transition-colors">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-[10px] font-medium">Settings</span>
+</button>
+</div>
+<div class="h-5 w-full"></div>
+</nav>
+<button class="fixed right-6 bottom-24 w-12 h-12 bg-primary rounded-full shadow-lg shadow-primary/40 dark:shadow-blue-900/20 flex items-center justify-center text-white z-20 hover:scale-105 active:scale-95 transition-all">
+<span class="material-symbols-outlined">play_arrow</span>
+</button>
+</body></html>
