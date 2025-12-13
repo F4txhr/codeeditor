@@ -33,6 +33,144 @@ body {
   color: #e5e7eb;
 }
 
+/* ===== Editor Kode 1 layout ===== */
+
+.ek-root {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: #020617;
+  color: #e5e7eb;
+}
+
+.ek-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.6rem 0.9rem;
+  border-bottom: 1px solid #111827;
+  background: #020617;
+}
+
+.ek-header-left {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.ek-header-meta {
+  display: flex;
+  flex-direction: column;
+}
+
+.ek-file-name {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.ek-file-path {
+  font-size: 0.72rem;
+  color: #9ca3af;
+}
+
+.ek-header-right {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.ek-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 9999px;
+  background: #eab308;
+}
+
+.ek-icon-button {
+  width: 2.3rem;
+  height: 2.3rem;
+  border-radius: 0.7rem;
+  border: none;
+  background: transparent;
+  color: #9ca3af;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.ek-icon-primary {
+  background: rgba(37, 99, 235, 0.15);
+  color: #60a5fa;
+}
+
+.ek-main {
+  flex: 1;
+  min-height: 0;
+}
+
+/* Toolbar bawah */
+
+.ek-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.35rem 0.6rem;
+  border-top: 1px solid #111827;
+  background: #020617;
+  gap: 0.5rem;
+}
+
+.ek-toolbar-left {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+}
+
+.ek-toolbar-right {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.ek-key-button {
+  min-width: 40px;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.45rem;
+  border: none;
+  background: #111827;
+  color: #e5e7eb;
+  font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco,
+    Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 0.7rem;
+  cursor: pointer;
+  transition: background 120ms ease, color 120ms ease, transform 80ms ease;
+}
+
+.ek-key-button:hover {
+  background: #1f2937;
+}
+
+.ek-key-button:active {
+  transform: scale(0.97);
+}
+
+.ek-key-primary {
+  color: #60a5fa;
+}
+
+/* Hide previously unused layout (sidebar, tabs, status) */pp shell */
+
+.cx-root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #020617;
+  color: #e5e7eb;
+}
+
 .cx-header {
   display: flex;
   align-items: center;
