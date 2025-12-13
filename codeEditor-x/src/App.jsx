@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import EditorKode1 from "./EditorKode1";
+import EditorWorkspace from "./EditorWorkspace";
+import GitView from "./GitView";
 
 const screens = [
   { id: "editor_kode_1", group: "Editor", label: "Editor Kode 1", type: "react" },
-  { id: "editor_kode_2.html", group: "Editor", label: "Editor Kode 2 - Workspace", type: "iframe" },
-  { id: "manajemen_git.html", group: "Proyek & Integrasi", label: "Manajemen Git", type: "iframe" },
+  { id: "editor_workspace", group: "Editor", label: "Editor Kode 2 - Workspace", type: "react" },
+  { id: "manajemen_git", group: "Proyek & Integrasi", label: "Manajemen Git", type: "react" },
   { id: "integrasi_ci_cd.html", group: "Proyek & Integrasi", label: "Integrasi CI/CD", type: "iframe" },
   { id: "manajemen_bahasa.html", group: "Proyek & Integrasi", label: "Manajemen Bahasa", type: "iframe" },
   { id: "manajer_dependensi.html", group: "Proyek & Integrasi", label: "Manajer Dependensi", type: "iframe" },
@@ -39,8 +41,10 @@ function App() {
 
   const renderContent = () => {
     if (!currentScreen) return null;
-    if (currentScreen.type === "react" && currentScreen.id === "editor_kode_1") {
-      return <EditorKode1 />;
+    if (currentScreen.type === "react") {
+      if (currentScreen.id === "editor_kode_1") return <EditorKode1 />;
+      if (currentScreen.id === "editor_workspace") return <EditorWorkspace />;
+      if (currentScreen.id === "manajemen_git") return <GitView />;
     }
     // fallback ke iframe untuk screen lain
     return (

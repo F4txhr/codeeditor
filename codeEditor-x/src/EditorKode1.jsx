@@ -7,22 +7,60 @@ import { useEffect, useRef, useState } from "react";
  * - Header dengan nama file dan path
  * - Editor berbasis &lt;textarea&gt; dengan styling monospaced
  * - Tombol shortcut: { }, ( ), [ ], =, " dan TAB
+ * - Undo/redo sederhana
  * - Tombol Save menyimpan konten ke localStorage dan menampilkan notifikasi sederhana
  */
 function EditorKode1() {
   const [code, setCode] = useState("");
   const [savedMessage, setSavedMessage] = useState("");
+  const [history, setHistory] = useState([]);
+  const [historyIndex, setHistoryIndex] = useState(-1);
   const textareaRef = useRef(null);
 
   // Muat konten awal dari localStorage atau snippet default
   useEffect(() => {
     const stored = window.localStorage.getItem("editor_kode_1_code");
-    if (stored != null) {
-      setCode(stored);
-    } else {
-      setCode(defaultSnippet.trimStart());
-    }
+    const initial = stored != null ? stored : defaultSnippet.trimStart();
+    setCode(initial);
+    setHistory([initial]);
+    setHistoryIndex(0);
   }, []);
+
+  // Helper untuk push state ke history
+  const pushHistory = (nextCode) => {
+    setHistory((prev) => {
+      const trimmed = prev.slice(0, historyIndex + 1);
+      const updated = [...trimmed, nextCode].slice(-100); // batasi 100 langkah
+      return updated;
+    });
+    setHistoryIndex((idx) => Math.min(idx + 1, 99));
+  };
+
+  // Undo / redo
+  const canUndo = historyIndex > 0;
+  const canRedo = historyIndex >= 0 && historyIndex < history.length - 1;
+
+  const handleUndo = () => {
+    if (!canUndo) return;
+    const nextIndex = historyIndex - 1;
+    setHistoryIndex(nextIndex);
+    const value = history[nextIndex];
+    setCode(value);
+  };
+
+  const handleRedo = () => {
+    if (!canRedo) return;
+    const nextIndex = historyIndex + 1;
+    setHistoryIndex(nextIndex);
+    const value = history[nextIndex];
+    setCode(value);
+  };
+
+  // On change textarea
+  const handleChange = (value) => {
+    setCode(value);
+    pushHistory(value);
+  };
 
   // Helper untuk menyisipkan teks pada posisi kursor
   const insertAtCursor = (text, placeCursorBeforeClose = false) => {
@@ -39,11 +77,11 @@ function EditorKode1() {
 
     // Untuk pasangan seperti "{ }" kita bisa tempatkan kursor di tengah
     if (placeCursorBeforeClose && text.length === 3) {
-      // contoh format teks: "{ }"
       cursorPos = start + 2;
     }
 
     setCode(newText);
+    pushHistory(newText);
 
     // Set ulang posisi cursor setelah update state
     window.requestAnimationFrame(() => {
@@ -88,6 +126,8 @@ function EditorKode1() {
     }
   };
 
+  const lines = code.split("\n").length;
+
   return (
     <div className="ek1-root">
       {/* Header */}
@@ -113,7 +153,7 @@ function EditorKode1() {
       <main className="ek1-main">
         {/* Gutter */}
         <aside className="ek1-gutter">
-          {Array.from({ length: 30 }).map((_, idx) => (
+          {Array.from({ length: lines || 1 }).map((_, idx) => (
             <div key={idx} className="ek1-gutter-line">
               {idx + 1}
             </div>
@@ -126,7 +166,7 @@ function EditorKode1() {
             ref={textareaRef}
             className="ek1-textarea"
             value={code}
-            onChange={(e) => setCode(e.target.value)}
+            onChange={(e) => handleChange(e.target.value)}
             spellCheck={false}
           />
         </section>
@@ -135,6 +175,21 @@ function EditorKode1() {
       {/* Toolbar */}
       <div className="ek1-toolbar">
         <div className="ek1-toolbar-left">
+          <button
+            className="ek1-key-button"
+            onClick={handleUndo}
+            disabled={!canUndo}
+          >
+            Undo
+          </button>
+          <button
+            className="ek1-key-button"
+            onClick={handleRedo}
+            disabled={!canRedo}
+          >
+            Redo
+          </button>
+
           <button
             className="ek1-key-button"
             onClick={() => handleKeyInsert("brace")}
@@ -173,6 +228,14 @@ function EditorKode1() {
           </button>
         </div>
         <div className="ek1-toolbar-right">
+          <span className="ek1-save-message">
+            Ln {lines}, Col {/* kolom kasar */}
+            {(() => {
+              const textarea = textareaRef.current;
+              if (!textarea) return 1;
+              return textarea.selectionStart ?? 1;
+            })()}
+          </span>
           <button className="ek1-icon-button" onClick={handleSave}>
             <span className="material-symbols-outlined">save</span>
           </button>
