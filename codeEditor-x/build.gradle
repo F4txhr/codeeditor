@@ -1,12 +1,11 @@
 buildscript {
     ext {
-        // Versi yang lebih kompatibel dengan Gradle 6.1.1 dan JDK 8 (umum di AIDE)
         kotlin_version = "1.4.32"
     }
     repositories {
         google()
         mavenCentral()
-        jcenter()
+        // jcenter() removed for Gradle 7+/9 compatibility
     }
     dependencies {
         classpath "com.android.tools.build:gradle:4.0.2"
@@ -18,7 +17,7 @@ allprojects {
     repositories {
         google()
         mavenCentral()
-        jcenter()
+        // jcenter() removed for Gradle 7+/9 compatibility
     }
 }
 
