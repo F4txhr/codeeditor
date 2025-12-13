@@ -2,13 +2,12 @@ apply plugin: "com.android.application"
 apply plugin: "kotlin-android"
 
 android {
-    namespace "com.codeeditorx.app"
-    compileSdkVersion 34
+    compileSdkVersion 30
 
     defaultConfig {
         applicationId "com.codeeditorx.app"
         minSdkVersion 21
-        targetSdkVersion 34
+        targetSdkVersion 30
         versionCode 1
         versionName "1.0"
     }
@@ -28,20 +27,20 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_17
-        targetCompatibility JavaVersion.VERSION_17
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 
     kotlinOptions {
-        jvmTarget = "17"
+        jvmTarget = "1.8"
     }
 }
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
-    implementation "androidx.core:core-ktx:1.12.0"
-    implementation "androidx.appcompat:appcompat:1.6.1"
-    implementation "com.google.android.material:material:1.11.0"
-    implementation "androidx.constraintlayout:constraintlayout:2.1.4"
+    implementation "androidx.core:core-ktx:1.6.0"
+    implementation "androidx.appcompat:appcompat:1.3.1"
+    implementation "com.google.android.material:material:1.4.0"
+    implementation "androidx.constraintlayout:constraintlayout:2.0.4"
 }
