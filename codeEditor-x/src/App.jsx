@@ -1,14 +1,19 @@
 import { useEffect, useState } from "react";
 import EditorScreen from "./EditorScreen";
+import Sidebar from "./components/Sidebar";
 
 /**
- * App sekarang fokus ke satu layar utama:
- * - Editor tunggal dengan layout mirip desain "Editor Kode 1"
- * - Konten disimpan ke localStorage
+ * App shell:
+ * - Sidebar (Explorer) yang berfungsi
+ * - Editor utama dengan layout mirip "Editor Kode 1"
+ * - Multi-file disimpan di localStorage
  */
-const STORAGE_KEY = "cx-editor-main";
+const STORAGE_KEY = "cx-files-main";
 
-const defaultCode = `import React, { useState, useEffect } from "react";
+const initialFiles = {
+  "src/components/index.js": {
+    language: "javascript",
+    content: `import React, { useState, useEffect } from "react";
 import { View, Text, Button } from "react-native";
 
 // Main Counter Component
@@ -31,26 +36,84 @@ export default function Counter() {
     </View>
   );
 }
-`;
+`
+  },
+  "src/styles.css": {
+    language: "css",
+    content: `body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: #020617;
+  color: #e5e7eb;
+}`
+  }
+};
 
 function App() {
-  const [code, setCode] = useState(defaultCode);
+  const [files, setFiles] = useState(initialFiles);
+  const [activePath, setActivePath] = useState("src/components/index.js");
 
   useEffect(() => {
     const saved = window.localStorage.getItem(STORAGE_KEY);
     if (saved != null) {
-      setCode(saved);
+      try {
+        const parsed = JSON.parse(saved);
+        if (parsed && typeof parsed === "object") {
+          setFiles(parsed);
+          const firstPath = Object.keys(parsed)[0];
+          if (firstPath) {
+            setActivePath(firstPath);
+          }
+        }
+      } catch {
+        // abaikan, pakai initialFiles
+      }
     }
   }, []);
 
-  const handleChange = (value) => {
-    setCode(value);
-    window.localStorage.setItem(STORAGE_KEY, value);
+  const persist = (nextFiles) => {
+    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(nextFiles));
   };
+
+  const handleChangeFile = (path, content) => {
+    setFiles((prev) => {
+      const next = {
+        ...prev,
+        [path]: {
+          ...(prev[path] || { language: "javascript" }),
+          content
+        }
+      };
+      persist(next);
+      return next;
+    });
+  };
+
+  const handleOpenFile = (path) => {
+    setActivePath(path);
+  };
+
+  const activeFile = files[activePath];
 
   return (
     <div className="cx-root">
-      <EditorScreen value={code} onChange={handleChange} />
+      <div className="cx-main">
+        <Sidebar
+          files={files}
+          activePath={activePath}
+          onOpenFile={handleOpenFile}
+        />
+        <div className="cx-editor-shell">
+          {activeFile && (
+            <EditorScreen
+              path={activePath}
+              language={activeFile.language}
+              value={activeFile.content}
+              onChange={(val) => handleChangeFile(activePath, val)}
+            />
+          )}
+        </div>
+      </div>
     </div>
   );
 }
