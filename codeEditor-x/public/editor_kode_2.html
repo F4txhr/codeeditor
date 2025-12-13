@@ -1,0 +1,227 @@
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Editor Kode - Workspace</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#3b82f6",
+              "background-light": "#f6f6f8",
+              "background-dark": "#1e1e1e",
+              "surface-dark": "#252526",
+              "editor-bg": "#1e1e1e",
+              "editor-gutter": "#1e1e1e",
+              "border-dark": "#333333",
+              "syntax-keyword": "#569cd6", 
+              "syntax-func": "#dcdcaa",
+              "syntax-string": "#ce9178",
+              "syntax-var": "#4ec9b0",
+              "syntax-comment": "#6a9955",
+              "syntax-tag": "#569cd6",
+              "syntax-attr": "#9cdcfe",
+            },
+            fontFamily: {
+              "display": ["Space Grotesk", "sans-serif"],
+              "mono": ["JetBrains Mono", "monospace"],
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .code-line {
+            counter-increment: line;
+            display: flex;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display antialiased overflow-hidden h-screen flex flex-col transition-colors duration-200">
+<header class="flex items-center justify-between px-3 py-2 bg-white dark:bg-surface-dark border-b border-gray-200 dark:border-border-dark shadow-sm z-30 transition-colors shrink-0">
+<div class="flex items-center gap-3">
+<button class="flex items-center justify-center p-2 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+<span class="material-symbols-outlined text-[24px]">menu</span>
+</button>
+<div class="flex flex-col cursor-pointer group hover:bg-gray-100 dark:hover:bg-[#333] px-2 py-0.5 rounded transition-colors">
+<div class="flex items-center gap-1">
+<span class="text-[10px] uppercase font-bold text-gray-500 tracking-wider">Workspace</span>
+<span class="material-symbols-outlined text-[12px] text-gray-500 group-hover:text-primary transition-colors">expand_more</span>
+</div>
+<h1 class="text-gray-900 dark:text-[#cccccc] text-sm font-bold leading-tight tracking-tight flex items-center gap-2">
+                Mobile-App-v2
+            </h1>
+</div>
+</div>
+<div class="flex items-center bg-gray-100 dark:bg-[#2d2d2d] rounded-lg p-1 border border-gray-200 dark:border-[#3e3e42] mx-2">
+<button class="p-1.5 rounded hover:bg-white dark:hover:bg-[#3e3e42] text-gray-500 dark:text-gray-400 transition-colors" title="Tab View">
+<span class="material-symbols-outlined text-[20px]">tab</span>
+</button>
+<button class="p-1.5 rounded bg-white dark:bg-[#0e639c] text-primary dark:text-white shadow-sm transition-colors" title="Split View">
+<span class="material-symbols-outlined text-[20px]">vertical_split</span>
+</button>
+<button class="p-1.5 rounded hover:bg-white dark:hover:bg-[#3e3e42] text-gray-500 dark:text-gray-400 transition-colors" title="Preview View">
+<span class="material-symbols-outlined text-[20px]">play_arrow</span>
+</button>
+</div>
+<div class="flex items-center gap-2">
+<button class="flex items-center justify-center h-9 w-9 rounded-lg text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+<span class="material-symbols-outlined text-[24px]">more_vert</span>
+</button>
+</div>
+</header>
+<main class="flex-1 relative flex overflow-hidden bg-editor-bg">
+<aside class="w-12 bg-[#2b2b2b] border-r border-border-dark flex flex-col items-center py-3 gap-5 z-20 shrink-0 select-none">
+<button class="text-gray-400 hover:text-white relative group">
+<span class="material-symbols-outlined text-[22px]">folder</span>
+</button>
+<button class="text-gray-400 hover:text-white relative group">
+<span class="material-symbols-outlined text-[22px]">search</span>
+</button>
+<button class="text-gray-400 hover:text-white relative group">
+<span class="material-symbols-outlined text-[22px]">source_environment</span>
+<span class="absolute -top-1 -right-1 flex h-3 w-3">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+<span class="relative inline-flex rounded-full h-3 w-3 bg-blue-500"></span>
+</span>
+</button>
+<div class="h-px w-6 bg-border-dark my-1"></div>
+<button class="text-white relative group">
+<span class="material-symbols-outlined text-[22px] text-primary">grid_view</span>
+<div class="absolute left-0 top-0 bottom-0 w-0.5 bg-primary rounded-r"></div>
+</button>
+</aside>
+<div class="flex-1 flex flex-col min-w-0 bg-editor-bg">
+<div class="flex overflow-x-auto bg-[#252526] border-b border-border-dark no-scrollbar select-none">
+<div class="flex items-center gap-2 px-3 py-2 bg-[#1e1e1e] border-t-2 border-primary min-w-[120px] max-w-[160px] border-r border-border-dark group cursor-pointer relative">
+<span class="material-symbols-outlined text-[16px] text-yellow-500">javascript</span>
+<span class="text-xs text-gray-200 truncate font-mono">index.js</span>
+<button class="ml-auto text-gray-500 hover:text-white"><span class="material-symbols-outlined text-[14px]">close</span></button>
+</div>
+<div class="flex items-center gap-2 px-3 py-2 text-gray-400 hover:bg-[#2a2d2e] min-w-[120px] max-w-[160px] border-r border-border-dark group cursor-pointer border-t-2 border-transparent">
+<span class="material-symbols-outlined text-[16px] text-blue-400">css</span>
+<span class="text-xs truncate font-mono">styles.css</span>
+<button class="ml-auto opacity-0 group-hover:opacity-100 text-gray-500 hover:text-white transition-opacity"><span class="material-symbols-outlined text-[14px]">close</span></button>
+</div>
+<div class="flex items-center gap-2 px-3 py-2 text-gray-400 hover:bg-[#2a2d2e] min-w-[120px] max-w-[160px] border-r border-border-dark group cursor-pointer border-t-2 border-transparent">
+<span class="material-symbols-outlined text-[16px] text-purple-400">data_object</span>
+<span class="text-xs truncate font-mono">data.json</span>
+<button class="ml-auto opacity-0 group-hover:opacity-100 text-gray-500 hover:text-white transition-opacity"><span class="material-symbols-outlined text-[14px]">close</span></button>
+</div>
+<div class="flex items-center justify-center px-2 text-gray-500 hover:text-gray-300 cursor-pointer">
+<span class="material-symbols-outlined text-[18px]">add</span>
+</div>
+</div>
+<div class="flex-1 flex flex-col relative">
+<div class="flex-1 flex min-h-0 relative group">
+<div class="w-10 flex-shrink-0 bg-[#1e1e1e] border-r border-[#2b2b2b] text-right py-2 pr-2 select-none z-0">
+<div class="font-mono text-xs leading-5 text-[#858585]">1</div>
+<div class="font-mono text-xs leading-5 text-[#858585]">2</div>
+<div class="font-mono text-xs leading-5 text-[#858585]">3</div>
+<div class="font-mono text-xs leading-5 text-[#858585]">4</div>
+<div class="font-mono text-xs leading-5 text-[#858585]">5</div>
+<div class="font-mono text-xs leading-5 text-[#858585]">6</div>
+<div class="font-mono text-xs leading-5 text-[#858585]">7</div>
+<div class="font-mono text-xs leading-5 text-[#858585]">8</div>
+<div class="font-mono text-xs leading-5 text-[#858585]">9</div>
+</div>
+<div class="flex-1 overflow-auto p-2 relative bg-[#1e1e1e]">
+<pre class="font-mono text-xs leading-5 text-[#d4d4d4] whitespace-pre"><span class="text-syntax-keyword">import</span> React <span class="text-syntax-keyword">from</span> <span class="text-syntax-string">'react'</span>;
+<span class="text-syntax-keyword">import</span> { View, Text } <span class="text-syntax-keyword">from</span> <span class="text-syntax-string">'react-native'</span>;
+<span class="text-syntax-keyword">import</span> styles <span class="text-syntax-keyword">from</span> <span class="text-syntax-string">'./styles'</span>;
+<span class="text-syntax-comment">// Main Component</span>
+<span class="text-syntax-keyword">export default function</span> <span class="text-syntax-func">App</span>() {
+  <span class="text-syntax-keyword">return</span> (
+    &lt;<span class="text-syntax-var">View</span> style={styles.container}&gt;
+      &lt;<span class="text-syntax-var">Text</span> style={styles.title}&gt;
+        Workspace Mode
+      &lt;/<span class="text-syntax-var">Text</span>&gt;
+    &lt;/<span class="text-syntax-var">View</span>&gt;
+  );
+}</pre>
+</div>
+<div class="absolute top-0 right-0 left-10 bg-[#1e1e1e]/90 backdrop-blur-sm px-4 py-1 flex items-center gap-1 text-[10px] text-gray-500 border-b border-[#2b2b2b] opacity-0 group-hover:opacity-100 transition-opacity">
+<span>src</span>
+<span class="material-symbols-outlined text-[10px]">chevron_right</span>
+<span>components</span>
+<span class="material-symbols-outlined text-[10px]">chevron_right</span>
+<span class="text-gray-300">index.js</span>
+</div>
+</div>
+<div class="h-1.5 bg-[#2b2b2b] hover:bg-primary cursor-row-resize flex justify-center items-center z-10 shadow-sm transition-colors">
+<div class="w-10 h-1 bg-[#444] rounded-full"></div>
+</div>
+<div class="flex-1 flex min-h-0 relative group border-t border-[#1e1e1e]">
+<div class="w-10 flex-shrink-0 bg-[#1e1e1e] border-r border-[#2b2b2b] text-right py-2 pr-2 select-none z-0">
+<div class="font-mono text-xs leading-5 text-[#858585]">1</div>
+<div class="font-mono text-xs leading-5 text-[#858585]">2</div>
+<div class="font-mono text-xs leading-5 text-[#858585]">3</div>
+<div class="font-mono text-xs leading-5 text-[#858585]">4</div>
+<div class="font-mono text-xs leading-5 text-[#858585]">5</div>
+<div class="font-mono text-xs leading-5 text-[#858585]">6</div>
+<div class="font-mono text-xs leading-5 text-[#858585]">7</div>
+</div>
+<div class="flex-1 overflow-auto p-2 relative bg-[#1e1e1e]">
+<pre class="font-mono text-xs leading-5 text-[#d4d4d4] whitespace-pre"><span class="text-syntax-tag">.container</span> {
+  <span class="text-syntax-attr">flex</span>: <span class="text-[#b5cea8]">1</span>;
+  <span class="text-syntax-attr">background-color</span>: <span class="text-[#ce9178]">#1e1e1e</span>;
+  <span class="text-syntax-attr">align-items</span>: <span class="text-[#ce9178]">center</span>;
+  <span class="text-syntax-attr">justify-content</span>: <span class="text-[#ce9178]">center</span>;
+}
+<span class="text-syntax-tag">.title</span> {
+  <span class="text-syntax-attr">font-size</span>: <span class="text-[#b5cea8]">20px</span>;
+  <span class="text-syntax-attr">font-weight</span>: <span class="text-[#ce9178]">bold</span>;
+  <span class="text-syntax-attr">color</span>: <span class="text-[#ce9178]">#ffffff</span>;
+}</pre>
+</div>
+<div class="absolute top-0 right-0 left-10 bg-[#1e1e1e]/90 backdrop-blur-sm px-4 py-1 flex items-center gap-1 text-[10px] text-gray-500 border-b border-[#2b2b2b] opacity-0 group-hover:opacity-100 transition-opacity">
+<span>src</span>
+<span class="material-symbols-outlined text-[10px]">chevron_right</span>
+<span>styles</span>
+<span class="material-symbols-outlined text-[10px]">chevron_right</span>
+<span class="text-gray-300">styles.css</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+<div class="h-6 bg-primary dark:bg-[#007acc] text-white flex items-center justify-between px-3 text-[10px] font-sans select-none z-40 shrink-0">
+<div class="flex items-center gap-3">
+<button class="flex items-center gap-1 font-medium hover:bg-white/10 px-1 rounded"><span class="material-symbols-outlined text-[12px]">source_environment</span> master*</button>
+<button class="flex items-center gap-1 opacity-80 hover:opacity-100 hover:bg-white/10 px-1 rounded cursor-pointer"><span class="material-symbols-outlined text-[12px]">sync</span></button>
+<span class="flex items-center gap-1 opacity-80"><span class="material-symbols-outlined text-[12px]">error</span> 0</span>
+<span class="flex items-center gap-1 opacity-80"><span class="material-symbols-outlined text-[12px]">warning</span> 0</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="opacity-80">Workspace: Split</span>
+<span class="opacity-80">UTF-8</span>
+<span class="opacity-80">JavaScript</span>
+<span class="material-symbols-outlined text-[12px] animate-pulse">wifi_tethering</span>
+</div>
+</div>
+
+</body></html>
