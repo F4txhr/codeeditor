@@ -112,48 +112,34 @@
 </div>
 <!-- Code Content -->
 <div class="flex-1 overflow-auto p-4 pt-4 pl-3" id="editor-content">
-<pre class="font-mono text-sm leading-6 text-gray-800 dark:text-gray-300 whitespace-pre"><span class="text-purple-600 dark:text-syntax-keyword">import</span> React, { useState, useEffect } <span class="text-purple-600 dark:text-syntax-keyword">from</span> <span class="text-green-600 dark:text-syntax-string">'react'</span>;
-<span class="text-purple-600 dark:text-syntax-keyword">import</span> { View, Text, Button } <span class="text-purple-600 dark:text-syntax-keyword">from</span> <span class="text-green-600 dark:text-syntax-string">'react-native'</span>;
+<div id="code-editor"
+     class="font-mono text-sm leading-6 text-gray-800 dark:text-gray-300 whitespace-pre outline-none min-h-[220px]"
+     contenteditable="true" spellcheck="false">
+import React, { useState, useEffect } from 'react';
+import { View, Text, Button } from 'react-native';
 
-<span class="text-gray-500 dark:text-syntax-comment">// Main Counter Component</span>
-<span class="text-purple-600 dark:text-syntax-keyword">function</span> <span class="text-blue-600 dark:text-syntax-func">Counter</span>() {
-  <span class="text-purple-600 dark:text-syntax-keyword">const</span> [count, setCount] = <span class="text-blue-600 dark:text-syntax-func">useState</span>(<span class="text-orange-600 dark:text-orange-400">0</span>);
+// Main Counter Component
+function Counter() {
+  const [count, setCount] = useState(0);
 
-  <span class="text-blue-600 dark:text-syntax-func">useEffect</span>(() =&gt; {
-    <span class="text-blue-600 dark:text-syntax-func">console</span>.<span class="text-blue-600 dark:text-syntax-func">log</span>(<span class="text-green-600 dark:text-syntax-string">`Current count: ${count}`</span>);
+  useEffect(() =&gt; {
+    console.log(`Current count: ${count}`);
   }, [count]);
 
-  <span class="text-purple-600 dark:text-syntax-keyword">return</span> (
-    &lt;<span class="text-red-500 dark:text-syntax-var">View</span> style={styles.container}&gt;
-      &lt;<span class="text-red-500 dark:text-syntax-var">Text</span> style={styles.title}&gt;
+  return (
+    &lt;View style={styles.container}&gt;
+      &lt;Text style={styles.title}&gt;
         You clicked {count} times
-      &lt;/<span class="text-red-500 dark:text-syntax-var">Text</span>&gt;
-      
-      &lt;<span class="text-red-500 dark:text-syntax-var">Button</span> 
-        onPress={() =&gt; <span class="text-blue-600 dark:text-syntax-func">setCount</span>(co<span class="w-0.5 h-5 -mb-1 inline-block bg-primary cursor-caret align-middle"></span>
+      &lt;/Text&gt;
+
+      &lt;Button
+        onPress={() =&gt; setCount(count + 1)}
       /&gt;
-    &lt;/<span class="text-red-500 dark:text-syntax-var">View</span>&gt;
+    &lt;/View&gt;
   );
 }
 
-<span class="text-purple-600 dark:text-syntax-keyword">export default</span> Counter;</pre>
-<!-- Autocomplete Overlay -->
-<div class="absolute top-[260px] left-[180px] w-48 bg-white dark:bg-[#1f232b] rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 overflow-hidden z-20">
-<div class="px-3 py-2 text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider border-b border-gray-100 dark:border-gray-700">Suggestions</div>
-<ul>
-<li class="flex items-center px-3 py-2 cursor-pointer bg-primary/10 text-primary dark:text-white border-l-2 border-primary">
-<span class="material-symbols-outlined text-[16px] mr-2">data_object</span>
-<span class="font-mono text-sm">count</span>
-</li>
-<li class="flex items-center px-3 py-2 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700/50 text-gray-700 dark:text-gray-300">
-<span class="material-symbols-outlined text-[16px] mr-2">data_object</span>
-<span class="font-mono text-sm">context</span>
-</li>
-<li class="flex items-center px-3 py-2 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700/50 text-gray-700 dark:text-gray-300">
-<span class="material-symbols-outlined text-[16px] mr-2">function</span>
-<span class="font-mono text-sm">console</span>
-</li>
-</ul>
+export default Counter;
 </div>
 </div>
 </main>
@@ -171,38 +157,75 @@
 </div>
 <!-- Coding Symbols -->
 <div class="flex items-center gap-2 flex-1 justify-center">
-<button class="h-9 min-w-[36px] px-2 rounded bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-200 font-mono text-sm font-medium transition-colors">
+<button data-insert="{ }" class="editor-key h-9 min-w-[36px] px-2 rounded bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-200 font-mono text-sm font-medium transition-colors">
                     { }
                 </button>
-<button class="h-9 min-w-[36px] px-2 rounded bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-200 font-mono text-sm font-medium transition-colors">
+<button data-insert="( )" class="editor-key h-9 min-w-[36px] px-2 rounded bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-200 font-mono text-sm font-medium transition-colors">
                     ( )
                 </button>
-<button class="h-9 min-w-[36px] px-2 rounded bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-200 font-mono text-sm font-medium transition-colors">
+<button data-insert="[ ]" class="editor-key h-9 min-w-[36px] px-2 rounded bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-200 font-mono text-sm font-medium transition-colors">
                     [ ]
                 </button>
-<button class="h-9 min-w-[36px] px-2 rounded bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-200 font-mono text-sm font-medium transition-colors">
+<button data-insert="=" class="editor-key h-9 min-w-[36px] px-2 rounded bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-200 font-mono text-sm font-medium transition-colors">
                     =
                 </button>
-<button class="h-9 min-w-[36px] px-2 rounded bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-200 font-mono text-sm font-medium transition-colors">
+<button data-insert="&quot;" class="editor-key h-9 min-w-[36px] px-2 rounded bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-200 font-mono text-sm font-medium transition-colors">
                     "
                 </button>
-<button class="h-9 min-w-[36px] px-2 rounded bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-800 dark:text-primary font-mono text-sm font-medium transition-colors">
+<button data-insert="\t" class="editor-key h-9 min-w-[36px] px-2 rounded bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-800 dark:text-primary font-mono text-sm font-medium transition-colors">
                     TAB
                 </button>
 </div>
 <!-- File Action -->
 <div class="flex items-center pl-2 border-l border-gray-200 dark:border-gray-700">
-<button class="p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-500 dark:text-gray-400">
+<button id="save-button" class="p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-500 dark:text-gray-400">
 <span class="material-symbols-outlined text-[20px]">save</span>
 </button>
 </div>
 </div>
 </div>
-<!-- Keyboard Placeholder -->
+<!-- Simple keyboard placeholder (no external image) -->
 <div class="relative w-full z-30 bg-background-light dark:bg-[#1a1d24]">
-<div class="w-full bg-center bg-no-repeat bg-cover block dark:hidden" data-alt="Light mode iOS keyboard layout" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAyjGCpAwbW7_vOGapz1kItfl2Aa9kNFVr9PBkxbf9Sp7Otjtqxv-GnS_RPlTYw0oeGHRVkVvib4PgLoxTrhatRTGxU0b_ug3qKpVh5WM9DJCOhSgSxDsQyqpw697-x32RGA_Jp7eXCRi0ATrXHbFvG4vDQRVNy3Z-t7kc7cyyhHMR4VXrSNEs2zIqKt7m9K2Dh8AfzVQuwG4fpB7rMyU0RmAFYibasy-oUSp_il6PAeZ7YMVwHNsrH0HcXOacdHlSzdTkmLIj-dH0t"); aspect-ratio: 375 / 260;'>
+<div class="w-full px-6 py-3">
+<div class="h-10 rounded-xl bg-gray-200 dark:bg-gray-800 flex items-center justify-center text-xs text-gray-500 dark:text-gray-400 font-mono">
+Simulasi keyboard perangkat akan muncul di bawah editor.
 </div>
-<div class="w-full bg-center bg-no-repeat bg-cover hidden dark:block" data-alt="Dark mode iOS keyboard layout" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDsDktyiyydwzYbYseX6qtQxAAM_ssnPXIgTYVKOgRt4k6Hrn5cbn_4JUmm_aj8utgp5WDa3s3MSCwLrGr700Rh3tpHMmceR7Ehc3FRTUIOaB00zjUOJMh50OCOKFHDiODX2SVaxkm9aP0rT1gGM5aqGcLl1KIWNSzgi3bo0-2LYOgTVTF-JVPZhs77ZSo6NBKO1NrvTiatma_twQ1gGF4kyd7dvjmZ_vhR3ngAqe6fc-L72fsX7T5bDw_C6BotMkwK7VdIwXeRugmS"); aspect-ratio: 375 / 260;'>
 </div>
 </div>
+<script>
+  (function () {
+    const editor = document.getElementById('code-editor');
+    if (!editor) return;
+
+    function insertText(text) {
+      editor.focus();
+      const selection = window.getSelection();
+      if (!selection || selection.rangeCount === 0) {
+        document.execCommand('insertText', false, text);
+        return;
+      }
+      const range = selection.getRangeAt(0);
+      range.deleteContents();
+      range.insertNode(document.createTextNode(text));
+      range.collapse(false);
+      selection.removeAllRanges();
+      selection.addRange(range);
+    }
+
+    document.querySelectorAll('.editor-key').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const value = btn.getAttribute('data-insert') || '';
+        insertText(value);
+      });
+    });
+
+    const saveButton = document.getElementById('save-button');
+    if (saveButton) {
+      saveButton.addEventListener('click', () => {
+        // Placeholder save handler - in a real app this would connect to native code
+        alert('Simulasi: kode tersimpan di buffer editor.');
+      });
+    }
+  })();
+</script>
 </body></html>
