@@ -1,0 +1,265 @@
+:root {
+  color-scheme: dark;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+body {
+  background: #020617;
+  color: #e5e7eb;
+}
+
+/* App shell */
+
+.cx-root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #020617;
+  color: #e5e7eb;
+}
+
+.cx-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.6rem 0.9rem;
+  border-bottom: 1px solid #111827;
+  background: #020617;
+}
+
+.cx-header-left {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.cx-logo {
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.cx-header-sub {
+  font-size: 0.75rem;
+  color: #64748b;
+}
+
+.cx-header-right {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.cx-header-button {
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: 0.6rem;
+  border: none;
+  background: transparent;
+  color: #9ca3af;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.cx-main {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+}
+
+/* Sidebar */
+
+.cx-sidebar {
+  width: 260px;
+  border-right: 1px solid #0f172a;
+  background: #020617;
+  display: flex;
+  flex-direction: column;
+}
+
+.cx-sidebar-header {
+  padding: 0.6rem 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cx-sidebar-title {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #64748b;
+}
+
+.cx-sidebar-icon-button {
+  width: 1.8rem;
+  height: 1.8rem;
+  border-radius: 0.45rem;
+  border: none;
+  background: transparent;
+  color: #64748b;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.cx-sidebar-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0.25rem 0.4rem 0.5rem;
+}
+
+.cx-sidebar-folder {
+  padding: 0.25rem 0.25rem;
+}
+
+.cx-sidebar-folder-label {
+  font-size: 0.75rem;
+  color: #e5e7eb;
+  margin-bottom: 0.25rem;
+}
+
+.cx-file-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.cx-file-item {
+  width: 100%;
+  padding: 0.25rem 0.4rem;
+  border-radius: 0.35rem;
+  border: none;
+  background: transparent;
+  color: #e5e7eb;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.cx-file-item:hover {
+  background: #020617;
+}
+
+.cx-file-item-active {
+  background: #1f2937;
+}
+
+.cx-file-icon {
+  font-size: 1rem;
+  color: #eab308;
+}
+
+.cx-file-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Center area */
+
+.cx-center {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+/* Tabs */
+
+.cx-tabs {
+  display: flex;
+  align-items: center;
+  background: #020617;
+  border-bottom: 1px solid #111827;
+}
+
+.cx-tab {
+  padding: 0.25rem 0.6rem;
+  font-size: 0.78rem;
+  border: none;
+  background: transparent;
+  color: #9ca3af;
+  cursor: pointer;
+  border-right: 1px solid #111827;
+}
+
+.cx-tab-active {
+  background: #020617;
+  color: #e5e7eb;
+  border-bottom: 2px solid #2563eb;
+}
+
+.cx-tab-label {
+  max-width: 160px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Editor */
+
+.cx-editor-container {
+  flex: 1;
+  min-height: 0;
+  background: #020617;
+}
+
+.cx-editor-pane {
+  height: 100%;
+}
+
+/* Status bar */
+
+.cx-statusbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.25rem 0.6rem;
+  border-top: 1px solid #111827;
+  background: #1d4ed8;
+  color: #e5e7eb;
+  font-size: 0.7rem;
+}
+
+.cx-status-left,
+.cx-status-right {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.cx-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.15rem 0.4rem;
+  border-radius: 9999px;
+  border: none;
+  background: rgba(15, 23, 42, 0.3);
+  color: #e5e7eb;
+  font-size: 0.7rem;
+}
+
+.cx-status-muted {
+  opacity: 0.85;
+}

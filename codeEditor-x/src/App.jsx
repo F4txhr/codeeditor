@@ -1,102 +1,121 @@
-import { useEffect, useState } from "react";
-import EditorKode1 from "./EditorKode1";
-import EditorWorkspace from "./EditorWorkspace";
-import GitView from "./GitView";
+import { useState } from "react";
+import EditorPane from "./components/EditorPane";
+import Sidebar from "./components/Sidebar";
+import TabsBar from "./components/TabsBar";
+import StatusBar from "./components/StatusBar";
 
-const screens = [
-  { id: "editor_kode_1", group: "Editor", label: "Editor Kode 1", type: "react" },
-  { id: "editor_workspace", group: "Editor", label: "Editor Kode 2 - Workspace", type: "react" },
-  { id: "manajemen_git", group: "Proyek & Integrasi", label: "Manajemen Git", type: "react" },
-  { id: "integrasi_ci_cd.html", group: "Proyek & Integrasi", label: "Integrasi CI/CD", type: "iframe" },
-  { id: "manajemen_bahasa.html", group: "Proyek & Integrasi", label: "Manajemen Bahasa", type: "iframe" },
-  { id: "manajer_dependensi.html", group: "Proyek & Integrasi", label: "Manajer Dependensi", type: "iframe" },
-  { id: "manajer_snippet_kode.html", group: "Proyek & Integrasi", label: "Manajer Snippet Kode", type: "iframe" },
-  { id: "marketplace_ekstensi.html", group: "Proyek & Integrasi", label: "Marketplace Ekstensi", type: "iframe" },
-  { id: "cari_ganti_global_1.html", group: "Utilitas", label: "Cari & Ganti Global", type: "iframe" },
-  { id: "pengaturan_aplikasi_1.html", group: "Utilitas", label: "Pengaturan Aplikasi", type: "iframe" },
-  { id: "penampil_log_aplikasi.html", group: "Utilitas", label: "Penampil Log Aplikasi", type: "iframe" }
-];
+/**
+ * App shell untuk web IDE:
+ * - Sidebar file/project
+ * - Tabs bar
+ * - Editor (Monaco)
+ * - Status bar
+ *
+ * Untuk sekarang: file disimpan di state in-memory dan localStorage.
+ */
+const initialFiles = {
+  "src/App.js": {
+    language: "javascript",
+    content: `import React, { useState } from "react";
 
-const groups = ["Editor", "Proyek & Integrasi", "Utilitas"];
+export default function App() {
+  const [count, setCount] = useState(0);
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>
+        You clicked {count} times
+      </Text>
+      <Button onPress={() => setCount(count + 1)} />
+    </View>
+  );
+}
+`
+  },
+  "src/styles.css": {
+    language: "css",
+    content: `body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: #020617;
+  color: #e5e7eb;
+}`
+  }
+};
 
 function App() {
-  const [currentId, setCurrentId] = useState("editor_kode_1");
-
-  useEffect(() => {
-    if (window.location.hash) {
-      const hash = decodeURIComponent(window.location.hash.slice(1));
-      const exists = screens.some((s) => s.id === hash);
-      if (exists) {
-        setCurrentId(hash);
+  const [files, setFiles] = useState(() => {
+    const saved = window.localStorage.getItem("cx-files");
+    if (saved) {
+      try {
+        return JSON.parse(saved);
+      } catch {
+        return initialFiles;
       }
     }
-  }, []);
+    return initialFiles;
+  });
 
-  const handleSelect = (id) => {
-    setCurrentId(id);
-    window.location.hash = encodeURIComponent(id);
+  const [activePath, setActivePath] = useState(
+    Object.keys(files)[0] || "src/App.js"
+  );
+
+  const activeFile = files[activePath];
+
+  const updateFileContent = (path, content) => {
+    setFiles((prev) => {
+      const next = {
+        ...prev,
+        [path]: {
+          ...(prev[path] || { language: "javascript" }),
+          content
+        }
+      };
+      window.localStorage.setItem("cx-files", JSON.stringify(next));
+      return next;
+    });
   };
 
-  const currentScreen = screens.find((s) => s.id === currentId);
-
-  const renderContent = () => {
-    if (!currentScreen) return null;
-    if (currentScreen.type === "react") {
-      if (currentScreen.id === "editor_kode_1") return <EditorKode1 />;
-      if (currentScreen.id === "editor_workspace") return <EditorWorkspace />;
-      if (currentScreen.id === "manajemen_git") return <GitView />;
-    }
-    // fallback ke iframe untuk screen lain
-    return (
-      <iframe
-        key={currentScreen.id}
-        src={`/${currentScreen.id}`}
-        title={currentScreen.id}
-        className="app-iframe"
-      />
-    );
+  const openFile = (path) => {
+    setActivePath(path);
   };
 
   return (
-    <div className="app-root">
-      <header className="app-header">
-        <div className="app-header-left">
-          <span className="app-title">codeEditor-x</span>
-          <span className="app-subtitle">Web Prototype</span>
+    <div className="cx-root">
+      <header className="cx-header">
+        <div className="cx-header-left">
+          <span className="cx-logo">codeEditor-x</span>
+          <span className="cx-header-sub">Web IDE</span>
         </div>
-        <div className="app-header-right">
-          <span className="app-current">
-            {currentScreen ? currentScreen.label : ""}
-          </span>
+        <div className="cx-header-right">
+          <button className="cx-header-button" title="Command palette">
+            <span className="material-symbols-outlined">search</span>
+          </button>
         </div>
       </header>
-
-      <main className="app-main">
-        <aside className="app-sidebar">
-          <nav className="app-nav">
-            {groups.map((group) => (
-              <div key={group} className="app-nav-group">
-                <div className="app-nav-group-title">{group}</div>
-                {screens
-                  .filter((s) => s.group === group)
-                  .map((s) => (
-                    <button
-                      key={s.id}
-                      onClick={() => handleSelect(s.id)}
-                      className={
-                        "app-nav-button" +
-                        (currentId === s.id ? " app-nav-button-active" : "")
-                      }
-                    >
-                      {s.label}
-                    </button>
-                  ))}
-              </div>
-            ))}
-          </nav>
-        </aside>
-
-        <section className="app-content">{renderContent()}</section>
+      <main className="cx-main">
+        <Sidebar
+          files={files}
+          activePath={activePath}
+          onOpenFile={openFile}
+        />
+        <div className="cx-center">
+          <TabsBar
+            files={files}
+            activePath={activePath}
+            onOpenFile={openFile}
+          />
+          <div className="cx-editor-container">
+            {activeFile && (
+              <EditorPane
+                path={activePath}
+                language={activeFile.language}
+                value={activeFile.content}
+                onChange={(value) => updateFileContent(activePath, value)}
+              />
+            )}
+          </div>
+          <StatusBar activePath={activePath} />
+        </div>
       </main>
     </div>
   );
