@@ -1,40 +1,57 @@
 import { useEffect, useState } from "react";
+import EditorKode1 from "./EditorKode1";
 
 const screens = [
-  { id: "editor_kode_1.html", group: "Editor", label: "Editor Kode 1" },
-  { id: "editor_kode_2.html", group: "Editor", label: "Editor Kode 2 - Workspace" },
-  { id: "manajemen_git.html", group: "Proyek & Integrasi", label: "Manajemen Git" },
-  { id: "integrasi_ci_cd.html", group: "Proyek & Integrasi", label: "Integrasi CI/CD" },
-  { id: "manajemen_bahasa.html", group: "Proyek & Integrasi", label: "Manajemen Bahasa" },
-  { id: "manajer_dependensi.html", group: "Proyek & Integrasi", label: "Manajer Dependensi" },
-  { id: "manajer_snippet_kode.html", group: "Proyek & Integrasi", label: "Manajer Snippet Kode" },
-  { id: "marketplace_ekstensi.html", group: "Proyek & Integrasi", label: "Marketplace Ekstensi" },
-  { id: "cari_ganti_global_1.html", group: "Utilitas", label: "Cari & Ganti Global" },
-  { id: "pengaturan_aplikasi_1.html", group: "Utilitas", label: "Pengaturan Aplikasi" },
-  { id: "penampil_log_aplikasi.html", group: "Utilitas", label: "Penampil Log Aplikasi" }
+  { id: "editor_kode_1", group: "Editor", label: "Editor Kode 1", type: "react" },
+  { id: "editor_kode_2.html", group: "Editor", label: "Editor Kode 2 - Workspace", type: "iframe" },
+  { id: "manajemen_git.html", group: "Proyek & Integrasi", label: "Manajemen Git", type: "iframe" },
+  { id: "integrasi_ci_cd.html", group: "Proyek & Integrasi", label: "Integrasi CI/CD", type: "iframe" },
+  { id: "manajemen_bahasa.html", group: "Proyek & Integrasi", label: "Manajemen Bahasa", type: "iframe" },
+  { id: "manajer_dependensi.html", group: "Proyek & Integrasi", label: "Manajer Dependensi", type: "iframe" },
+  { id: "manajer_snippet_kode.html", group: "Proyek & Integrasi", label: "Manajer Snippet Kode", type: "iframe" },
+  { id: "marketplace_ekstensi.html", group: "Proyek & Integrasi", label: "Marketplace Ekstensi", type: "iframe" },
+  { id: "cari_ganti_global_1.html", group: "Utilitas", label: "Cari & Ganti Global", type: "iframe" },
+  { id: "pengaturan_aplikasi_1.html", group: "Utilitas", label: "Pengaturan Aplikasi", type: "iframe" },
+  { id: "penampil_log_aplikasi.html", group: "Utilitas", label: "Penampil Log Aplikasi", type: "iframe" }
 ];
 
 const groups = ["Editor", "Proyek & Integrasi", "Utilitas"];
 
 function App() {
-  const [current, setCurrent] = useState("editor_kode_1.html");
+  const [currentId, setCurrentId] = useState("editor_kode_1");
 
   useEffect(() => {
     if (window.location.hash) {
-      const file = decodeURIComponent(window.location.hash.slice(1));
-      const exists = screens.some((s) => s.id === file);
+      const hash = decodeURIComponent(window.location.hash.slice(1));
+      const exists = screens.some((s) => s.id === hash);
       if (exists) {
-        setCurrent(file);
+        setCurrentId(hash);
       }
     }
   }, []);
 
   const handleSelect = (id) => {
-    setCurrent(id);
+    setCurrentId(id);
     window.location.hash = encodeURIComponent(id);
   };
 
-  const currentScreen = screens.find((s) => s.id === current);
+  const currentScreen = screens.find((s) => s.id === currentId);
+
+  const renderContent = () => {
+    if (!currentScreen) return null;
+    if (currentScreen.type === "react" && currentScreen.id === "editor_kode_1") {
+      return <EditorKode1 />;
+    }
+    // fallback ke iframe untuk screen lain
+    return (
+      <iframe
+        key={currentScreen.id}
+        src={`/${currentScreen.id}`}
+        title={currentScreen.id}
+        className="app-iframe"
+      />
+    );
+  };
 
   return (
     <div className="app-root">
@@ -64,7 +81,7 @@ function App() {
                       onClick={() => handleSelect(s.id)}
                       className={
                         "app-nav-button" +
-                        (current === s.id ? " app-nav-button-active" : "")
+                        (currentId === s.id ? " app-nav-button-active" : "")
                       }
                     >
                       {s.label}
@@ -75,14 +92,7 @@ function App() {
           </nav>
         </aside>
 
-        <section className="app-content">
-          <iframe
-            key={current}
-            src={`/${current}`}
-            title={current}
-            className="app-iframe"
-          />
-        </section>
+        <section className="app-content">{renderContent()}</section>
       </main>
     </div>
   );
