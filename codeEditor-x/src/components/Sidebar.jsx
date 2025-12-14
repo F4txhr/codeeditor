@@ -1,10 +1,19 @@
 import { useMemo, useState } from "react";
 
-function Sidebar({ files, activePath, onOpenFile, onNewFile }) {
+function Sidebar({
+  files,
+  activePath,
+  onOpenFile,
+  onNewFile,
+  onRenameFile,
+  onDeleteFile
+}) {
   const paths = Object.keys(files);
 
   const tree = useMemo(() => buildTree(paths), [paths]);
-  const [openFolders, setOpenFolders] = useState(new Set(["src", "src/components"]));
+  const [openFolders, setOpenFolders] = useState(
+    new Set(["src", "src/components"])
+  );
 
   const toggleFolder = (path) => {
     setOpenFolders((prev) => {
@@ -50,6 +59,8 @@ function Sidebar({ files, activePath, onOpenFile, onNewFile }) {
               toggleFolder={toggleFolder}
               activePath={activePath}
               onOpenFile={onOpenFile}
+              onRenameFile={onRenameFile}
+              onDeleteFile={onDeleteFile}
             />
           ))}
         </ul>
@@ -64,7 +75,9 @@ function SidebarNode({
   openFolders,
   toggleFolder,
   activePath,
-  onOpenFile
+  onOpenFile,
+  onRenameFile,
+  onDeleteFile
 }) {
   const indentStyle = { paddingLeft: `${level * 12}px` };
 
@@ -95,6 +108,8 @@ function SidebarNode({
               toggleFolder={toggleFolder}
               activePath={activePath}
               onOpenFile={onOpenFile}
+              onRenameFile={onRenameFile}
+              onDeleteFile={onDeleteFile}
             />
           ))}
       </>
@@ -116,6 +131,26 @@ function SidebarNode({
           description
         </span>
         <span className="cx-file-name">{node.name}</span>
+        <span className="cx-file-actions">
+          <span
+            className="material-symbols-outlined cx-file-action"
+            onClick={(e) => {
+              e.stopPropagation();
+              onRenameFile && onRenameFile(node.path);
+            }}
+          >
+            edit
+          </span>
+          <span
+            className="material-symbols-outlined cx-file-action"
+            onClick={(e) => {
+              e.stopPropagation();
+              onDeleteFile && onDeleteFile(node.path);
+            }}
+          >
+            delete
+          </span>
+        </span>
       </button>
     </li>
   );

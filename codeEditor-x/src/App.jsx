@@ -144,6 +144,45 @@ function App() {
     });
   };
 
+  const handleRenameFile = (path) => {
+    const name = window.prompt("Nama baru untuk file:", path);
+    if (!name) return;
+    const trimmed = name.trim();
+    if (!trimmed || trimmed === path) return;
+    if (files[trimmed]) {
+      window.alert("File dengan nama itu sudah ada.");
+      return;
+    }
+    setFiles((prev) => {
+      const current = prev[path];
+      if (!current) return prev;
+      const { [path]: _, ...rest } = prev;
+      const next = {
+        ...rest,
+        [trimmed]: current
+      };
+      persist(next);
+      return next;
+    });
+    setActivePath(trimmed);
+  };
+
+  const handleDeleteFile = (path) => {
+    if (!window.confirm(`Hapus file "${path}"?`)) return;
+    setFiles((prev) => {
+      if (!prev[path]) return prev;
+      const { [path]: _, ...rest } = prev;
+      const next = rest;
+      persist(next);
+      return next;
+    });
+    setActivePath((prevPath) => {
+      if (prevPath !== path) return prevPath;
+      const remaining = Object.keys(files).filter((p) => p !== path);
+      return remaining[0] || "src/components/index.js";
+    });
+  };
+
   const handleNewFile = (command) => {
     if (command === "__SWITCH_WORKSPACE__") {
       setMode("workspace");
@@ -207,6 +246,8 @@ function App() {
             activePath={activePath}
             onOpenFile={handleOpenFile}
             onNewFile={handleNewFile}
+            onRenameFile={handleRenameFile}
+            onDeleteFile={handleDeleteFile}
           />
         )}
         <div
