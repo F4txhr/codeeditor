@@ -181,6 +181,11 @@ function App() {
     setMode("single");
   };
 
+  const handleOpenFile = (path) => {
+    setActivePath(path);
+    setMode("single");
+  };
+
   const activeFile = files[activePath];
 
   const toggleSidebar = () => {
