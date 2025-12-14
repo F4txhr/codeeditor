@@ -75,8 +75,28 @@ function Explorer({
   return (
     <aside className="cx-sidebar">
       <div className="cx-sidebar-header">
-        <span className="cx-sidebar-title">EXPLORER</span>
-        <div className="cx-sidebar-header-actions">
+        <div className="cx-sidebar-header-top">
+          <span className="cx-sidebar-title">EXPLORER</span>
+          <div className="cx-sidebar-header-actions">
+            <button
+              className="cx-sidebar-icon-button"
+              title="New folder"
+              onClick={onNewFolder}
+            >
+              <span className="material-symbols-outlined">
+                create_new_folder
+              </span>
+            </button>
+            <button
+              className="cx-sidebar-icon-button"
+              title="New file"
+              onClick={onNewFile}
+            >
+              <span className="material-symbols-outlined">note_add</span>
+            </button>
+          </div>
+        </div>
+        <div className="cx-sidebar-header-bottom">
           <select
             className="cx-sidebar-select"
             value={sortMode}
@@ -92,20 +112,6 @@ function Explorer({
             value={filterExt}
             onChange={(e) => setFilterExt(e.target.value)}
           />
-          <button
-            className="cx-sidebar-icon-button"
-            title="New folder"
-            onClick={onNewFolder}
-          >
-            <span className="material-symbols-outlined">create_new_folder</span>
-          </button>
-          <button
-            className="cx-sidebar-icon-button"
-            title="New file"
-            onClick={onNewFile}
-          >
-            <span className="material-symbols-outlined">note_add</span>
-          </button>
         </div>
       </div>
       <div className="cx-sidebar-body">

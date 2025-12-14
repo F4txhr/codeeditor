@@ -106,10 +106,22 @@ body {
 }
 
 .cx-sidebar-header {
-  padding: 0.6rem 0.75rem;
+  padding: 0.6rem 0.75rem 0.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.cx-sidebar-header-top {
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+.cx-sidebar-header-bottom {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
 }
 
 .cx-sidebar-title {
