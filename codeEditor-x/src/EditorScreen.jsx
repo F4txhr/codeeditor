@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Editor from "@monaco-editor/react";
 
 /**
@@ -8,6 +8,7 @@ import Editor from "@monaco-editor/react";
  * - Header dengan file name + path
  * - Editor (Monaco) penuh
  * - Toolbar bawah dengan tombol simbol + save
+ * - Status mini: Ln / Col + indikator unsaved
  */
 function EditorScreen({
   path,
@@ -15,12 +16,28 @@ function EditorScreen({
   value,
   onChange,
   onToggleSidebar,
-  sidebarVisible
+  sidebarVisible,
+  onSave,
+  isDirty
 }) {
   const editorRef = useRef(null);
+  const [cursorPos, setCursorPos] = useState({ line: 1, column: 1 });
 
   const handleMount = (editor) => {
     editorRef.current = editor;
+    const model = editor.getModel();
+    if (model) {
+      const pos = editor.getPosition();
+      if (pos) {
+        setCursorPos({ line: pos.lineNumber, column: pos.column });
+      }
+    }
+    editor.onDidChangeCursorPosition((e) => {
+      setCursorPos({
+        line: e.position.lineNumber,
+        column: e.position.column
+      });
+    });
   };
 
   const insertText = (text) => {
@@ -58,8 +75,7 @@ function EditorScreen({
         insertText("  ");
         break;
       case "save":
-        // onChange sudah menyimpan ke localStorage di App
-        // Di sini kita hanya bisa nanti tambahkan notifikasi jika perlu
+        if (onSave) onSave();
         break;
       default:
         break;
@@ -161,6 +177,10 @@ function EditorScreen({
           </button>
         </div>
         <div className="ek-toolbar-right">
+          <span className="ek-status-text">
+            {isDirty ? "● Unsaved" : "Saved"} · Ln {cursorPos.line}, Col{" "}
+            {cursorPos.column}
+          </span>
           <button
             className="ek-icon-button"
             onClick={() => handleToolbar("save")}

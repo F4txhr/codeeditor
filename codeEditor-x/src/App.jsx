@@ -7,6 +7,11 @@ import Sidebar from "./components/Sidebar";
  * - Sidebar (Explorer) yang berfungsi
  * - Editor utama dengan layout mirip "Editor Kode 1"
  * - Multi-file disimpan di localStorage
+ *
+ * Tiap file menyimpan:
+ * - language
+ * - content (current buffer)
+ * - savedContent (snapshot terakhir disimpan)
  */
 const STORAGE_KEY = "cx-files-main";
 
@@ -36,11 +41,41 @@ export default function Counter() {
     </View>
   );
 }
+`,
+    savedContent: `import React, { useState, useEffect } from "react";
+import { View, Text, Button } from "react-native";
+
+// Main Counter Component
+export default function Counter() {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    console.log(\`Current count: \${count}\`);
+  }, [count]);
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>
+        You clicked {count} times
+      </Text>
+
+      <Button
+        onPress={() => setCount(count + 1)}
+      />
+    </View>
+  );
+}
 `
   },
   "src/styles.css": {
     language: "css",
     content: `body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: #020617;
+  color: #e5e7eb;
+}`,
+    savedContent: `body {
   margin: 0;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   background: #020617;
@@ -78,11 +113,28 @@ function App() {
 
   const handleChangeFile = (path, content) => {
     setFiles((prev) => {
+      const current = prev[path] || { language: "javascript" };
       const next = {
         ...prev,
         [path]: {
-          ...(prev[path] || { language: "javascript" }),
+          ...current,
           content
+        }
+      };
+      persist(next);
+      return next;
+    });
+  };
+
+  const handleSaveFile = (path) => {
+    setFiles((prev) => {
+      const current = prev[path];
+      if (!current) return prev;
+      const next = {
+        ...prev,
+        [path]: {
+          ...current,
+          savedContent: current.content
         }
       };
       persist(next);
@@ -99,6 +151,9 @@ function App() {
   const toggleSidebar = () => {
     setSidebarVisible((v) => !v);
   };
+
+  const isDirty =
+    activeFile && activeFile.content !== activeFile.savedContent;
 
   return (
     <div className="cx-root">
@@ -124,6 +179,8 @@ function App() {
               onChange={(val) => handleChangeFile(activePath, val)}
               onToggleSidebar={toggleSidebar}
               sidebarVisible={sidebarVisible}
+              onSave={() => handleSaveFile(activePath)}
+              isDirty={!!isDirty}
             />
           )}
         </div>
