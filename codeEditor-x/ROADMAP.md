@@ -12,15 +12,15 @@ Gunakan checklist ini untuk melacak progres. Tanda yang dipakai:
 
 ## 0. Pondasi Proyek
 
-- [ ] Setup project frontend
-  - [ ] Inisialisasi Vite + React
-  - [ ] Install Monaco Editor
-  - [ ] Struktur folder dasar (`src/`, `components/`, `features/`, dll.)
-- [ ] Model data dasar
-  - [ ] Struktur `WorkspaceState` (files, tabs, layout)
+- [x] Setup project frontend
+  - [x] Inisialisasi Vite + React
+  - [x] Install Monaco Editor
+  - [x] Struktur folder dasar (`src/`, `components/`, `features/`, dll.)
+- [~] Model data dasar
+  - [~] Struktur `WorkspaceState` (files, tabs, layout) — sementara: files map + activePath
   - [ ] Persist workspace ke `localStorage` / IndexedDB
-- [ ] Layout utama
-  - [ ] Frame 3-bagian: Sidebar (Explorer) · Editor · Bottom/Status
+- [x] Layout utama
+  - [x] Frame 3-bagian: Sidebar (Explorer) · Editor · Bottom/Status
 
 ---
 
