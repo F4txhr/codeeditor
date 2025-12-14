@@ -28,31 +28,32 @@ Gunakan checklist ini untuk melacak progres. Tanda yang dipakai:
 
 ### 1.1 Tree & operasi dasar
 
-- [ ] Tree file/folder
-  - [ ] Representasi struktur folder dari path string (mis. `src/components/Button.jsx`)
-  - [ ] Expand/collapse folder
-- [ ] Operasi file/folder
-  - [ ] New file
+- [x] Tree file/folder
+  - [x] Representasi struktur folder dari path string (mis. `src/components/Button.jsx`)
+  - [x] Expand/collapse folder
+- [~] Operasi file/folder
+  - [x] New file
   - [ ] New folder
-  - [ ] Rename
-  - [ ] Delete (dengan konfirmasi)
-- [ ] Ikon tipe berkas
-  - [ ] Ikon berbeda untuk folder, JS/TS, CSS, JSON, Markdown, dll.
+  - [x] Rename
+  - [x] Delete (dengan konfirmasi)
+- [~] Ikon tipe berkas
+  - [x] Ikon berbeda untuk folder vs file
+  - [ ] Ikon khusus per ekstensi (JS/TS/CSS/JSON/MD, dll.)
 
 ### 1.2 Mode tampilan & UX
 
-- [ ] Mode tampilan
-  - [ ] List compact
+- [~] Mode tampilan
+  - [x] List compact
   - [ ] List detail (nama + last modified + size)
   - [ ] (opsional) Grid visual
-- [ ] Sort & filter
-  - [ ] Sort by nama (A–Z)
+- [~] Sort & filter
+  - [x] Sort by nama (A–Z)
   - [ ] Sort by last modified
-  - [ ] Sort by type
-  - [ ] Filter by ekstensi (mis. hanya `.js`, `.ts`, dst.)
-- [ ] Integrasi Git (visual dulu)
-  - [ ] Field `gitStatus` per file (`modified`, `added`, `untracked`, `conflict`, dll.)
-  - [ ] Badge/warna ikon sesuai status git
+  - [x] Sort by type (berdasarkan ekstensi)
+  - [x] Filter by ekstensi (mis. hanya `.js`, `.ts`, dst.)
+- [~] Integrasi Git (visual dulu)
+  - [x] Field `gitStatus` per file (`modified`, `added`, `untracked`, `conflict`, dll.)
+  - [x] Badge/warna ikon sesuai status git
   - [ ] Panel ringkasan status (jumlah modified, added, dst.)
 
 ---
