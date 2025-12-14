@@ -1,283 +1,94 @@
-import { useEffect, useState } from "react";
-import EditorScreen from "./EditorScreen";
-import Sidebar from "./components/Sidebar";
-import EditorWorkspace from "./EditorWorkspace";
+import { useState } from "react";
+import MonacoEditor from "@monaco-editor/react";
 
 /**
- * App shell:
- * - Sidebar (Explorer) yang berfungsi
- * - Editor utama dengan layout mirip "Editor Kode 1"
- * - Multi-file disimpan di localStorage
- *
- * Tiap file menyimpan:
- * - language
- * - content (current buffer)
- * - savedContent (snapshot terakhir disimpan)
+ * Tahap 0:
+ * - Layout dasar: Sidebar kosong + Editor + Status bar
+ * - WorkspaceState sangat sederhana: satu file aktif
  */
-const STORAGE_KEY = "cx-files-main";
 
-const initialFiles = {
-  "src/components/index.js": {
-    language: "javascript",
-    content: `import React, { useState, useEffect } from "react";
-import { View, Text, Button } from "react-native";
+const INITIAL_CODE = `// Selamat datang di codeEditor-x
+// Tahap 0: Layout dasar editor
+// Silakan mulai menulis kode di sini.
 
-// Main Counter Component
-export default function Counter() {
-  const [count, setCount] = useState(0);
-
-  useEffect(() => {
-    console.log(\`Current count: \${count}\`);
-  }, [count]);
-
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>
-        You clicked {count} times
-      </Text>
-
-      <Button
-        onPress={() => setCount(count + 1)}
-      />
-    </View>
-  );
+function hello() {
+  console.log("Hello from codeEditor-x!");
 }
-`,
-    savedContent: `import React, { useState, useEffect } from "react";
-import { View, Text, Button } from "react-native";
-
-// Main Counter Component
-export default function Counter() {
-  const [count, setCount] = useState(0);
-
-  useEffect(() => {
-    console.log(\`Current count: \${count}\`);
-  }, [count]);
-
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>
-        You clicked {count} times
-      </Text>
-
-      <Button
-        onPress={() => setCount(count + 1)}
-      />
-    </View>
-  );
-}
-`
-  },
-  "src/styles.css": {
-    language: "css",
-    content: `body {
-  margin: 0;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  background: #020617;
-  color: #e5e7eb;
-}`,
-    savedContent: `body {
-  margin: 0;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  background: #020617;
-  color: #e5e7eb;
-}`
-  }
-};
+`;
 
 function App() {
-  const [files, setFiles] = useState(initialFiles);
-  const [activePath, setActivePath] = useState("src/components/index.js");
+  const [code, setCode] = useState(INITIAL_CODE);
   const [sidebarVisible, setSidebarVisible] = useState(true);
-  const [mode, setMode] = useState("single");
-
-  useEffect(() => {
-    const saved = window.localStorage.getItem(STORAGE_KEY);
-    if (saved != null) {
-      try {
-        const parsed = JSON.parse(saved);
-        if (parsed && typeof parsed === "object") {
-          setFiles(parsed);
-          const firstPath = Object.keys(parsed)[0];
-          if (firstPath) {
-            setActivePath(firstPath);
-          }
-        }
-      } catch {
-        // abaikan, pakai initialFiles
-      }
-    }
-  }, []);
-
-  const persist = (nextFiles) => {
-    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(nextFiles));
-  };
-
-  const handleChangeFile = (path, content) => {
-    setFiles((prev) => {
-      const current = prev[path] || { language: "javascript" };
-      const next = {
-        ...prev,
-        [path]: {
-          ...current,
-          content
-        }
-      };
-      persist(next);
-      return next;
-    });
-  };
-
-  const handleSaveFile = (path) => {
-    setFiles((prev) => {
-      const current = prev[path];
-      if (!current) return prev;
-      const next = {
-        ...prev,
-        [path]: {
-          ...current,
-          savedContent: current.content
-        }
-      };
-      persist(next);
-      return next;
-    });
-  };
-
-  const handleRenameFile = (path) => {
-    const name = window.prompt("Nama baru untuk file:", path);
-    if (!name) return;
-    const trimmed = name.trim();
-    if (!trimmed || trimmed === path) return;
-    if (files[trimmed]) {
-      window.alert("File dengan nama itu sudah ada.");
-      return;
-    }
-    setFiles((prev) => {
-      const current = prev[path];
-      if (!current) return prev;
-      const { [path]: _, ...rest } = prev;
-      const next = {
-        ...rest,
-        [trimmed]: current
-      };
-      persist(next);
-      return next;
-    });
-    setActivePath(trimmed);
-  };
-
-  const handleDeleteFile = (path) => {
-    if (!window.confirm(`Hapus file "${path}"?`)) return;
-    setFiles((prev) => {
-      if (!prev[path]) return prev;
-      const { [path]: _, ...rest } = prev;
-      const next = rest;
-      persist(next);
-      return next;
-    });
-    setActivePath((prevPath) => {
-      if (prevPath !== path) return prevPath;
-      const remaining = Object.keys(files).filter((p) => p !== path);
-      return remaining[0] || "src/components/index.js";
-    });
-  };
-
-  const handleNewFile = (command) => {
-    if (command === "__SWITCH_WORKSPACE__") {
-      setMode("workspace");
-      return;
-    }
-
-    const name = window.prompt("Nama file baru (mis. src/utils/helpers.js):");
-    if (!name) return;
-    const trimmed = name.trim();
-    if (!trimmed) return;
-    if (files[trimmed]) {
-      window.alert("File sudah ada.");
-      return;
-    }
-    const ext = trimmed.split(".").pop() || "";
-    let language = "plaintext";
-    if (["js", "jsx"].includes(ext)) language = "javascript";
-    else if (["ts", "tsx"].includes(ext)) language = "typescript";
-    else if (ext === "css") language = "css";
-    else if (ext === "json") language = "json";
-
-    setFiles((prev) => {
-      const next = {
-        ...prev,
-        [trimmed]: {
-          language,
-          content: "",
-          savedContent: ""
-        }
-      };
-      persist(next);
-      return next;
-    });
-    setActivePath(trimmed);
-    setMode("single");
-  };
-
-  const handleOpenFile = (path) => {
-    setActivePath(path);
-    setMode("single");
-  };
-
-  const activeFile = files[activePath];
 
   const toggleSidebar = () => {
     setSidebarVisible((v) => !v);
   };
 
-  const isDirty =
-    activeFile && activeFile.content !== activeFile.savedContent;
-
-  const jsPath = "src/components/index.js";
-  const cssPath = "src/styles.css";
-
   return (
     <div className="cx-root">
-      <div className="cx-main">
+      <header className="cx-header">
+        <div className="cx-header-left">
+          <span className="cx-logo">codeEditor-x</span>
+          <span className="cx-header-sub">Web IDE · Tahap 0</span>
+        </div>
+        <div className="cx-header-right">
+          <button className="cx-header-button" onClick={toggleSidebar}>
+            <span className="material-symbols-outlined">
+              {sidebarVisible ? "chevron_left" : "chevron_right"}
+            </span>
+          </button>
+        </div>
+      </header>
+
+      <main className="cx-main">
         {sidebarVisible && (
-          <Sidebar
-            files={files}
-            activePath={activePath}
-            onOpenFile={handleOpenFile}
-            onNewFile={handleNewFile}
-            onRenameFile={handleRenameFile}
-            onDeleteFile={handleDeleteFile}
-          />
+          <aside className="cx-sidebar">
+            <div className="cx-sidebar-header">
+              <span className="cx-sidebar-title">EXPLORER</span>
+            </div>
+            <div className="cx-sidebar-body">
+              <p className="cx-sidebar-placeholder">
+                Sidebar akan berisi tree proyek dan Git status.
+              </p>
+            </div>
+          </aside>
         )}
-        <div
+
+        <section
           className={
-            "cx-editor-shell" +
-            (sidebarVisible ? "" : " cx-editor-shell-full")
+            "cx-editor-shell" + (sidebarVisible ? "" : " cx-editor-shell-full")
           }
         >
-          {mode === "single" && activeFile && (
-            <EditorScreen
-              path={activePath}
-              language={activeFile.language}
-              value={activeFile.content}
-              onChange={(val) => handleChangeFile(activePath, val)}
-              onToggleSidebar={toggleSidebar}
-              sidebarVisible={sidebarVisible}
-              onSave={() => handleSaveFile(activePath)}
-              isDirty={!!isDirty}
+          <div className="cx-editor-container">
+            <MonacoEditor
+              height="100%"
+              defaultLanguage="javascript"
+              language="javascript"
+              value={code}
+              theme="vs-dark"
+              onChange={(val) => setCode(val ?? "")}
+              options={{
+                fontSize: 13,
+                minimap: { enabled: false },
+                smoothScrolling: true,
+                automaticLayout: true,
+                padding: { top: 8, bottom: 8 }
+              }}
             />
-          )}
-          {mode === "workspace" && (
-            <EditorWorkspace
-              jsFile={files[jsPath]}
-              cssFile={files[cssPath]}
-              onChangeJs={(val) => handleChangeFile(jsPath, val)}
-              onChangeCss={(val) => handleChangeFile(cssPath, val)}
-            />
-          )}
-        </div>
-      </div>
+          </div>
+          <footer className="cx-statusbar">
+            <div className="cx-status-left">
+              <span className="cx-status-pill">
+                <span className="material-symbols-outlined">source_environment</span>
+                main
+              </span>
+            </div>
+            <div className="cx-status-right">
+              <span className="cx-status-muted">Tahap 0 · Layout dasar</span>
+            </div>
+          </footer>
+        </section>
+      </main>
     </div>
   );
 }
