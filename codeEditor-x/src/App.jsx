@@ -9,12 +9,15 @@ import Explorer from "./components/Explorer";
  * - Sorting & filtering sederhana
  */
 
+const now = Date.now();
+
 const INITIAL_FILES = {
   "src/main.js": {
     language: "javascript",
     content: `// File entry utama
 console.log("Hello from codeEditor-x");`,
-    gitStatus: "modified"
+    gitStatus: "modified",
+    modifiedAt: now
   },
   "src/components/Counter.js": {
     language: "javascript",
@@ -28,12 +31,16 @@ export function Counter() {
     </button>
   );
 }`,
-    gitStatus: "untracked"
+    gitStatus: "untracked",
+    modifiedAt: now
   }
 };
 
+const INITIAL_FOLDERS = ["src", "src/components"];
+
 function App() {
   const [files, setFiles] = useState(INITIAL_FILES);
+  const [folders, setFolders] = useState(INITIAL_FOLDERS);
   const [activePath, setActivePath] = useState("src/main.js");
   const [sidebarVisible, setSidebarVisible] = useState(true);
 
@@ -44,11 +51,13 @@ function App() {
   const activeFile = files[activePath];
 
   const handleChangeCode = (value) => {
+    const ts = Date.now();
     setFiles((prev) => ({
       ...prev,
       [activePath]: {
         ...(prev[activePath] || { language: "javascript" }),
-        content: value
+        content: value,
+        modifiedAt: ts
       }
     }));
   };
@@ -74,14 +83,27 @@ function App() {
     else if (ext === "css") language = "css";
     else if (ext === "json") language = "json";
 
+    const ts = Date.now();
+
     setFiles((prev) => ({
       ...prev,
       [trimmed]: {
         language,
         content: "",
-        gitStatus: "untracked"
+        gitStatus: "untracked",
+        modifiedAt: ts
       }
     }));
+
+    // pastikan folder path tercatat
+    const parts = trimmed.split("/");
+    if (parts.length > 1) {
+      const folderPath = parts.slice(0, -1).join("/");
+      setFolders((prev) =>
+        prev.includes(folderPath) ? prev : [...prev, folderPath]
+      );
+    }
+
     setActivePath(trimmed);
   };
 
@@ -100,6 +122,19 @@ function App() {
       const { [path]: _, ...rest } = prev;
       return { ...rest, [trimmed]: current };
     });
+
+    // update daftar folder jika perlu
+    const oldFolder = path.split("/").slice(0, -1).join("/");
+    const newFolder = trimmed.split("/").slice(0, -1).join("/");
+    setFolders((prev) => {
+      let next = [...prev];
+      if (newFolder && !next.includes(newFolder)) {
+        next.push(newFolder);
+      }
+      // oldFolder dibiarkan; bisa dibersihkan nanti jika kosong
+      return next;
+    });
+
     setActivePath(trimmed);
   };
 
@@ -115,6 +150,16 @@ function App() {
       const remaining = Object.keys(files).filter((p) => p !== path);
       return remaining[0] || "";
     });
+  };
+
+  const handleNewFolder = () => {
+    const name = window.prompt("Nama folder baru (mis. src/utils):");
+    if (!name) return;
+    const trimmed = name.trim().replace(/\/+$/, "");
+    if (!trimmed) return;
+    setFolders((prev) =>
+      prev.includes(trimmed) ? prev : [...prev, trimmed]
+    );
   };
 
   return (
@@ -137,9 +182,11 @@ function App() {
         {sidebarVisible && (
           <Explorer
             files={files}
+            folders={folders}
             activePath={activePath}
             onOpenFile={handleOpenFile}
             onNewFile={handleNewFile}
+            onNewFolder={handleNewFolder}
             onRenameFile={handleRenameFile}
             onDeleteFile={handleDeleteFile}
           />

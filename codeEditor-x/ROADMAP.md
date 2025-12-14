@@ -31,14 +31,14 @@ Gunakan checklist ini untuk melacak progres. Tanda yang dipakai:
 - [x] Tree file/folder
   - [x] Representasi struktur folder dari path string (mis. `src/components/Button.jsx`)
   - [x] Expand/collapse folder
-- [~] Operasi file/folder
+- [x] Operasi file/folder
   - [x] New file
-  - [ ] New folder
+  - [x] New folder
   - [x] Rename
   - [x] Delete (dengan konfirmasi)
-- [~] Ikon tipe berkas
+- [x] Ikon tipe berkas
   - [x] Ikon berbeda untuk folder vs file
-  - [ ] Ikon khusus per ekstensi (JS/TS/CSS/JSON/MD, dll.)
+  - [x] Ikon khusus per ekstensi (JS/TS/CSS/JSON/MD, dll.)
 
 ### 1.2 Mode tampilan & UX
 
@@ -46,15 +46,15 @@ Gunakan checklist ini untuk melacak progres. Tanda yang dipakai:
   - [x] List compact
   - [ ] List detail (nama + last modified + size)
   - [ ] (opsional) Grid visual
-- [~] Sort & filter
+- [x] Sort & filter
   - [x] Sort by nama (A–Z)
-  - [ ] Sort by last modified
+  - [x] Sort by last modified
   - [x] Sort by type (berdasarkan ekstensi)
   - [x] Filter by ekstensi (mis. hanya `.js`, `.ts`, dst.)
-- [~] Integrasi Git (visual dulu)
+- [x] Integrasi Git (visual dulu)
   - [x] Field `gitStatus` per file (`modified`, `added`, `untracked`, `conflict`, dll.)
   - [x] Badge/warna ikon sesuai status git
-  - [ ] Panel ringkasan status (jumlah modified, added, dst.)
+  - [x] Panel ringkasan status (jumlah modified, added, dst.)
 
 ---
 

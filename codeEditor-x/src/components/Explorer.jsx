@@ -9,9 +9,11 @@ import React, { useMemo, useState } from "react";
 
 function Explorer({
   files,
+  folders,
   activePath,
   onOpenFile,
   onNewFile,
+  onNewFolder,
   onRenameFile,
   onDeleteFile
 }) {
@@ -34,12 +36,29 @@ function Explorer({
         if (ea === eb) return a.localeCompare(b);
         return ea.localeCompare(eb);
       }
+      if (sortMode === "modified") {
+        const ma = files[a]?.modifiedAt || 0;
+        const mb = files[b]?.modifiedAt || 0;
+        return mb - ma;
+      }
       return a.localeCompare(b);
     });
     return list;
-  }, [paths, sortMode, filterExt]);
+  }, [paths, sortMode, filterExt, files]);
 
-  const tree = useMemo(() => buildTree(visiblePaths), [visiblePaths]);
+  const tree = useMemo(
+    () => buildTree(visiblePaths, folders),
+    [visiblePaths, folders]
+  );
+
+  const gitSummary = useMemo(() => {
+    const summary = { modified: 0, added: 0, untracked: 0, conflict: 0 };
+    Object.values(files).forEach((f) => {
+      if (!f.gitStatus) return;
+      if (summary[f.gitStatus] != null) summary[f.gitStatus] += 1;
+    });
+    return summary;
+  }, [files]);
 
   const toggleFolder = (path) => {
     setOpenFolders((prev) => {
@@ -65,6 +84,7 @@ function Explorer({
           >
             <option value="name">Name</option>
             <option value="type">Type</option>
+            <option value="modified">Modified</option>
           </select>
           <input
             className="cx-sidebar-filter"
@@ -72,6 +92,13 @@ function Explorer({
             value={filterExt}
             onChange={(e) => setFilterExt(e.target.value)}
           />
+          <button
+            className="cx-sidebar-icon-button"
+            title="New folder"
+            onClick={onNewFolder}
+          >
+            <span className="material-symbols-outlined">create_new_folder</span>
+          </button>
           <button
             className="cx-sidebar-icon-button"
             title="New file"
@@ -104,6 +131,20 @@ function Explorer({
             ))}
           </ul>
         )}
+        <div className="cx-git-summary">
+          <span className="cx-git-summary-item">
+            M: {gitSummary.modified}
+          </span>
+          <span className="cx-git-summary-item">
+            A: {gitSummary.added}
+          </span>
+          <span className="cx-git-summary-item">
+            U: {gitSummary.untracked}
+          </span>
+          <span className="cx-git-summary-item">
+            C: {gitSummary.conflict}
+          </span>
+        </div>
       </div>
     </aside>
   );
@@ -171,7 +212,7 @@ function TreeNode({
         onClick={() => onOpenFile(node.path)}
       >
         <span className="material-symbols-outlined cx-file-icon">
-          description
+          {getFileIcon(node.path)}
         </span>
         <span className="cx-file-name">{node.name}</span>
         {gitStatus && (
@@ -207,10 +248,33 @@ function TreeNode({
   );
 }
 
-function buildTree(paths) {
+function buildTree(filePaths, folderPaths = []) {
   const root = {};
 
-  paths.forEach((fullPath) => {
+  // tambahkan folder eksplisit
+  folderPaths.forEach((fullPath) => {
+    const parts = fullPath.split("/");
+    let current = root;
+    let accumulated = "";
+
+    parts.forEach((part, idx) => {
+      accumulated = accumulated ? `${accumulated}/${part}` : part;
+      if (!current[part]) {
+        current[part] = {
+          name: part,
+          path: accumulated,
+          isFolder: true,
+          children: {}
+        };
+      }
+      if (idx < parts.length - 1) {
+        current = current[part].children;
+      }
+    });
+  });
+
+  // tambahkan file
+  filePaths.forEach((fullPath) => {
     const parts = fullPath.split("/");
     let current = root;
     let accumulated = "";
@@ -233,6 +297,23 @@ function buildTree(paths) {
   });
 
   return root;
+}
+
+function getFileIcon(path) {
+  const ext = path.split(".").pop() || "";
+  if (ext === "js" || ext === "jsx" || ext === "ts" || ext === "tsx") {
+    return "javascript";
+  }
+  if (ext === "css" || ext === "scss") {
+    return "css";
+  }
+  if (ext === "json") {
+    return "data_object";
+  }
+  if (ext === "md") {
+    return "article";
+  }
+  return "description";
 }
 
 export default Explorer;
