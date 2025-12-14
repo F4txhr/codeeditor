@@ -52,6 +52,7 @@ export default function Counter() {
 function App() {
   const [files, setFiles] = useState(initialFiles);
   const [activePath, setActivePath] = useState("src/components/index.js");
+  const [sidebarVisible, setSidebarVisible] = useState(true);
 
   useEffect(() => {
     const saved = window.localStorage.getItem(STORAGE_KEY);
@@ -95,21 +96,34 @@ function App() {
 
   const activeFile = files[activePath];
 
+  const toggleSidebar = () => {
+    setSidebarVisible((v) => !v);
+  };
+
   return (
     <div className="cx-root">
       <div className="cx-main">
-        <Sidebar
-          files={files}
-          activePath={activePath}
-          onOpenFile={handleOpenFile}
-        />
-        <div className="cx-editor-shell">
+        {sidebarVisible && (
+          <Sidebar
+            files={files}
+            activePath={activePath}
+            onOpenFile={handleOpenFile}
+          />
+        )}
+        <div
+          className={
+            "cx-editor-shell" +
+            (sidebarVisible ? "" : " cx-editor-shell-full")
+          }
+        >
           {activeFile && (
             <EditorScreen
               path={activePath}
               language={activeFile.language}
               value={activeFile.content}
               onChange={(val) => handleChangeFile(activePath, val)}
+              onToggleSidebar={toggleSidebar}
+              sidebarVisible={sidebarVisible}
             />
           )}
         </div>

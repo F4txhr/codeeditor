@@ -9,7 +9,14 @@ import Editor from "@monaco-editor/react";
  * - Editor (Monaco) penuh
  * - Toolbar bawah dengan tombol simbol + save
  */
-function EditorScreen({ value, onChange }) {
+function EditorScreen({
+  path,
+  language,
+  value,
+  onChange,
+  onToggleSidebar,
+  sidebarVisible
+}) {
   const editorRef = useRef(null);
 
   const handleMount = (editor) => {
@@ -64,12 +71,22 @@ function EditorScreen({ value, onChange }) {
       {/* Header */}
       <header className="ek-header">
         <div className="ek-header-left">
-          <button className="ek-icon-button" aria-label="Menu">
-            <span className="material-symbols-outlined">menu</span>
+          <button
+            className="ek-icon-button"
+            aria-label="Toggle sidebar"
+            onClick={onToggleSidebar}
+          >
+            <span className="material-symbols-outlined">
+              {sidebarVisible ? "chevron_left" : "chevron_right"}
+            </span>
           </button>
           <div className="ek-header-meta">
-            <h1 className="ek-file-name">index.js</h1>
-            <span className="ek-file-path">src/components/</span>
+            <h1 className="ek-file-name">
+              {path.split("/").slice(-1)[0] || "index.js"}
+            </h1>
+            <span className="ek-file-path">
+              {path.split("/").slice(0, -1).join("/") + "/"}
+            </span>
           </div>
         </div>
         <div className="ek-header-right">

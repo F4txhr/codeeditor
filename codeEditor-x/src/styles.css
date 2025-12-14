@@ -110,6 +110,115 @@ body {
   min-height: 0;
 }
 
+/* App main layout (sidebar + editor) */
+
+.cx-main {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+}
+
+.cx-editor-shell {
+  flex: 1;
+  min-width: 0;
+}
+
+.cx-editor-shell-full {
+  width: 100%;
+}
+
+/* Sidebar */
+
+.cx-sidebar {
+  width: 260px;
+  border-right: 1px solid #0f172a;
+  background: #020617;
+  display: flex;
+  flex-direction: column;
+}
+
+.cx-sidebar-header {
+  padding: 0.6rem 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: space_between;
+}
+
+.cx-sidebar-title {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #64748b;
+}
+
+.cx-sidebar-icon-button {
+  width: 1.8rem;
+  height: 1.8rem;
+  border-radius: 0.45rem;
+  border: none;
+  background: transparent;
+  color: #64748b;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.cx-sidebar-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0.25rem 0.4rem 0.5rem;
+}
+
+.cx-sidebar-folder {
+  padding: 0.25rem 0.25rem;
+}
+
+.cx-sidebar-folder-label {
+  font-size: 0.75rem;
+  color: #e5e7eb;
+  margin-bottom: 0.25rem;
+}
+
+.cx-file-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.cx-file-item {
+  width: 100%;
+  padding: 0.25rem 0.4rem;
+  border-radius: 0.35rem;
+  border: none;
+  background: transparent;
+  color: #e5e7eb;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.cx-file-item:hover {
+  background: #020617;
+}
+
+.cx-file-item-active {
+  background: #1f2937;
+}
+
+.cx-file-icon {
+  font-size: 1rem;
+  color: #eab308;
+}
+
+.cx-file-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 /* Toolbar bawah */
 
 .ek-toolbar {
