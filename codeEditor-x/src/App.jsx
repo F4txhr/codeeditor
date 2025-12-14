@@ -142,8 +142,35 @@ function App() {
     });
   };
 
-  const handleOpenFile = (path) => {
-    setActivePath(path);
+  const handleNewFile = () => {
+    const name = window.prompt("Nama file baru (mis. src/utils/helpers.js):");
+    if (!name) return;
+    const trimmed = name.trim();
+    if (!trimmed) return;
+    if (files[trimmed]) {
+      window.alert("File sudah ada.");
+      return;
+    }
+    const ext = trimmed.split(".").pop() || "";
+    let language = "plaintext";
+    if (["js", "jsx"].includes(ext)) language = "javascript";
+    else if (["ts", "tsx"].includes(ext)) language = "typescript";
+    else if (ext === "css") language = "css";
+    else if (ext === "json") language = "json";
+
+    setFiles((prev) => {
+      const next = {
+        ...prev,
+        [trimmed]: {
+          language,
+          content: "",
+          savedContent: ""
+        }
+      };
+      persist(next);
+      return next;
+    });
+    setActivePath(trimmed);
   };
 
   const activeFile = files[activePath];
@@ -163,6 +190,7 @@ function App() {
             files={files}
             activePath={activePath}
             onOpenFile={handleOpenFile}
+            onNewFile={handleNewFile}
           />
         )}
         <div
@@ -181,6 +209,13 @@ function App() {
               sidebarVisible={sidebarVisible}
               onSave={() => handleSaveFile(activePath)}
               isDirty={!!isDirty}
+            />
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
             />
           )}
         </div>
