@@ -1,17 +1,14 @@
-import { useState } from "react";
+import Editor from "@monaco-editor/react";
 
 /**
  * EditorWorkspace
  *
- * Adaptasi fungsional dari desain "Editor Kode 2":
- * - Dua panel editor (atas JS, bawah CSS)
- * - Tab bar sederhana
- * - Status bar di bawah
+ * Desain "Editor Kode 2" dengan dua panel:
+ * - Atas: index.js
+ * - Bawah: styles.css
+ * Membaca dan menulis ke files state yang sama dengan Editor utama.
  */
-function EditorWorkspace() {
-  const [jsCode, setJsCode] = useState(defaultJs.trimStart());
-  const [cssCode, setCssCode] = useState(defaultCss.trimStart());
-
+function EditorWorkspace({ jsFile, cssFile, onChangeJs, onChangeCss }) {
   return (
     <div className="ew-root">
       <header className="ew-header">
@@ -61,40 +58,40 @@ function EditorWorkspace() {
         {/* Split editors */}
         <div className="ew-split">
           <div className="ew-pane">
-            <div className="ew-gutter">
-              {Array.from({ length: jsCode.split("\n").length || 1 }).map(
-                (_, idx) => (
-                  <div key={idx} className="ew-gutter-line">
-                    {idx + 1}
-                  </div>
-                )
-              )}
-            </div>
-            <textarea
-              className="ew-textarea"
-              value={jsCode}
-              onChange={(e) => setJsCode(e.target.value)}
-              spellCheck={false}
+            <Editor
+              height="100%"
+              defaultLanguage="javascript"
+              language="javascript"
+              value={jsFile?.content ?? ""}
+              theme="vs-dark"
+              options={{
+                fontSize: 13,
+                minimap: { enabled: false },
+                smoothScrolling: true,
+                automaticLayout: true,
+                padding: { top: 8, bottom: 8 }
+              }}
+              onChange={(val) => onChangeJs(val ?? "")}
             />
           </div>
 
           <div className="ew-resizer" />
 
           <div className="ew-pane">
-            <div className="ew-gutter">
-              {Array.from({ length: cssCode.split("\n").length || 1 }).map(
-                (_, idx) => (
-                  <div key={idx} className="ew-gutter-line">
-                    {idx + 1}
-                  </div>
-                )
-              )}
-            </div>
-            <textarea
-              className="ew-textarea"
-              value={cssCode}
-              onChange={(e) => setCssCode(e.target.value)}
-              spellCheck={false}
+            <Editor
+              height="100%"
+              defaultLanguage="css"
+              language="css"
+              value={cssFile?.content ?? ""}
+              theme="vs-dark"
+              options={{
+                fontSize: 13,
+                minimap: { enabled: false },
+                smoothScrolling: true,
+                automaticLayout: true,
+                padding: { top: 8, bottom: 8 }
+              }}
+              onChange={(val) => onChangeCss(val ?? "")}
             />
           </div>
         </div>
@@ -122,37 +119,5 @@ function EditorWorkspace() {
     </div>
   );
 }
-
-const defaultJs = `
-import React from 'react';
-import { View, Text } from 'react-native';
-import styles from './styles';
-
-// Main Component
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>
-        Workspace Mode
-      </Text>
-    </View>
-  );
-}
-`;
-
-const defaultCss = `
-.container {
-  flex: 1;
-  background-color: #1e1e1e;
-  align-items: center;
-  justify-content: center;
-}
-
-.title {
-  font-size: 20px;
-  font-weight: bold;
-  color: #ffffff;
-}
-`;
 
 export default EditorWorkspace;

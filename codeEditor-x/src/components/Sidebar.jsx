@@ -22,13 +22,22 @@ function Sidebar({ files, activePath, onOpenFile, onNewFile }) {
     <aside className="cx-sidebar">
       <div className="cx-sidebar-header">
         <span className="cx-sidebar-title">EXPLORER</span>
-        <button
-          className="cx-sidebar-icon-button"
-          title="New file"
-          onClick={onNewFile}
-        >
-          <span className="material-symbols-outlined">note_add</span>
-        </button>
+        <div className="cx-sidebar-header-actions">
+          <button
+            className="cx-sidebar-icon-button"
+            title="Workspace view"
+            onClick={() => onNewFile && onNewFile("__SWITCH_WORKSPACE__")}
+          >
+            <span className="material-symbols-outlined">grid_view</span>
+          </button>
+          <button
+            className="cx-sidebar-icon-button"
+            title="New file"
+            onClick={() => onNewFile && onNewFile()}
+          >
+            <span className="material-symbols-outlined">note_add</span>
+          </button>
+        </div>
       </div>
       <div className="cx-sidebar-body">
         <ul className="cx-file-list">

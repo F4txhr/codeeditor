@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import EditorScreen from "./EditorScreen";
 import Sidebar from "./components/Sidebar";
+import EditorWorkspace from "./EditorWorkspace";
 
 /**
  * App shell:
@@ -88,6 +89,7 @@ function App() {
   const [files, setFiles] = useState(initialFiles);
   const [activePath, setActivePath] = useState("src/components/index.js");
   const [sidebarVisible, setSidebarVisible] = useState(true);
+  const [mode, setMode] = useState("single");
 
   useEffect(() => {
     const saved = window.localStorage.getItem(STORAGE_KEY);
@@ -142,7 +144,12 @@ function App() {
     });
   };
 
-  const handleNewFile = () => {
+  const handleNewFile = (command) => {
+    if (command === "__SWITCH_WORKSPACE__") {
+      setMode("workspace");
+      return;
+    }
+
     const name = window.prompt("Nama file baru (mis. src/utils/helpers.js):");
     if (!name) return;
     const trimmed = name.trim();
@@ -171,6 +178,7 @@ function App() {
       return next;
     });
     setActivePath(trimmed);
+    setMode("single");
   };
 
   const activeFile = files[activePath];
@@ -181,6 +189,9 @@ function App() {
 
   const isDirty =
     activeFile && activeFile.content !== activeFile.savedContent;
+
+  const jsPath = "src/components/index.js";
+  const cssPath = "src/styles.css";
 
   return (
     <div className="cx-root">
@@ -199,7 +210,7 @@ function App() {
             (sidebarVisible ? "" : " cx-editor-shell-full")
           }
         >
-          {activeFile && (
+          {mode === "single" && activeFile && (
             <EditorScreen
               path={activePath}
               language={activeFile.language}
@@ -209,6 +220,14 @@ function App() {
               sidebarVisible={sidebarVisible}
               onSave={() => handleSaveFile(activePath)}
               isDirty={!!isDirty}
+            />
+          )}
+          {mode === "workspace" && (
+            <EditorWorkspace
+              jsFile={files[jsPath]}
+              cssFile={files[cssPath]}
+              onChangeJs={(val) => handleChangeFile(jsPath, val)}
+              onChangeCss={(val) => handleChangeFile(cssPath, val)}
             />
           )}
         </div>
