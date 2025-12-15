@@ -85,10 +85,10 @@ Gunakan checklist ini untuk melacak progres. Tanda yang dipakai:
 
 ### 2.3 Linting, debug, preview, history, AI
 
-- [ ] Linting / static analysis
-  - [ ] Integrasi marker Monaco (`setModelMarkers`)
-  - [ ] Dummy rule sederhana (mis. larang `console.log`)
-  - [ ] Panel daftar error/warning per file
+- [~] Linting / static analysis
+  - [x] Integrasi marker Monaco (`setModelMarkers`)
+  - [x] Dummy rule sederhana (mis. larang `console.log`, tandai TODO, eval)
+  - [x] Panel daftar error/warning per file
 - [ ] Debugger (layout & hook awal)
   - [ ] Panel breakpoint, stack, variables
   - [ ] Tombol run / step (wire ke mock engine dulu)

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import MonacoEditor from "@monaco-editor/react";
 import Explorer from "./components/Explorer";
 import TabsBar from "./components/TabsBar";
@@ -59,6 +59,9 @@ function App() {
   const [sidebarVisible, setSidebarVisible] = useState(true);
   const [cursorPos, setCursorPos] = useState({ line: 1, column: 1 });
   const [splitMode, setSplitMode] = useState("single"); // "single" | "terminal"
+  const [problems, setProblems] = useState([]);
+  const editorRef = useRef(null);
+  const monacoRef = useRef(null);
 
   const toggleSidebar = () => {
     setSidebarVisible((v) => !v);
@@ -66,17 +69,73 @@ function App() {
 
   const activeFile = files[activePath];
 
+  const applyLint = (code) => {
+    const lines = code.split("\n");
+    const items = [];
+    lines.forEach((line, idx) => {
+      const lineNumber = idx + 1;
+      if (line.includes("console.log")) {
+        items.push({
+          severity: "warning",
+          message: "Hindari penggunaan console.log di kode produksi.",
+          lineNumber,
+          column: line.indexOf("console.log") + 1
+        });
+      }
+      if (line.includes("TODO")) {
+        items.push({
+          severity: "info",
+          message: "TODO ditemukan.",
+          lineNumber,
+          column: line.indexOf("TODO") + 1
+        });
+      }
+      if (line.includes("eval(")) {
+        items.push({
+          severity: "error",
+          message: "Penggunaan eval berbahaya.",
+          lineNumber,
+          column: line.indexOf("eval(") + 1
+        });
+      }
+    });
+    setProblems(items);
+
+    const editor = editorRef.current;
+    const monaco = monacoRef.current;
+    if (!editor || !monaco) return;
+    const model = editor.getModel();
+    if (!model) return;
+
+    const markers = items.map((p) => ({
+      severity:
+        p.severity === "error"
+          ? monaco.MarkerSeverity.Error
+          : p.severity === "warning"
+          ? monaco.MarkerSeverity.Warning
+          : monaco.MarkerSeverity.Info,
+      message: p.message,
+      startLineNumber: p.lineNumber,
+      startColumn: p.column,
+      endLineNumber: p.lineNumber,
+      endColumn: p.column + 5
+    }));
+    monaco.editor.setModelMarkers(model, "lint", markers);
+  };
+
   const handleChangeCode = (value) => {
     const ts = Date.now();
+    const code = value || "";
     setFiles((prev) => ({
       ...prev,
       [activePath]: {
         ...(prev[activePath] || { language: "javascript" }),
-        content: value,
+        content: code,
         modifiedAt: ts,
-        savedContent: prev[activePath]?.savedContent ?? value
+        savedContent: prev[activePath]?.savedContent ?? code
       }
     }));
+    applyLint(code);
   };
 
   const handleSaveActive = () => {
@@ -266,7 +325,9 @@ function App() {
               value={activeFile?.content ?? ""}
               theme="vs-dark"
               onChange={(val) => handleChangeCode(val ?? "")}
-              onMount={(editor) => {
+              onMount={(editor, monaco) => {
+                editorRef.current = editor;
+                monacoRef.current = monaco;
                 const pos = editor.getPosition();
                 if (pos) {
                   setCursorPos({
@@ -280,6 +341,9 @@ function App() {
                     column: e.position.column
                   });
                 });
+                // jalankan lint awal
+                const value = editor.getValue();
+                applyLint(value);
               }}
               options={{
                 fontSize: 13,
@@ -290,6 +354,23 @@ function App() {
               }}
             />
           </div>
+          {problems.length > 0 && (
+            <div className="cx-problems">
+              <span className="cx-problems-title">
+                Problems ({problems.length})
+              </span>
+              <ul className="cx-problems-list">
+                {problems.map((p, idx) => (
+                  <li key={idx} className={`cx-problem cx-problem-${p.severity}`}>
+                    <span className="cx-problem-badge">{p.severity}</span>
+                    <span className="cx-problem-text">
+                      Ln {p.lineNumber}, Col {p.column} — {p.message}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
           {splitMode === "terminal" && (
             <div className="cx-terminal">
               <div className="cx-terminal-header">
