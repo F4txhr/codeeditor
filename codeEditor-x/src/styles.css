@@ -342,9 +342,10 @@ body {
 /* Terminal split */
 
 .cx-terminal-resizer {
-  height: 4px;
+  height: 10px;
   background: #111827;
   cursor: row-resize;
+  touch-action: none;
 }
 
 .cx-terminal {

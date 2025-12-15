@@ -177,6 +177,9 @@ function App() {
 
   const handleResizeMove = (event) => {
     if (!resizingRef.current) return;
+    if (event.cancelable) {
+      event.preventDefault();
+    }
     const e = event.touches ? event.touches[0] : event;
     const deltaY = startYRef.current - e.clientY;
     const next = Math.min(Math.max(startHeightRef.current + deltaY, 80), 320);
