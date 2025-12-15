@@ -92,9 +92,9 @@ Gunakan checklist ini untuk melacak progres. Tanda yang dipakai:
 - [ ] Debugger (layout & hook awal)
   - [ ] Panel breakpoint, stack, variables
   - [ ] Tombol run / step (wire ke mock engine dulu)
-- [ ] Preview terintegrasi
-  - [ ] Markdown → HTML preview
-  - [ ] HTML/CSS → iframe preview
+- [~] Preview terintegrasi
+  - [x] Markdown → HTML preview (basic converter)
+  - [x] HTML → iframe preview
 - [ ] History / revision
   - [ ] Snapshot konten tiap save (timestamp)
   - [ ] Panel daftar revisi

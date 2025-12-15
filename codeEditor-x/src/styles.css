@@ -266,65 +266,77 @@ body {
 .cx-editor-container {
   flex: 1;
   min-height: 0;
+  display: flex;
+  flex-direction: row;
+  position: relative;
 }
 
-/* Problems panel */
+.cx-editor-with-preview {
+  border-right: 1px solid #111827;
+}
 
-.cx-problems {
-  border-top: 1px solid #111827;
+.cx-editor-container > .monaco-editor {
+  flex: 1;
+}
+
+.cx-preview {
+  width: 40%;
+  max-width: 420px;
+  border-left: 1px solid #111827;
   background: #020617;
-  padding: 0.25rem 0.6rem 0.35rem;
+  display: flex;
+  flex-direction: column;
 }
 
-.cx-problems-title {
+.cx-preview-header {
+  padding: 0.25rem 0.6rem;
+  border-bottom: 1px solid #111827;
+}
+
+.cx-preview-title {
   font-size: 0.7rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: #64748b;
-  display: block;
-  margin-bottom: 0.2rem;
 }
 
-.cx-problems-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  max-height: 80px;
-  overflow-y: auto;
+.cx-preview-body {
+  flex: 1;
+  overflow: auto;
+  padding: 0.4rem 0.6rem;
 }
 
-.cx-problem {
-  display: flex;
-  align-items: center;
-  gap: 0.35rem;
-  font-size: 0.7rem;
-  padding: 0.1rem 0;
-}
-
-.cx-problem-badge {
-  padding: 0.05rem 0.3rem;
-  border-radius: 9999px;
-  font-size: 0.65rem;
-  text-transform: uppercase;
-}
-
-.cx-problem-error .cx-problem-badge {
-  background: rgba(248, 113, 113, 0.15);
-  color: #fca5a5;
-}
-
-.cx-problem-warning .cx-problem-badge {
-  background: rgba(234, 179, 8, 0.15);
-  color: #fde68a;
-}
-
-.cx-problem-info .cx-problem-badge {
-  background: rgba(59, 130, 246, 0.15);
-  color: #93c5fd;
-}
-
-.cx-problem-text {
+.cx-preview-markdown {
+  font-size: 0.8rem;
+  line-height: 1.4;
   color: #e5e7eb;
+}
+
+.cx-preview-markdown h1,
+.cx-preview-markdown h2,
+.cx-preview-markdown h3 {
+  margin: 0.4rem 0 0.2rem;
+}
+
+.cx-preview-markdown a {
+  color: #60a5fa;
+  text-decoration: none;
+}
+
+.cx-preview-markdown a:hover {
+  text-decoration: underline;
+}
+
+.cx-preview-iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  background: white;
+}
+
+.cx-preview-placeholder {
+  font-size: 0.75rem;
+  color: #9ca3af;
 }
 
 /* Terminal split */
@@ -488,6 +500,11 @@ body {
   color: #e5e7eb;
   font-size: 0.7rem;
   cursor: pointer;
+}
+
+.cx-status-button-active {
+  background: rgba(37, 99, 235, 0.4);
+  border-color: rgba(37, 99, 235, 0.8);
 }
 
 .cx-status-button-label {

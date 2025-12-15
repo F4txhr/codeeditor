@@ -59,6 +59,7 @@ function App() {
   const [sidebarVisible, setSidebarVisible] = useState(true);
   const [cursorPos, setCursorPos] = useState({ line: 1, column: 1 });
   const [splitMode, setSplitMode] = useState("single"); // "single" | "terminal"
+  const [previewVisible, setPreviewVisible] = useState(false);
   const [problems, setProblems] = useState([]);
   const editorRef = useRef(null);
   const monacoRef = useRef(null);
@@ -152,6 +153,10 @@ function App() {
 
   const toggleSplitMode = () => {
     setSplitMode((prev) => (prev === "single" ? "terminal" : "single"));
+  };
+
+  const togglePreview = () => {
+    setPreviewVisible((v) => !v);
   };
 
   const ensureTab = (path) => {
@@ -317,7 +322,7 @@ function App() {
             onSelectTab={handleSelectTab}
             onCloseTab={handleCloseTab}
           />
-          <div className="cx-editor-container">
+          <div className={"cx-editor-container" + (previewVisible ? " cx-editor-with-preview" : "")}>
             <MonacoEditor
               height="100%"
               defaultLanguage={activeFile?.language || "javascript"}
@@ -353,6 +358,28 @@ function App() {
                 padding: { top: 8, bottom: 8 }
               }}
             />
+            {previewVisible && activeFile && (
+              <div className="cx-preview">
+                <div className="cx-preview-header">
+                  <span className="cx-preview-title">PREVIEW</span>
+                </div>
+                <div className="cx-preview-body">
+                  {activePath.endsWith(".md") ? (
+                    <MarkdownPreview content={activeFile.content} />
+                  ) : activePath.endsWith(".html") ? (
+                    <iframe
+                      title="HTML Preview"
+                      className="cx-preview-iframe"
+                      srcDoc={activeFile.content}
+                    />
+                  ) : (
+                    <div className="cx-preview-placeholder">
+                      Preview hanya untuk file .md dan .html
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
           </div>
           {problems.length > 0 && (
             <div className="cx-problems">
@@ -422,7 +449,14 @@ function App() {
                 <span className="cx-status-button-label">Save</span>
               </button>
               <button
-                className="cx-status-button"
+                className={"cx-status-button" + (previewVisible ? " cx-status-button-active" : "")}
+                onClick={togglePreview}
+                title="Toggle preview"
+              >
+                <span className="material-symbols-outlined">visibility</span>
+              </button>
+              <button
+                className={"cx-status-button" + (splitMode !== "single" ? " cx-status-button-active" : "")}
                 onClick={toggleSplitMode}
                 title="Toggle terminal"
               >
@@ -440,6 +474,37 @@ function App() {
       </main>
     </div>
   );
+}
+
+function MarkdownPreview({ content }) {
+  const html = basicMarkdownToHtml(content || "");
+  return (
+    <div
+      className="cx-preview-markdown"
+      dangerouslySetInnerHTML={{ __html: html }}
+    />
+  );
+}
+
+function basicMarkdownToHtml(src) {
+  let text = src;
+  text = text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  // heading ##
+  text = text.replace(/^### (.*$)/gim, "<h3>$1</h3>");
+  text = text.replace(/^## (.*$)/gim, "<h2>$1</h2>");
+  text = text.replace(/^# (.*$)/gim, "<h1>$1</h1>");
+  // bold and italic
+  text = text.replace(/\*\*(.*?)\*\*/gim, "<strong>$1</strong>");
+  text = text.replace(/\*(.*?)\*/gim, "<em>$1</em>");
+  // links [text](url)
+  text = text.replace(
+    /\[(.*?)\]\((https?:\/\/[^\s]+)\)/gim,
+    '<a href="$2" target="_blank" rel="noreferrer">$1</a>'
+  );
+  // line breaks
+  text = text.replace(/\n$/gim, "<br />");
+  text = text.replace(/\n/gim, "<br />");
+  return text;
 }
 
 export default App;
