@@ -413,6 +413,13 @@ body {
   align-items: center;
   background: #020617;
   border-bottom: 1px solid #111827;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none; /* Firefox */
+}
+
+.cx-tabs::-webkit-scrollbar {
+  display: none;
 }
 
 .cx-tab {
@@ -426,6 +433,7 @@ body {
   color: #9ca3af;
   cursor: pointer;
   border-right: 1px solid #111827;
+  flex-shrink: 0;
 }
 
 .cx-tab-active {
@@ -435,10 +443,16 @@ body {
 }
 
 .cx-tab-label {
-  max-width: 140px;
+  max-width: 120px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+@media (min-width: 768px) {
+  .cx-tab-label {
+    max-width: 180px;
+  }
 }
 
 .cx-tab-dirty {
