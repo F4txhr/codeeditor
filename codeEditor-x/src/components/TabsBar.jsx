@@ -19,7 +19,7 @@ function TabsBar({ openTabs, activePath, files, onSelectTab, onCloseTab }) {
           >
             <span className="cx-tab-label">
               {name}
-              {isDirty && " ●"}
+              {isDirty && <span className="cx-tab-dirty"> ●</span>}
             </span>
             <span
               className="material-symbols-outlined cx-tab-close"

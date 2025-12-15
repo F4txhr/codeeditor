@@ -58,6 +58,7 @@ function App() {
   const [activePath, setActivePath] = useState("src/main.js");
   const [sidebarVisible, setSidebarVisible] = useState(true);
   const [cursorPos, setCursorPos] = useState({ line: 1, column: 1 });
+  const [splitMode, setSplitMode] = useState("single"); // "single" | "horizontal"
 
   const toggleSidebar = () => {
     setSidebarVisible((v) => !v);
@@ -88,6 +89,10 @@ function App() {
         savedContent: content
       }
     }));
+  };
+
+  const toggleSplitMode = () => {
+    setSplitMode((prev) => (prev === "single" ? "horizontal" : "single"));
   };
 
   const ensureTab = (path) => {
@@ -254,36 +259,88 @@ function App() {
             onCloseTab={handleCloseTab}
           />
           <div className="cx-editor-container">
-            <MonacoEditor
-              height="100%"
-              defaultLanguage={activeFile?.language || "javascript"}
-              language={activeFile?.language || "javascript"}
-              value={activeFile?.content ?? ""}
-              theme="vs-dark"
-              onChange={(val) => handleChangeCode(val ?? "")}
-              onMount={(editor) => {
-                const pos = editor.getPosition();
-                if (pos) {
-                  setCursorPos({
-                    line: pos.lineNumber,
-                    column: pos.column
+            {splitMode === "single" && (
+              <MonacoEditor
+                height="100%"
+                defaultLanguage={activeFile?.language || "javascript"}
+                language={activeFile?.language || "javascript"}
+                value={activeFile?.content ?? ""}
+                theme="vs-dark"
+                onChange={(val) => handleChangeCode(val ?? "")}
+                onMount={(editor) => {
+                  const pos = editor.getPosition();
+                  if (pos) {
+                    setCursorPos({
+                      line: pos.lineNumber,
+                      column: pos.column
+                    });
+                  }
+                  editor.onDidChangeCursorPosition((e) => {
+                    setCursorPos({
+                      line: e.position.lineNumber,
+                      column: e.position.column
+                    });
                   });
-                }
-                editor.onDidChangeCursorPosition((e) => {
-                  setCursorPos({
-                    line: e.position.lineNumber,
-                    column: e.position.column
-                  });
-                });
-              }}
-              options={{
-                fontSize: 13,
-                minimap: { enabled: false },
-                smoothScrolling: true,
-                automaticLayout: true,
-                padding: { top: 8, bottom: 8 }
-              }}
-            />
+                }}
+                options={{
+                  fontSize: 13,
+                  minimap: { enabled: false },
+                  smoothScrolling: true,
+                  automaticLayout: true,
+                  padding: { top: 8, bottom: 8 }
+                }}
+              />
+            )}
+            {splitMode === "horizontal" && (
+              <div className="cx-editor-split-horizontal">
+                <MonacoEditor
+                  height="100%"
+                  defaultLanguage={activeFile?.language || "javascript"}
+                  language={activeFile?.language || "javascript"}
+                  value={activeFile?.content ?? ""}
+                  theme="vs-dark"
+                  onChange={(val) => handleChangeCode(val ?? "")}
+                  onMount={(editor) => {
+                    const pos = editor.getPosition();
+                    if (pos) {
+                      setCursorPos({
+                        line: pos.lineNumber,
+                        column: pos.column
+                      });
+                    }
+                    editor.onDidChangeCursorPosition((e) => {
+                      setCursorPos({
+                        line: e.position.lineNumber,
+                        column: e.position.column
+                      });
+                    });
+                  }}
+                  options={{
+                    fontSize: 13,
+                    minimap: { enabled: false },
+                    smoothScrolling: true,
+                    automaticLayout: true,
+                    padding: { top: 8, bottom: 8 }
+                  }}
+                />
+                <div className="cx-editor-split-divider" />
+                <MonacoEditor
+                  height="100%"
+                  defaultLanguage={activeFile?.language || "javascript"}
+                  language={activeFile?.language || "javascript"}
+                  value={activeFile?.content ?? ""}
+                  theme="vs-dark"
+                  onChange={(val) => handleChangeCode(val ?? "")}
+                  options={{
+                    fontSize: 13,
+                    minimap: { enabled: false },
+                    smoothScrolling: true,
+                    automaticLayout: true,
+                    padding: { top: 8, bottom: 8 }
+                  }}
+                />
+              </div>
+            )}
           </div>
           <footer className="cx-statusbar">
             <div className="cx-status-left">
@@ -292,7 +349,14 @@ function App() {
                 main
               </span>
               {activeFile && (
-                <span className="cx-status-muted">
+                <span
+                  className={
+                    "cx-status-muted" +
+                    (activeFile.content !== activeFile.savedContent
+                      ? " cx-status-unsaved"
+                      : "")
+                  }
+                >
                   {activeFile.content !== activeFile.savedContent
                     ? "● Unsaved"
                     : "Saved"}
@@ -307,6 +371,15 @@ function App() {
               >
                 <span className="material-symbols-outlined">save</span>
                 <span className="cx-status-button-label">Save</span>
+              </button>
+              <button
+                className="cx-status-button"
+                onClick={toggleSplitMode}
+                title="Toggle split view"
+              >
+                <span className="material-symbols-outlined">
+                  {splitMode === "single" ? "splitscreen" : "close_fullscreen"}
+                </span>
               </button>
               <span className="cx-status-muted">
                 Ln {cursorPos.line}, Col {cursorPos.column} ·{" "}
