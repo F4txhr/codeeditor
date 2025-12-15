@@ -61,8 +61,12 @@ function App() {
   const [splitMode, setSplitMode] = useState("single"); // "single" | "terminal"
   const [previewVisible, setPreviewVisible] = useState(false);
   const [problems, setProblems] = useState([]);
+  const [terminalHeight, setTerminalHeight] = useState(160);
   const editorRef = useRef(null);
   const monacoRef = useRef(null);
+  const resizingRef = useRef(false);
+  const startYRef = useRef(0);
+  const startHeightRef = useRef(160);
 
   const toggleSidebar = () => {
     setSidebarVisible((v) => !v);
@@ -157,6 +161,34 @@ function App() {
 
   const togglePreview = () => {
     setPreviewVisible((v) => !v);
+  };
+
+  const startResizeTerminal = (event) => {
+    const e = event.touches ? event.touches[0] : event;
+    resizingRef.current = true;
+    startYRef.current = e.clientY;
+    startHeightRef.current = terminalHeight;
+
+    window.addEventListener("mousemove", handleResizeMove);
+    window.addEventListener("mouseup", stopResizeTerminal);
+    window.addEventListener("touchmove", handleResizeMove, { passive: false });
+    window.addEventListener("touchend", stopResizeTerminal);
+  };
+
+  const handleResizeMove = (event) => {
+    if (!resizingRef.current) return;
+    const e = event.touches ? event.touches[0] : event;
+    const deltaY = startYRef.current - e.clientY;
+    const next = Math.min(Math.max(startHeightRef.current + deltaY, 80), 320);
+    setTerminalHeight(next);
+  };
+
+  const stopResizeTerminal = () => {
+    resizingRef.current = false;
+    window.removeEventListener("mousemove", handleResizeMove);
+    window.removeEventListener("mouseup", stopResizeTerminal);
+    window.removeEventListener("touchmove", handleResizeMove);
+    window.removeEventListener("touchend", stopResizeTerminal);
   };
 
   const ensureTab = (path) => {
@@ -399,24 +431,31 @@ function App() {
             </div>
           )}
           {splitMode === "terminal" && (
-            <div className="cx-terminal">
-              <div className="cx-terminal-header">
-                <span className="cx-terminal-title">TERMINAL</span>
-              </div>
-              <div className="cx-terminal-body">
-                <div className="cx-terminal-output">
-                  <div className="cx-terminal-line">[mock] Terminal siap.</div>
+            <>
+              <div
+                className="cx-terminal-resizer"
+                onMouseDown={startResizeTerminal}
+                onTouchStart={startResizeTerminal}
+              />
+              <div className="cx-terminal" style={{ height: terminalHeight }}>
+                <div className="cx-terminal-header">
+                  <span className="cx-terminal-title">TERMINAL</span>
                 </div>
-                <div className="cx-terminal-input-row">
-                  <span className="cx-terminal-prompt">$</span>
-                  <input
-                    className="cx-terminal-input"
-                    placeholder="Ketik perintah (belum berfungsi, mock)..."
-                    readOnly
-                  />
+                <div className="cx-terminal-body">
+                  <div className="cx-terminal-output">
+                    <div className="cx-terminal-line">[mock] Terminal siap.</div>
+                  </div>
+                  <div className="cx-terminal-input-row">
+                    <span className="cx-terminal-prompt">$</span>
+                    <input
+                      className="cx-terminal-input"
+                      placeholder="Ketik perintah (belum berfungsi, mock)..."
+                      readOnly
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
+            </>
           )}
           <footer className="cx-statusbar">
             <div className="cx-status-left">
