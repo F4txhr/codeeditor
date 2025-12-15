@@ -8,6 +8,9 @@ function TabsBar({ openTabs, activePath, files, onSelectTab, onCloseTab }) {
       {openTabs.map((path) => {
         const file = files[path];
         const isActive = path === activePath;
+        const name = path.split("/").slice(-1)[0] || path;
+        const isDirty =
+          file && file.content !== undefined && file.content !== file.savedContent;
         return (
           <button
             key={path}
@@ -15,7 +18,8 @@ function TabsBar({ openTabs, activePath, files, onSelectTab, onCloseTab }) {
             onClick={() => onSelectTab(path)}
           >
             <span className="cx-tab-label">
-              {path.split("/").slice(-1)[0] || path}
+              {name}
+              {isDirty && " ●"}
             </span>
             <span
               className="material-symbols-outlined cx-tab-close"

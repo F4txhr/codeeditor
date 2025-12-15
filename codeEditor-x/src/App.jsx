@@ -17,12 +17,24 @@ const INITIAL_FILES = {
     language: "javascript",
     content: `// File entry utama
 console.log("Hello from codeEditor-x");`,
+    savedContent: `// File entry utama
+console.log("Hello from codeEditor-x");`,
     gitStatus: "modified",
     modifiedAt: now
   },
   "src/components/Counter.js": {
     language: "javascript",
     content: `import React, { useState } from "react";
+
+export function Counter() {
+  const [count, setCount] = useState(0);
+  return (
+    <button onClick={() => setCount(count + 1)}>
+      Clicked {count} times
+    </button>
+  );
+}`,
+    savedContent: `import React, { useState } from "react";
 
 export function Counter() {
   const [count, setCount] = useState(0);
@@ -60,7 +72,20 @@ function App() {
       [activePath]: {
         ...(prev[activePath] || { language: "javascript" }),
         content: value,
-        modifiedAt: ts
+        modifiedAt: ts,
+        savedContent: prev[activePath]?.savedContent ?? value
+      }
+    }));
+  };
+
+  const handleSaveActive = () => {
+    if (!activePath || !files[activePath]) return;
+    const content = files[activePath].content;
+    setFiles((prev) => ({
+      ...prev,
+      [activePath]: {
+        ...prev[activePath],
+        savedContent: content
       }
     }));
   };
@@ -266,8 +291,23 @@ function App() {
                 <span className="material-symbols-outlined">source_environment</span>
                 main
               </span>
+              {activeFile && (
+                <span className="cx-status-muted">
+                  {activeFile.content !== activeFile.savedContent
+                    ? "● Unsaved"
+                    : "Saved"}
+                </span>
+              )}
             </div>
             <div className="cx-status-right">
+              <button
+                className="cx-status-button"
+                onClick={handleSaveActive}
+                title="Save (aktif)"
+              >
+                <span className="material-symbols-outlined">save</span>
+                <span className="cx-status-button-label">Save</span>
+              </button>
               <span className="cx-status-muted">
                 Ln {cursorPos.line}, Col {cursorPos.column} ·{" "}
                 {activeFile?.language || "javascript"}
