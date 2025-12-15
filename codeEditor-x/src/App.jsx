@@ -1,6 +1,7 @@
 import { useState } from "react";
 import MonacoEditor from "@monaco-editor/react";
 import Explorer from "./components/Explorer";
+import TabsBar from "./components/TabsBar";
 
 /**
  * Tahap 1:
@@ -41,8 +42,10 @@ const INITIAL_FOLDERS = ["src", "src/components"];
 function App() {
   const [files, setFiles] = useState(INITIAL_FILES);
   const [folders, setFolders] = useState(INITIAL_FOLDERS);
+  const [openTabs, setOpenTabs] = useState(Object.keys(INITIAL_FILES));
   const [activePath, setActivePath] = useState("src/main.js");
   const [sidebarVisible, setSidebarVisible] = useState(true);
+  const [cursorPos, setCursorPos] = useState({ line: 1, column: 1 });
 
   const toggleSidebar = () => {
     setSidebarVisible((v) => !v);
@@ -62,7 +65,14 @@ function App() {
     }));
   };
 
+  const ensureTab = (path) => {
+    setOpenTabs((prev) =>
+      prev.includes(path) ? prev : [...prev, path]
+    );
+  };
+
   const handleOpenFile = (path) => {
+    ensureTab(path);
     setActivePath(path);
   };
 
@@ -104,6 +114,7 @@ function App() {
       );
     }
 
+    ensureTab(trimmed);
     setActivePath(trimmed);
   };
 
@@ -145,9 +156,10 @@ function App() {
       const { [path]: _, ...rest } = prev;
       return rest;
     });
+    setOpenTabs((prev) => prev.filter((p) => p !== path));
     setActivePath((prevPath) => {
       if (prevPath !== path) return prevPath;
-      const remaining = Object.keys(files).filter((p) => p !== path);
+      const remaining = openTabs.filter((p) => p !== path);
       return remaining[0] || "";
     });
   };
@@ -160,6 +172,18 @@ function App() {
     setFolders((prev) =>
       prev.includes(trimmed) ? prev : [...prev, trimmed]
     );
+  };
+
+  const handleSelectTab = (path) => {
+    setActivePath(path);
+  };
+
+  const handleCloseTab = (path) => {
+    setOpenTabs((prev) => prev.filter((p) => p !== path));
+    if (activePath === path) {
+      const remaining = openTabs.filter((p) => p !== path);
+      setActivePath(remaining[0] || "");
+    }
   };
 
   return (
@@ -197,6 +221,13 @@ function App() {
             "cx-editor-shell" + (sidebarVisible ? "" : " cx-editor-shell-full")
           }
         >
+          <TabsBar
+            openTabs={openTabs}
+            activePath={activePath}
+            files={files}
+            onSelectTab={handleSelectTab}
+            onCloseTab={handleCloseTab}
+          />
           <div className="cx-editor-container">
             <MonacoEditor
               height="100%"
@@ -205,6 +236,21 @@ function App() {
               value={activeFile?.content ?? ""}
               theme="vs-dark"
               onChange={(val) => handleChangeCode(val ?? "")}
+              onMount={(editor) => {
+                const pos = editor.getPosition();
+                if (pos) {
+                  setCursorPos({
+                    line: pos.lineNumber,
+                    column: pos.column
+                  });
+                }
+                editor.onDidChangeCursorPosition((e) => {
+                  setCursorPos({
+                    line: e.position.lineNumber,
+                    column: e.position.column
+                  });
+                });
+              }}
               options={{
                 fontSize: 13,
                 minimap: { enabled: false },
@@ -223,7 +269,8 @@ function App() {
             </div>
             <div className="cx-status-right">
               <span className="cx-status-muted">
-                Tahap 1.1 · Explorer + multi-file
+                Ln {cursorPos.line}, Col {cursorPos.column} ·{" "}
+                {activeFile?.language || "javascript"}
               </span>
             </div>
           </footer>

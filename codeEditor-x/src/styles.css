@@ -268,6 +268,45 @@ body {
   min-height: 0;
 }
 
+/* Tabs */
+
+.cx-tabs {
+  display: flex;
+  align-items: center;
+  background: #020617;
+  border-bottom: 1px solid #111827;
+}
+
+.cx-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  padding: 0.25rem 0.6rem;
+  font-size: 0.78rem;
+  border: none;
+  background: transparent;
+  color: #9ca3af;
+  cursor: pointer;
+  border-right: 1px solid #111827;
+}
+
+.cx-tab-active {
+  background: #020617;
+  color: #e5e7eb;
+  border-bottom: 2px solid #2563eb;
+}
+
+.cx-tab-label {
+  max-width: 140px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cx-tab-close {
+  font-size: 0.9rem;
+}
+
 /* Status bar */
 
 .cx-statusbar {
