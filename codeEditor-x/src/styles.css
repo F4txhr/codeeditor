@@ -343,7 +343,7 @@ body {
 
 .cx-terminal-resizer {
   height: 10px;
-  background: #111827;
+  background: linear-gradient(to bottom, #1f2937, #020617);
   cursor: row-resize;
   touch-action: none;
 }

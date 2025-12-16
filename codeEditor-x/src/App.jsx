@@ -163,16 +163,17 @@ function App() {
     setPreviewVisible((v) => !v);
   };
 
+  // Resizer gaya VSCode: gunakan Pointer Events (bekerja untuk mouse & touch)
   const startResizeTerminal = (event) => {
-    const e = event.touches ? event.touches[0] : event;
+    if (event.cancelable) {
+      event.preventDefault();
+    }
     resizingRef.current = true;
-    startYRef.current = e.clientY;
+    startYRef.current = event.clientY;
     startHeightRef.current = terminalHeight;
 
-    window.addEventListener("mousemove", handleResizeMove);
-    window.addEventListener("mouseup", stopResizeTerminal);
-    window.addEventListener("touchmove", handleResizeMove, { passive: false });
-    window.addEventListener("touchend", stopResizeTerminal);
+    window.addEventListener("pointermove", handleResizeMove);
+    window.addEventListener("pointerup", stopResizeTerminal);
   };
 
   const handleResizeMove = (event) => {
@@ -180,18 +181,19 @@ function App() {
     if (event.cancelable) {
       event.preventDefault();
     }
-    const e = event.touches ? event.touches[0] : event;
-    const deltaY = startYRef.current - e.clientY;
+    const deltaY = startYRef.current - event.clientY;
     const next = Math.min(Math.max(startHeightRef.current + deltaY, 80), 320);
     setTerminalHeight(next);
   };
 
-  const stopResizeTerminal = () => {
+  const stopResizeTerminal = (event) => {
+    if (event && event.cancelable) {
+      event.preventDefault();
+    }
+    if (!resizingRef.current) return;
     resizingRef.current = false;
-    window.removeEventListener("mousemove", handleResizeMove);
-    window.removeEventListener("mouseup", stopResizeTerminal);
-    window.removeEventListener("touchmove", handleResizeMove);
-    window.removeEventListener("touchend", stopResizeTerminal);
+    window.removeEventListener("pointermove", handleResizeMove);
+    window.removeEventListener("pointerup", stopResizeTerminal);
   };
 
   const ensureTab = (path) => {
@@ -437,8 +439,7 @@ function App() {
             <>
               <div
                 className="cx-terminal-resizer"
-                onMouseDown={startResizeTerminal}
-                onTouchStart={startResizeTerminal}
+                onPointerDown={startResizeTerminal}
               />
               <div className="cx-terminal" style={{ height: terminalHeight }}>
                 <div className="cx-terminal-header">
