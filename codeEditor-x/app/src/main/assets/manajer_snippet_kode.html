@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Manajer Snippet Kode</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Noto+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#135bec",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#111318",
+                        "surface-dark": "#1d232f", // Slightly lighter than bg-dark for cards
+                        "input-dark": "#282e39", // Input fields
+                        "text-secondary": "#9da6b9",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"],
+                        "body": ["Noto Sans", "sans-serif"],
+                        "mono": ["monospace"] // Fallback for code
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom Scrollbar for dark theme */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #111318;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #282e39;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #3e4759;
+        }
+        
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white font-display antialiased selection:bg-primary selection:text-white">
+<div class="relative flex h-full min-h-screen w-full flex-col overflow-hidden max-w-md mx-auto border-x border-[#282e39]">
+<!-- Top App Bar -->
+<header class="flex items-center bg-background-light dark:bg-background-dark p-4 pb-2 justify-between sticky top-0 z-20 border-b border-[#282e39]/50">
+<button class="text-white flex size-12 shrink-0 items-center justify-start hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-2xl">arrow_back</span>
+</button>
+<h2 class="text-slate-900 dark:text-white text-lg font-bold leading-tight tracking-[-0.015em] flex-1 text-center pr-4">Manajer Snippet</h2>
+<div class="flex w-8 items-center justify-end">
+<button class="flex items-center justify-center text-white hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-2xl">settings</span>
+</button>
+</div>
+</header>
+<!-- Search Bar -->
+<div class="px-4 py-3 bg-background-light dark:bg-background-dark z-10">
+<label class="flex flex-col min-w-40 h-12 w-full">
+<div class="flex w-full flex-1 items-stretch rounded-xl h-full shadow-sm">
+<div class="text-text-secondary flex border-none bg-white dark:bg-input-dark items-center justify-center pl-4 rounded-l-xl border-r-0">
+<span class="material-symbols-outlined">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-slate-900 dark:text-white focus:outline-0 focus:ring-1 focus:ring-primary border-none bg-white dark:bg-input-dark focus:border-primary h-full placeholder:text-text-secondary px-4 rounded-l-none border-l-0 pl-2 text-base font-normal leading-normal transition-all" placeholder="Cari snippet (mis. for-loop)" value=""/>
+</div>
+</label>
+</div>
+<!-- Filter Chips -->
+<div class="w-full overflow-x-auto hide-scrollbar pb-2">
+<div class="flex gap-3 px-4 min-w-max">
+<!-- Active Chip -->
+<button class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-full bg-primary pl-3 pr-4 shadow-lg shadow-primary/20 ring-1 ring-primary">
+<span class="material-symbols-outlined text-white text-[20px]">dataset</span>
+<p class="text-white text-sm font-bold leading-normal">Semua</p>
+</button>
+<!-- Inactive Chips -->
+<button class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-full bg-white dark:bg-input-dark pl-3 pr-4 border border-transparent hover:border-primary/50 transition-colors">
+<span class="material-symbols-outlined text-text-secondary text-[20px]">javascript</span>
+<p class="text-slate-700 dark:text-text-secondary text-sm font-medium leading-normal">JavaScript</p>
+</button>
+<button class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-full bg-white dark:bg-input-dark pl-3 pr-4 border border-transparent hover:border-primary/50 transition-colors">
+<span class="material-symbols-outlined text-text-secondary text-[20px]">data_object</span>
+<p class="text-slate-700 dark:text-text-secondary text-sm font-medium leading-normal">Python</p>
+</button>
+<button class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-full bg-white dark:bg-input-dark pl-3 pr-4 border border-transparent hover:border-primary/50 transition-colors">
+<span class="material-symbols-outlined text-text-secondary text-[20px]">html</span>
+<p class="text-slate-700 dark:text-text-secondary text-sm font-medium leading-normal">HTML</p>
+</button>
+<button class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-full bg-white dark:bg-input-dark pl-3 pr-4 border border-transparent hover:border-primary/50 transition-colors">
+<span class="material-symbols-outlined text-text-secondary text-[20px]">css</span>
+<p class="text-slate-700 dark:text-text-secondary text-sm font-medium leading-normal">CSS</p>
+</button>
+</div>
+</div>
+<!-- Snippet List -->
+<div class="flex flex-col flex-1 pb-24 overflow-y-auto">
+<!-- List Item 1: JS -->
+<div class="flex gap-4 px-4 py-3 justify-between items-center hover:bg-[#1d232f] transition-colors border-b border-[#282e39]/30 cursor-pointer group">
+<div class="flex items-start gap-4 flex-1">
+<div class="text-[#f7df1e] flex items-center justify-center rounded-xl bg-[#282e39] shrink-0 size-12 border border-[#f7df1e]/20 group-hover:border-[#f7df1e]/50 transition-colors">
+<span class="material-symbols-outlined">javascript</span>
+</div>
+<div class="flex flex-col justify-center min-w-0">
+<div class="flex items-center gap-2">
+<p class="text-slate-900 dark:text-white text-base font-bold leading-normal font-mono">console.log</p>
+<span class="text-xs font-medium text-text-secondary bg-[#282e39] px-1.5 py-0.5 rounded">JS</span>
+</div>
+<p class="text-text-secondary text-sm font-normal leading-normal truncate font-mono mt-0.5 opacity-70">console.log('$1');</p>
+<p class="text-text-secondary text-xs font-normal leading-normal mt-1">Log output ke debug console</p>
+</div>
+</div>
+<div class="shrink-0 flex items-center gap-1">
+<button class="text-text-secondary hover:text-white p-2 rounded-full hover:bg-[#282e39]">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+</div>
+<!-- List Item 2: Python -->
+<div class="flex gap-4 px-4 py-3 justify-between items-center hover:bg-[#1d232f] transition-colors border-b border-[#282e39]/30 cursor-pointer group">
+<div class="flex items-start gap-4 flex-1">
+<div class="text-[#3776ab] flex items-center justify-center rounded-xl bg-[#282e39] shrink-0 size-12 border border-[#3776ab]/20 group-hover:border-[#3776ab]/50 transition-colors">
+<span class="material-symbols-outlined">data_object</span>
+</div>
+<div class="flex flex-col justify-center min-w-0">
+<div class="flex items-center gap-2">
+<p class="text-slate-900 dark:text-white text-base font-bold leading-normal font-mono">for-loop</p>
+<span class="text-xs font-medium text-text-secondary bg-[#282e39] px-1.5 py-0.5 rounded">PY</span>
+</div>
+<p class="text-text-secondary text-sm font-normal leading-normal truncate font-mono mt-0.5 opacity-70">for item in collection: ...</p>
+<p class="text-text-secondary text-xs font-normal leading-normal mt-1">Iterasi standar Python</p>
+</div>
+</div>
+<div class="shrink-0 flex items-center gap-1">
+<button class="text-text-secondary hover:text-white p-2 rounded-full hover:bg-[#282e39]">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+</div>
+<!-- List Item 3: HTML -->
+<div class="flex gap-4 px-4 py-3 justify-between items-center hover:bg-[#1d232f] transition-colors border-b border-[#282e39]/30 cursor-pointer group">
+<div class="flex items-start gap-4 flex-1">
+<div class="text-[#e34c26] flex items-center justify-center rounded-xl bg-[#282e39] shrink-0 size-12 border border-[#e34c26]/20 group-hover:border-[#e34c26]/50 transition-colors">
+<span class="material-symbols-outlined">html</span>
+</div>
+<div class="flex flex-col justify-center min-w-0">
+<div class="flex items-center gap-2">
+<p class="text-slate-900 dark:text-white text-base font-bold leading-normal font-mono">html:5</p>
+<span class="text-xs font-medium text-text-secondary bg-[#282e39] px-1.5 py-0.5 rounded">HTML</span>
+</div>
+<p class="text-text-secondary text-sm font-normal leading-normal truncate font-mono mt-0.5 opacity-70">&lt;!DOCTYPE html&gt;...</p>
+<p class="text-text-secondary text-xs font-normal leading-normal mt-1">Struktur dasar HTML5</p>
+</div>
+</div>
+<div class="shrink-0 flex items-center gap-1">
+<button class="text-text-secondary hover:text-white p-2 rounded-full hover:bg-[#282e39]">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+</div>
+<!-- List Item 4: React -->
+<div class="flex gap-4 px-4 py-3 justify-between items-center hover:bg-[#1d232f] transition-colors border-b border-[#282e39]/30 cursor-pointer group">
+<div class="flex items-start gap-4 flex-1">
+<div class="text-[#61dbfb] flex items-center justify-center rounded-xl bg-[#282e39] shrink-0 size-12 border border-[#61dbfb]/20 group-hover:border-[#61dbfb]/50 transition-colors">
+<span class="material-symbols-outlined">code_blocks</span>
+</div>
+<div class="flex flex-col justify-center min-w-0">
+<div class="flex items-center gap-2">
+<p class="text-slate-900 dark:text-white text-base font-bold leading-normal font-mono">useEffect</p>
+<span class="text-xs font-medium text-text-secondary bg-[#282e39] px-1.5 py-0.5 rounded">JSX</span>
+</div>
+<p class="text-text-secondary text-sm font-normal leading-normal truncate font-mono mt-0.5 opacity-70">useEffect(() =&gt; {...}, []);</p>
+<p class="text-text-secondary text-xs font-normal leading-normal mt-1">React Side-effect hook</p>
+</div>
+</div>
+<div class="shrink-0 flex items-center gap-1">
+<button class="text-text-secondary hover:text-white p-2 rounded-full hover:bg-[#282e39]">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+</div>
+<!-- List Item 5: CSS -->
+<div class="flex gap-4 px-4 py-3 justify-between items-center hover:bg-[#1d232f] transition-colors border-b border-[#282e39]/30 cursor-pointer group">
+<div class="flex items-start gap-4 flex-1">
+<div class="text-[#264de4] flex items-center justify-center rounded-xl bg-[#282e39] shrink-0 size-12 border border-[#264de4]/20 group-hover:border-[#264de4]/50 transition-colors">
+<span class="material-symbols-outlined">css</span>
+</div>
+<div class="flex flex-col justify-center min-w-0">
+<div class="flex items-center gap-2">
+<p class="text-slate-900 dark:text-white text-base font-bold leading-normal font-mono">flex-center</p>
+<span class="text-xs font-medium text-text-secondary bg-[#282e39] px-1.5 py-0.5 rounded">CSS</span>
+</div>
+<p class="text-text-secondary text-sm font-normal leading-normal truncate font-mono mt-0.5 opacity-70">display: flex; justify-con...</p>
+<p class="text-text-secondary text-xs font-normal leading-normal mt-1">Tengah-kan elemen dengan Flexbox</p>
+</div>
+</div>
+<div class="shrink-0 flex items-center gap-1">
+<button class="text-text-secondary hover:text-white p-2 rounded-full hover:bg-[#282e39]">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+</div>
+<!-- Empty space for scroll -->
+<div class="h-10"></div>
+</div>
+<!-- Floating Action Button (FAB) -->
+<div class="absolute bottom-6 right-6 z-30">
+<button class="flex items-center justify-center size-14 rounded-2xl bg-primary text-white shadow-xl shadow-primary/30 hover:bg-blue-600 hover:scale-105 active:scale-95 transition-all">
+<span class="material-symbols-outlined text-3xl">add</span>
+</button>
+</div>
+</div>
+</body></html>

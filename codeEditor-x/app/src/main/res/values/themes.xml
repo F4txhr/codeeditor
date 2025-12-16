@@ -1,14 +1,14 @@
-&lt;resources xmlns:tools="http://schemas.android.com/tools"&gt;
+<resources xmlns:tools="http://schemas.android.com/tools">
 
-    &lt;style name="Theme.CodeEditorX" parent="Theme.MaterialComponents.DayNight.NoActionBar"&gt;
-        &lt;item name="android:statusBarColor"&gt;?attr/colorPrimaryVariant&lt;/item&gt;
-        &lt;item name="android:navigationBarColor"&gt;?attr/colorSurface&lt;/item&gt;
-        &lt;item name="android:windowBackground"&gt;@color/black&lt;/item&gt;
-    &lt;/style&gt;
+    <style name="Theme.CodeEditorX" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+        <item name="android:navigationBarColor">?attr/colorSurface</item>
+        <item name="android:windowBackground">@color/black</item>
+    </style>
 
-    &lt;style name="Theme.CodeEditorX.NoActionBar" parent="Theme.CodeEditorX"&gt;
-        &lt;item name="windowActionBar"&gt;false&lt;/item&gt;
-        &lt;item name="windowNoTitle"&gt;true&lt;/item&gt;
-    &lt;/style&gt;
+    <style name="Theme.CodeEditorX.NoActionBar" parent="Theme.CodeEditorX">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
 
-&lt;/resources&gt;
+</resources>

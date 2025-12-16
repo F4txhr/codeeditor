@@ -16,7 +16,16 @@ class MainActivity : AppCompatActivity() {
 
     private val screens = listOf(
         ScreenItem("Editor Kode 1", "editor_kode_1.html"),
-        // Tambahkan mapping lain di sini: Editor Kode 2, Terminal, Pengaturan, dll.
+        ScreenItem("Editor Kode 2 - Workspace", "editor_kode_2.html"),
+        ScreenItem("Manajemen Git", "manajemen_git.html"),
+        ScreenItem("Integrasi CI/CD", "integrasi_ci_cd.html"),
+        ScreenItem("Manajemen Bahasa", "manajemen_bahasa.html"),
+        ScreenItem("Manajer Dependensi", "manajer_dependensi.html"),
+        ScreenItem("Manajer Snippet Kode", "manajer_snippet_kode.html"),
+        ScreenItem("Marketplace Ekstensi", "marketplace_ekstensi.html"),
+        ScreenItem("Cari & Ganti Global", "cari_ganti_global_1.html"),
+        ScreenItem("Pengaturan Aplikasi", "pengaturan_aplikasi_1.html"),
+        ScreenItem("Penampil Log Aplikasi", "penampil_log_aplikasi.html"),
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
